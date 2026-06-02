@@ -12,7 +12,7 @@ export function SafetyVolumes() {
     {
       icon: <Gauge className="w-8 h-8" />,
       title: "2. Speed",
-      text: "Safety volume is a function of velocity. The faster a machine moves, the larger the protective bubble required to guarantee a safe stop."
+      text: "Safety volume is a function of velocity. The faster a machine moves, the larger the protective bubble required to guarantee a safe stop. This ensures a safe separation distance for all parties involved."
     },
     {
       icon: <Activity className="w-8 h-8" />,

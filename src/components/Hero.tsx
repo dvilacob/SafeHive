@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Crosshair, ShieldCheck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (

@@ -5,7 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Package, Cpu, ArrowRight, ListCheck, Monitor } from "lucide-react";
+import { ArrowRight, ListCheck, Monitor } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -85,7 +85,7 @@ export function Configurator() {
                 <div className="space-y-2">
                   <h4 className="text-xl font-headline font-bold">Preliminary Coverage Verified</h4>
                   <p className="text-sm text-slate-500 leading-relaxed max-w-lg">
-                    Infrastructure utilizes {apCount} Perimeter Access Points to establish the spatial heartbeat. Blind assets are integrated via Black-Channel Edge modules, ensuring no safety logic re-wiring is required.
+                    Infrastructure utilizes {apCount} Perimeter Access Points (APs) to establish the spatial heartbeat. Blind assets are integrated via Black-Channel Edge modules, ensuring no safety logic re-wiring is required.
                   </p>
                 </div>
               </div>
@@ -101,14 +101,14 @@ export function Configurator() {
                 <div className="space-y-8">
                   {[
                     { label: 'SafeHive Control Hub', qty: 1, unit: HUB_COST, desc: 'Central deterministic processing unit' },
-                    { label: 'Perimeter Access Points', qty: apCount, unit: AP_COST, desc: 'Overhead spatial anchors' },
+                    { label: 'Perimeter Access Points (APs)', qty: apCount, unit: AP_COST, desc: 'Overhead spatial anchors' },
                     { label: 'Black-Channel Jetson Modules', qty: jetsonCount, unit: JETSON_COST, desc: 'Edge safety for blind machines' },
                     { label: 'Smart Safety Wearables', qty: vestCount, unit: VEST_COST, desc: 'Xsens / Haptic personnel trackers' }
                   ].map((item, i) => (
-                    <div key={i} className="flex justify-between items-start group">
-                      <div className="space-y-1">
-                        <span className="block text-sm font-bold text-slate-900 leading-none">{item.label}</span>
-                        <span className="block text-[10px] text-slate-400 uppercase tracking-widest leading-none">{item.qty} Unit(s) @ ${item.unit.toLocaleString()}</span>
+                    <div key={i} className="flex justify-between items-center group">
+                      <div className="flex flex-col">
+                        <span className="text-sm font-bold text-slate-900">{item.label}</span>
+                        <span className="text-[10px] text-slate-400 uppercase tracking-widest">{item.qty} x ${item.unit.toLocaleString()}</span>
                       </div>
                       <span className="text-sm font-mono font-bold text-slate-900">${(item.qty * item.unit).toLocaleString()}</span>
                     </div>

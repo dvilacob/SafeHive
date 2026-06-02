@@ -17,10 +17,10 @@ export function BlindAssets() {
             
             <div className="space-y-8 text-slate-500 text-lg leading-relaxed">
               <p>
-                Humanoids already 'see' the world, but standalone robots aren't inherently safety-rated, and traditional factory machines are completely blind. SafeHive bridges the gap.
+                Humanoids feature integrated safety-rated communication. This deterministic backbone extends awareness to standalone robots and legacy machines via our safety-rated bridge nodes.
               </p>
               <p>
-                By processing vision data from the humanoid hive and cross-referencing it via safety-rated black-channel communication, we project a dynamic safety shield over blind legacy cobots and machinery without requiring complex new hardware or rewiring.
+                By processing vision data from the humanoid hive and cross-referencing it via black-channel communication, we project a dynamic safety shield over blind assets without requiring complex new hardware or rewiring. These accessory nodes and vests will eventually be phased out as recognition algorithms for humans and objects reach deterministic safety levels.
               </p>
             </div>
 
