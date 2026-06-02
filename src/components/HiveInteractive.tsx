@@ -15,39 +15,27 @@ import {
 
 export function HiveInteractive() {
   const [sources, setSources] = useState(3);
-  const [speed, setSpeed] = useState(50); // Combined velocity (v_h + v_r)
-  const [proximity, setProximity] = useState(10); // 0 (far) to 100 (contact)
+  const [speed, setSpeed] = useState(50); 
+  const [proximity, setProximity] = useState(10); 
 
   // Collaborative shell availability
   const isCollaborativeEnabled = sources >= 2;
 
-  // Visual/Logic Synchronization Constants
-  const VIS_SIZE = 400; // Visualization area px
+  const VIS_SIZE = 400; 
 
-  // Dynamic Physics Calculation based on ISO 10218-2 / ISO/TS 15066
   const engine = useMemo(() => {
-    // S = (v_h + v_r) * tr + d_stop + C
-    // Higher speed expands the volumes for all parties
     const velocityFactor = 0.5 + (speed / 100); 
-    // Higher redundancy reduces C (confidence factor), shrinking the required safety volume
     const confidenceFactor = 1.4 - (sources * 0.15); 
     
     const baseDiameter = 80;
-    // Protective Shell corresponds to the absolute minimum safe distance (S)
     const protective = baseDiameter * velocityFactor * confidenceFactor;
-    // Collaborative Shell adds a buffer for speed/torque reduction
     const collaborative = protective * 1.6;
-    // Warning Shell is the outer notification boundary
     const warning = protective * 2.4;
 
-    // Worker's radial position relative to center
-    // As proximity increases (0 to 100), the distance from center decreases (far to contact)
     const workerDistFromCenter = (VIS_SIZE / 2) * (1 - (proximity / 100) * 0.9);
 
-    // Determination of State based on spatial intersection
     let status: 'CLEAR' | 'WARNING' | 'COLLABORATIVE' | 'PROTECTIVE' = 'CLEAR';
     
-    // We check zones from inner to outer
     if (workerDistFromCenter <= protective / 2) {
       status = 'PROTECTIVE';
     } else if (isCollaborativeEnabled && workerDistFromCenter <= collaborative / 2) {
@@ -70,10 +58,9 @@ export function HiveInteractive() {
   const { status, radii, workerDist } = engine;
 
   const getSafetyLevel = () => {
-    if (sources < 2) return { badge: "PLb Cat 1 (Reduced Confidence)", color: "text-red-500" };
-    if (sources < 3) return { badge: "PLc Cat 2 (Medium)", color: "text-yellow-500" };
-    if (sources < 5) return { badge: "PLd Cat 2 (Standard)", color: "text-green-500" };
-    return { badge: "PLd Cat 3 (Maximum)", color: "text-primary" };
+    if (sources <= 2) return { badge: "PLb Cat 1", color: "text-red-500" };
+    if (sources <= 4) return { badge: "PLd Cat 2 (Standard)", color: "text-primary" };
+    return { badge: "PLd Cat 3 (High Confidence)", color: "text-primary" };
   };
 
   const level = getSafetyLevel();
@@ -84,12 +71,11 @@ export function HiveInteractive() {
         <div className="text-center mb-20 space-y-4">
           <h2 className="text-4xl lg:text-5xl font-headline font-bold text-slate-900">The Hive Engine</h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-            Speed and Separation Monitoring (SSM) in real-time. Adjust the variables to see ISO 10218-2 logic adapt to your factory floor.
+            Speed and Separation Monitoring (SSM) in real-time. Adjust the variables to see the spatial grid adapt to factory floor dynamics.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 items-stretch max-w-6xl mx-auto">
-          {/* Left Panel: The Simulation Controls */}
           <div className="bg-white rounded-[2.5rem] border border-slate-200 p-10 shadow-sm flex flex-col">
             <div className="space-y-10 mb-12">
               <div className="space-y-4">
@@ -114,7 +100,7 @@ export function HiveInteractive() {
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Relative Velocity (v_h + v_r)</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 text-left">Relative Velocity (V_H + V_R)</label>
                   <span className="text-lg font-headline font-bold text-primary">{speed}%</span>
                 </div>
                 <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} max={100} min={10} step={1} className="py-2" />
@@ -127,7 +113,6 @@ export function HiveInteractive() {
                   <span className="text-lg font-headline font-bold text-primary">{proximity}% Approached</span>
                 </div>
                 <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={100} min={0} step={1} className="py-2" />
-                <p className="text-[10px] text-slate-400">Simulation of human operator movement towards the humanoid asset.</p>
               </div>
             </div>
 
@@ -189,7 +174,6 @@ export function HiveInteractive() {
                 </div>
               </div>
 
-              {/* Status HUD Overlay */}
               <div className="absolute top-6 left-6 right-6 flex justify-between items-start pointer-events-none">
                 <Badge variant="outline" className={cn("bg-white border-primary/20 px-3 py-1 font-bold", level.color)}>
                   {level.badge}
@@ -198,7 +182,6 @@ export function HiveInteractive() {
             </div>
           </div>
 
-          {/* Right Panel: The Behavior Map & Live Metrics */}
           <Card className="rounded-[2.5rem] border-slate-200 shadow-sm overflow-hidden h-full flex flex-col">
             <CardHeader className="bg-slate-50 border-b border-slate-100 p-8">
               <div className="flex justify-between items-center">
@@ -274,12 +257,12 @@ export function HiveInteractive() {
 
               <div className="pt-8 border-t border-slate-100 grid grid-cols-2 gap-8">
                 <div className="space-y-1">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Intrusion Distance (C)</div>
-                  <div className="text-sm font-bold text-slate-900">± {(radii.protective / 4).toFixed(1)} mm</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left">Intrusion Distance (C)</div>
+                  <div className="text-sm font-bold text-slate-900 text-left">± {(radii.protective / 4).toFixed(1)} mm</div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Active State</div>
-                  <div className="text-sm font-bold text-slate-900">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest text-left">Active State</div>
+                  <div className="text-sm font-bold text-slate-900 text-left">
                     {status === "PROTECTIVE" ? "PROTECTIVE" : 
                      status === "COLLABORATIVE" ? "COLLABORATIVE" :
                      status === "WARNING" ? "WARNING" : "CLEAR"}

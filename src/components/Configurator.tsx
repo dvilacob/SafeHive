@@ -116,33 +116,33 @@ export function Configurator() {
           <div className="lg:col-span-1 bg-white border border-slate-200 rounded-[2.5rem] p-10 space-y-10 sticky top-28 shadow-xl shadow-slate-200/50">
             <div className="flex items-center gap-3 border-b border-slate-100 pb-8">
               <Package className="text-primary" size={24} />
-              <h3 className="text-xl font-headline font-bold text-slate-900 uppercase tracking-widest text-sm">Hardware Estimate</h3>
+              <h3 className="text-xs font-headline font-bold text-slate-900 uppercase tracking-widest">Hardware Estimate</h3>
             </div>
 
-            <div className="space-y-5 text-sm">
-              <div className="flex justify-between items-center text-slate-500">
-                <span>SafeHive Control Hub</span>
-                <span className="text-slate-900 font-bold">1 x $12,500</span>
+            <div className="space-y-6">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-slate-500">SafeHive Control Hub</span>
+                <span className="text-slate-900 font-bold shrink-0">1 x $12,500</span>
               </div>
-              <div className="flex justify-between items-center text-slate-500">
-                <div className="flex items-center gap-1.5">
-                  <span>Perimeter Access Points</span>
+              <div className="flex justify-between items-center text-xs">
+                <div className="flex items-center gap-1.5 min-w-0">
+                  <span className="text-slate-500 truncate">Perimeter Access Points</span>
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger><Info size={12} /></TooltipTrigger>
+                      <TooltipTrigger className="shrink-0"><Info size={12} className="text-slate-300" /></TooltipTrigger>
                       <TooltipContent>Overhead spatial grid anchors (APs) required for area coverage.</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
-                <span className="text-slate-900 font-bold">{apCount} x $2,200</span>
+                <span className="text-slate-900 font-bold shrink-0 ml-2">{apCount} x $2,200</span>
               </div>
-              <div className="flex justify-between items-center text-slate-500">
-                <span>Mobile Adapter Nodes</span>
-                <span className="text-slate-900 font-bold">{nodeCount} x $1,500</span>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-slate-500">Mobile Adapter Nodes</span>
+                <span className="text-slate-900 font-bold shrink-0 ml-2">{nodeCount} x $1,500</span>
               </div>
-              <div className="flex justify-between items-center text-slate-500">
-                <span>Smart Safety Vests</span>
-                <span className="text-slate-900 font-bold">{vestCount} x $450</span>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-slate-500">Smart Safety Vests</span>
+                <span className="text-slate-900 font-bold shrink-0 ml-2">{vestCount} x $450</span>
               </div>
             </div>
 
