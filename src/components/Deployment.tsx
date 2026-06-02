@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Power, Map, Link2, Unlink, Lock } from "lucide-react";
@@ -7,27 +8,27 @@ export function Deployment() {
     {
       icon: <Power className="w-6 h-6" />,
       title: "Power On",
-      body: "Mount the Hub enclosure to the wall and turn it on."
+      body: "Mount the Central Control Hub enclosure to the wall and initialize power."
     },
     {
       icon: <Map className="w-6 h-6" />,
       title: "Map Coverage",
-      body: "Position overhead APs to establish your wireless safety grid."
+      body: "Position overhead Perimeter Access Points (APs) to establish your spatial safety grid anchors."
     },
     {
       icon: <Unlink className="w-6 h-6" />,
       title: "Connect Assets",
-      body: "Equip legacy machines with nodes and workers with vests."
+      body: "Equip legacy machines with safety-rated nodes and workers with smart comms vests."
     },
     {
       icon: <Link2 className="w-6 h-6" />,
       title: "Link Hive",
-      body: "Use the browser-based tool to pair devices over the air."
+      body: "Use the browser-based tool to pair devices over the air. Humanoids sync natively via integrated comms."
     },
     {
       icon: <Lock className="w-6 h-6" />,
       title: "Lock Configuration",
-      body: "Set profiles, run the heartbeat check, and lock the system."
+      body: "Set safety profiles, run the heartbeat check, and lock the system."
     }
   ];
 

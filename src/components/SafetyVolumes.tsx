@@ -1,6 +1,7 @@
+
 "use client"
 
-import { Ruler, Gauge, Share2 } from "lucide-react";
+import { Ruler, Gauge, Share2, Sparkles } from "lucide-react";
 
 export function SafetyVolumes() {
   const features = [
@@ -25,13 +26,13 @@ export function SafetyVolumes() {
     <section id="volumes" className="py-32 bg-white">
       <div className="container mx-auto px-6">
         <div className="text-center mb-24 space-y-4">
-          <h2 className="text-4xl lg:text-5xl font-headline font-bold text-slate-900">How Safety Volumes Work</h2>
+          <h2 className="text-4xl lg:text-5xl font-headline font-bold text-slate-900">The Integrated Safety Standard</h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-            Our deterministic logic replaces static fences with adaptive shells that move with your assets.
+            Our humanoids feature native safety-rated communication protocols. For legacy assets, we provide safety-rated bridges.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-16 lg:gap-24 items-start">
+        <div className="grid md:grid-cols-3 gap-16 lg:gap-24 items-start mb-24">
           {features.map((feature, idx) => (
             <div key={idx} className="space-y-8 flex flex-col items-center text-center md:items-start md:text-left">
               <div className="w-20 h-20 rounded-3xl bg-slate-50 flex items-center justify-center border border-slate-100 shadow-sm transition-transform hover:scale-105 duration-300">
@@ -42,14 +43,25 @@ export function SafetyVolumes() {
                 <p className="text-slate-500 leading-relaxed">
                   {feature.text}
                 </p>
-                {idx === 2 && (
-                  <div className="mt-8 p-6 rounded-2xl bg-primary/5 border border-primary/10 text-sm text-primary font-medium leading-relaxed italic">
-                    "Our patented system creates unmatched redundancy through a 'Hive' of robots sharing onboard camera sensor data. Read the next section to see how it works live."
-                  </div>
-                )}
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Roadmap Insight */}
+        <div className="max-w-4xl mx-auto p-10 rounded-[2.5rem] bg-slate-50 border border-slate-100 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-3xl -z-10 group-hover:bg-primary/10 transition-colors" />
+          <div className="flex flex-col md:flex-row gap-8 items-center">
+            <div className="w-16 h-16 shrink-0 bg-white rounded-2xl flex items-center justify-center shadow-sm text-primary">
+              <Sparkles size={32} />
+            </div>
+            <div className="space-y-4">
+              <h4 className="text-xl font-headline font-bold text-slate-900">The Roadmap: Pure Algorithmic Awareness</h4>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                While we currently utilize safety-rated <strong>Mobile Adapter Nodes</strong> for forklifts and <strong>Smart Vests</strong> for human tracking, these are interim solutions. As our deterministic recognition algorithms evolve, the hardware burden will vanish, leaving only the native communication integrated within your humanoid fleet.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

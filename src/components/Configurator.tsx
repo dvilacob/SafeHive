@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -5,8 +6,14 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator, Package, Cpu, Send, FileDown, Loader2 } from "lucide-react";
+import { Calculator, Package, Cpu, Send, Info, Loader2 } from "lucide-react";
 import { aiConfigurationInsights } from '@/ai/flows/ai-configuration-insights-flow';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Dialog,
   DialogContent,
@@ -89,25 +96,33 @@ export function Configurator() {
 
               <div className="grid md:grid-cols-2 gap-10">
                 <div className="space-y-4">
-                  <Label className="text-slate-900 text-lg font-bold">Non-Native Machines</Label>
+                  <div className="flex items-center gap-2">
+                    <Label className="text-slate-900 text-lg font-bold">Legacy Machines</Label>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger><Info size={14} className="text-slate-400" /></TooltipTrigger>
+                        <TooltipContent>Machines like forklifts that lack integrated SAFE-comms.</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                   <Input 
                     type="number" 
                     value={machines} 
                     onChange={(e) => setMachines(parseInt(e.target.value) || 0)}
                     className="h-14 text-lg font-bold bg-white border-slate-200 rounded-2xl px-6"
                   />
-                  <p className="text-xs text-slate-400">Machines requiring Mobile Adapter Nodes.</p>
+                  <p className="text-xs text-slate-400">Requires Safety-Rated Mobile Adapter Nodes.</p>
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="text-slate-900 text-lg font-bold">Humans</Label>
+                  <Label className="text-slate-900 text-lg font-bold">Human Personnel</Label>
                   <Input 
                     type="number" 
                     value={workers} 
                     onChange={(e) => setWorkers(parseInt(e.target.value) || 0)}
                     className="h-14 text-lg font-bold bg-white border-slate-200 rounded-2xl px-6"
                   />
-                  <p className="text-xs text-slate-400">Total human workers requiring Smart Vests.</p>
+                  <p className="text-xs text-slate-400">Requires Smart Safety Vests with integrated comms.</p>
                 </div>
               </div>
             </div>
@@ -132,7 +147,7 @@ export function Configurator() {
           <div className="lg:col-span-1 bg-white border border-slate-200 rounded-[2.5rem] p-10 space-y-10 sticky top-28 shadow-xl shadow-slate-200/50">
             <div className="flex items-center gap-3 border-b border-slate-100 pb-8">
               <Package className="text-primary" size={24} />
-              <h3 className="text-xl font-headline font-bold text-slate-900 uppercase tracking-widest">Bill of Materials</h3>
+              <h3 className="text-xl font-headline font-bold text-slate-900 uppercase tracking-widest text-sm">Hardware Estimate</h3>
             </div>
 
             <div className="space-y-5 text-sm">
@@ -141,15 +156,23 @@ export function Configurator() {
                 <span className="text-slate-900 font-bold">1 x $12,500</span>
               </div>
               <div className="flex justify-between items-center text-slate-500">
-                <span>Perimeter Access Points</span>
+                <div className="flex items-center gap-1.5">
+                  <span>Perimeter Access Points</span>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger><Info size={12} /></TooltipTrigger>
+                      <TooltipContent>Overhead spatial grid anchors (APs).</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <span className="text-slate-900 font-bold">{apCount} x $2,200</span>
               </div>
               <div className="flex justify-between items-center text-slate-500">
-                <span>Mobile Adapter Nodes</span>
+                <span>Safety-Rated Mobile Nodes</span>
                 <span className="text-slate-900 font-bold">{nodeCount} x $1,500</span>
               </div>
               <div className="flex justify-between items-center text-slate-500">
-                <span>Smart Safety Vests</span>
+                <span>Smart Comms Vests</span>
                 <span className="text-slate-900 font-bold">{vestCount} x $450</span>
               </div>
             </div>
