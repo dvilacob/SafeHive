@@ -47,6 +47,9 @@ export type AiConfigurationInsightsOutput = z.infer<
   typeof AiConfigurationInsightsOutputSchema
 >;
 
+/**
+ * Server action to get AI insights for the current hardware configuration.
+ */
 export async function aiConfigurationInsights(
   input: AiConfigurationInsightsInput
 ): Promise<AiConfigurationInsightsOutput> {
@@ -67,7 +70,7 @@ Here is the current SafeHive system configuration:
 - Mobile Nodes: {{{mobileNodes}}}
 - Mobile Vests: {{{mobileVests}}}
 - Total Data Sources: {{{totalDataSources}}}
-- Total Estimated Hardware Cost: $1{{totalEstimatedHardwareCost}}}
+- Total Estimated Hardware Cost: \${{{totalEstimatedHardwareCost}}}
 
 Based on this configuration, provide comprehensive insights and recommendations. Focus on:
 1.  **Optimizing Efficiency**: How can the current setup be improved to maximize throughput and minimize unnecessary slowdowns?
@@ -85,6 +88,9 @@ const aiConfigurationInsightsFlow = ai.defineFlow(
   },
   async input => {
     const {output} = await aiConfigurationInsightsPrompt(input);
-    return output!;
+    if (!output) {
+      throw new Error('AI failed to generate insights.');
+    }
+    return output;
   }
 );

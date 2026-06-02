@@ -1,12 +1,11 @@
-
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator, Package, Cpu, Send, Info, Loader2 } from "lucide-react";
+import { Calculator, Package, Cpu, Send, Info, Loader2, AlertTriangle } from "lucide-react";
 import { aiConfigurationInsights } from '@/ai/flows/ai-configuration-insights-flow';
 import {
   Tooltip,
@@ -30,8 +29,9 @@ export function Configurator() {
   const [workers, setWorkers] = useState(10);
   const [aiInsight, setAiInsight] = useState<string | null>(null);
   const [loadingAi, setLoadingAi] = useState(false);
+  const [aiError, setAiError] = useState(false);
 
-  // Pricing constants per user requirements
+  // Pricing constants
   const HUB_COST = 12500;
   const AP_COST = 2200;
   const NODE_COST = 1500;
@@ -43,29 +43,36 @@ export function Configurator() {
   const vestCount = workers;
   const totalCost = HUB_COST + (apCount * AP_COST) + (nodeCount * NODE_COST) + (vestCount * VEST_COST);
 
+  const fetchInsights = useCallback(async () => {
+    setLoadingAi(true);
+    setAiError(false);
+    try {
+      const result = await aiConfigurationInsights({
+        workplaceAreaSqMeters: area,
+        nonNativeMachines: machines,
+        nonNativeHumans: workers,
+        perimeterAccessPoints: apCount,
+        mobileNodes: nodeCount,
+        mobileVests: vestCount,
+        totalDataSources: apCount + nodeCount + vestCount,
+        totalEstimatedHardwareCost: totalCost
+      });
+      setAiInsight(result.insights);
+    } catch (err) {
+      console.error("Failed to fetch AI insights", err);
+      setAiError(true);
+      setAiInsight("Unable to generate analysis at this time. Please check your network or try adjusting values.");
+    } finally {
+      setLoadingAi(false);
+    }
+  }, [area, machines, workers, apCount, nodeCount, vestCount, totalCost]);
+
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      setLoadingAi(true);
-      try {
-        const result = await aiConfigurationInsights({
-          workplaceAreaSqMeters: area,
-          nonNativeMachines: machines,
-          nonNativeHumans: workers,
-          perimeterAccessPoints: apCount,
-          mobileNodes: nodeCount,
-          mobileVests: vestCount,
-          totalDataSources: apCount + nodeCount + vestCount,
-          totalEstimatedHardwareCost: totalCost
-        });
-        setAiInsight(result.insights);
-      } catch (err) {
-        console.error("Failed to fetch AI insights", err);
-      } finally {
-        setLoadingAi(false);
-      }
+    const timer = setTimeout(() => {
+      fetchInsights();
     }, 1500);
     return () => clearTimeout(timer);
-  }, [area, machines, workers]);
+  }, [fetchInsights]);
 
   return (
     <section id="configurator" className="py-32 bg-white">
@@ -97,21 +104,21 @@ export function Configurator() {
               <div className="grid md:grid-cols-2 gap-10">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
-                    <Label className="text-slate-900 text-lg font-bold">Legacy Machines</Label>
+                    <Label className="text-slate-900 text-lg font-bold">Non-Native Machines</Label>
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger><Info size={14} className="text-slate-400" /></TooltipTrigger>
-                        <TooltipContent>Machines like forklifts that lack integrated SAFE-comms.</TooltipContent>
+                        <TooltipContent>Legacy machines (forklifts, AGVs) requiring Safety-Rated Mobile Adapter Nodes.</TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </div>
                   <Input 
                     type="number" 
                     value={machines} 
-                    onChange={(e) => setMachines(parseInt(e.target.value) || 0)}
+                    onChange={(e) => setMachines(Math.max(0, parseInt(e.target.value) || 0))}
                     className="h-14 text-lg font-bold bg-white border-slate-200 rounded-2xl px-6"
                   />
-                  <p className="text-xs text-slate-400">Requires Safety-Rated Mobile Adapter Nodes.</p>
+                  <p className="text-xs text-slate-400">Requires Mobile Adapter Nodes.</p>
                 </div>
 
                 <div className="space-y-4">
@@ -119,26 +126,43 @@ export function Configurator() {
                   <Input 
                     type="number" 
                     value={workers} 
-                    onChange={(e) => setWorkers(parseInt(e.target.value) || 0)}
+                    onChange={(e) => setWorkers(Math.max(0, parseInt(e.target.value) || 0))}
                     className="h-14 text-lg font-bold bg-white border-slate-200 rounded-2xl px-6"
                   />
-                  <p className="text-xs text-slate-400">Requires Smart Safety Vests with integrated comms.</p>
+                  <p className="text-xs text-slate-400">Requires Smart Safety Vests.</p>
                 </div>
               </div>
             </div>
 
             <div className="pt-10 border-t border-slate-200 space-y-6">
-              <div className="flex items-center gap-3 text-slate-900">
-                <Cpu className="text-primary" size={24} />
-                <h4 className="text-xl font-headline font-bold">AI Configuration Analysis</h4>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3 text-slate-900">
+                  <Cpu className="text-primary" size={24} />
+                  <h4 className="text-xl font-headline font-bold">AI Configuration Analysis</h4>
+                </div>
+                {aiError && (
+                  <Button variant="ghost" size="sm" onClick={fetchInsights} className="text-xs text-primary hover:text-primary/80">
+                    Retry Analysis
+                  </Button>
+                )}
               </div>
-              <div className="p-8 rounded-3xl bg-white border border-slate-200 text-sm leading-relaxed text-slate-500 min-h-[140px] relative shadow-inner">
-                {loadingAi && (
-                  <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center rounded-3xl">
-                    <Loader2 className="animate-spin text-primary" />
+              <div className="p-8 rounded-3xl bg-white border border-slate-200 text-sm leading-relaxed text-slate-500 min-h-[160px] relative shadow-inner">
+                {loadingAi ? (
+                  <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center rounded-3xl gap-3">
+                    <Loader2 className="animate-spin text-primary" size={32} />
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Generating Insights...</span>
+                  </div>
+                ) : aiError ? (
+                  <div className="flex flex-col items-center justify-center h-full text-center space-y-2 py-4">
+                    <AlertTriangle className="text-amber-500" size={24} />
+                    <p className="font-medium text-slate-900">Analysis Interrupted</p>
+                    <p className="text-xs max-w-xs">{aiInsight}</p>
+                  </div>
+                ) : (
+                  <div className="whitespace-pre-wrap">
+                    {aiInsight || "Adjust the values above to see a detailed spatial coverage and safety confidence analysis."}
                   </div>
                 )}
-                {aiInsight || "Analyzing spatial coverage and confidence factors..."}
               </div>
             </div>
           </div>
@@ -161,18 +185,18 @@ export function Configurator() {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger><Info size={12} /></TooltipTrigger>
-                      <TooltipContent>Overhead spatial grid anchors (APs).</TooltipContent>
+                      <TooltipContent>Overhead spatial grid anchors (APs) required for area coverage.</TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
                 <span className="text-slate-900 font-bold">{apCount} x $2,200</span>
               </div>
               <div className="flex justify-between items-center text-slate-500">
-                <span>Safety-Rated Mobile Nodes</span>
+                <span>Mobile Adapter Nodes</span>
                 <span className="text-slate-900 font-bold">{nodeCount} x $1,500</span>
               </div>
               <div className="flex justify-between items-center text-slate-500">
-                <span>Smart Comms Vests</span>
+                <span>Smart Safety Vests</span>
                 <span className="text-slate-900 font-bold">{vestCount} x $450</span>
               </div>
             </div>
