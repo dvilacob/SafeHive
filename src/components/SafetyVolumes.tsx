@@ -1,67 +1,51 @@
 "use client"
 
-import { Ruler, Gauge, Share2, Sparkles } from "lucide-react";
+import { Ruler, Gauge, Activity } from "lucide-react";
 
 export function SafetyVolumes() {
   const features = [
     {
       icon: <Ruler className="w-8 h-8" />,
       title: "1. Proximity",
-      text: "The closer an object gets, the more the system restricts movement. Our safety volumes dynamically scale based on real-time distance—expanding into a larger protective buffer as objects get closer to one another."
+      text: "The closer an object gets, the more the system restricts movement. Safety volumes dynamically scale based on real-time distance—expanding into a larger protective buffer as objects approach each other."
     },
     {
       icon: <Gauge className="w-8 h-8" />,
       title: "2. Speed",
-      text: "Safety volume is a direct function of velocity. The faster a machine moves, the larger its and the others' protective bubbles expand to guarantee a safe stopping distance for all parties involved."
+      text: "Safety volume is a function of velocity. The faster a machine moves, the larger the protective bubble required to guarantee a safe stop."
     },
     {
-      icon: <Share2 className="w-8 h-8" />,
-      title: "3. Redundancy (The Hive)",
-      text: "Confidence comes from redundancy. The number of active sources reporting positions increases system certainty. More sources = higher confidence = smaller, tighter safety volumes."
+      icon: <Activity className="w-8 h-8" />,
+      title: "3. Certainty (The Hive)",
+      text: "Position confidence dictates the volume footprint. Redundant tracking from multiple onboard humanoid cameras (NVIDIA/YOLO) and smart wearable trackers builds a high-certainty spatial model. More sources = higher confidence = smaller, tighter safety volumes."
     }
   ];
 
   return (
-    <section id="volumes" className="py-40 bg-white relative">
+    <section id="volumes" className="py-40 bg-white">
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-12 gap-16 items-start">
-          <div className="lg:col-span-4 sticky top-32 space-y-6">
-            <span className="tech-label">Spatial Logic</span>
-            <h2 className="text-5xl font-headline font-bold leading-tight">The Integrated Safety Standard</h2>
-            <p className="text-slate-500 text-lg">
-              Dynamic safety infrastructure powered by safety-rated communication protocols and real-time mesh positioning.
-            </p>
-          </div>
+        <div className="max-w-4xl mb-24">
+          <span className="tech-label text-primary">Spatial Logic</span>
+          <h2 className="text-5xl font-headline font-bold leading-tight mt-4">Real-Time Volumetric Logic.</h2>
+          <p className="text-slate-500 text-lg mt-6">
+            The spatial grid calculates safety shells for every asset every 10ms, ensuring deterministic protection without the constraints of physical barriers.
+          </p>
+        </div>
 
-          <div className="lg:col-span-8 space-y-12">
-            <div className="grid gap-1">
-              {features.map((feature, idx) => (
-                <div key={idx} className="group relative p-12 bg-slate-50 border border-slate-100 hover:bg-white hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
-                  <div className="flex gap-10 items-start">
-                    <div className="text-primary opacity-20 group-hover:opacity-100 transition-opacity">
-                      {feature.icon}
-                    </div>
-                    <div className="space-y-4">
-                      <h3 className="text-2xl font-headline font-bold">{feature.title}</h3>
-                      <p className="text-slate-500 leading-relaxed max-w-xl">
-                        {feature.text}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="p-12 border-2 border-dashed border-primary/20 bg-primary/[0.02] space-y-6 relative overflow-hidden group">
-              <div className="flex items-center gap-4">
-                <Sparkles size={24} className="text-primary" />
-                <h4 className="text-xl font-headline font-bold">The Roadmap: Pure Algorithmic Awareness</h4>
+        <div className="grid lg:grid-cols-3 gap-px bg-slate-100 border border-slate-100">
+          {features.map((feature, idx) => (
+            <div key={idx} className="bg-white p-12 space-y-8 group transition-colors hover:bg-slate-50">
+              <div className="text-primary p-4 bg-primary/5 inline-block rounded-sm transition-transform group-hover:scale-110">
+                {feature.icon}
               </div>
-              <p className="text-sm text-slate-500 leading-relaxed max-w-2xl">
-                While we currently utilize safety-rated Mobile Adapter Nodes for legacy equipment and Smart Vests for human tracking, these are interim solutions. As our deterministic recognition algorithms evolve, the hardware burden will vanish, leaving only the native communication integrated within your humanoid fleet.
-              </p>
+              <div className="space-y-4">
+                <h3 className="text-xl font-headline font-bold">{feature.title}</h3>
+                <p className="text-slate-500 leading-relaxed text-sm">
+                  {feature.text}
+                </p>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

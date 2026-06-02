@@ -3,164 +3,117 @@
 import { useState, useMemo } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Bot, User, Activity, ShieldCheck, Wifi, Zap, AlertCircle, Info, Terminal } from "lucide-react";
+import { Bot, User, Activity, ShieldCheck, Terminal, AlertCircle, Wifi } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export function HiveInteractive() {
   const [sources, setSources] = useState(3);
-  const [speed, setSpeed] = useState(50); 
-  const [proximity, setProximity] = useState(10); 
-
-  const isCollaborativeEnabled = sources >= 3;
   const VIS_SIZE = 400; 
 
-  const engine = useMemo(() => {
-    const velocityFactor = 0.6 + (speed / 80); 
-    const confidenceFactor = 1.4 - (sources * 0.12); 
+  const state = useMemo(() => {
+    const isFallback = sources <= 1;
+    const isOptimal = sources === 5;
     
-    const baseDiameter = 100;
-    const protective = baseDiameter * velocityFactor * confidenceFactor;
-    const collaborative = protective * 1.5;
-    const warning = protective * 2.2;
+    let statusText = "Standard Operating Mode";
+    let badgeText = "PLd Cat 2 (Standard)";
+    let badgeColor = "text-primary border-primary bg-primary/5";
 
-    const workerDistFromCenter = (VIS_SIZE / 2) * (1 - (proximity / 100) * 0.85);
-
-    let status: 'CLEAR' | 'WARNING' | 'COLLABORATIVE' | 'PROTECTIVE' = 'CLEAR';
-    
-    if (workerDistFromCenter <= protective / 2) {
-      status = 'PROTECTIVE';
-    } else if (isCollaborativeEnabled && workerDistFromCenter <= collaborative / 2) {
-      status = 'COLLABORATIVE';
-    } else if (workerDistFromCenter <= warning / 2) {
-      status = 'WARNING';
+    if (isFallback) {
+      statusText = "Certainty Minimal: System automatically enforces a safe-crawl fallback state (<250mm/s).";
+      badgeText = "Fallback (Safe-Crawl)";
+      badgeColor = "text-red-500 border-red-500 bg-red-50";
+    } else if (isOptimal) {
+      statusText = "Deterministic Certainty: Position confidence verified across entire workspace.";
+      badgeText = "PLd Cat 3 (Deterministic Certainty)";
+      badgeColor = "text-emerald-600 border-emerald-600 bg-emerald-50";
     }
 
+    const radiusBase = isFallback ? 180 : (160 - sources * 12);
+    
     return {
-      radii: { protective, collaborative, warning },
-      workerDist: workerDistFromCenter,
-      status
+      isFallback,
+      isOptimal,
+      statusText,
+      badgeText,
+      badgeColor,
+      radii: {
+        warning: radiusBase * 1.8,
+        collaborative: radiusBase * 1.3,
+        protective: radiusBase
+      }
     };
-  }, [speed, sources, proximity, isCollaborativeEnabled]);
-
-  const { status, radii, workerDist } = engine;
-
-  const getSafetyLevel = () => {
-    if (sources <= 2) return { badge: "PLb Cat 1", color: "text-red-500", bg: "bg-red-50" };
-    if (sources <= 4) return { badge: "PLd Cat 2 (Standard)", color: "text-primary", bg: "bg-primary/5" };
-    return { badge: "PLd Cat 3 (High Confidence)", color: "text-emerald-600", bg: "bg-emerald-50" };
-  };
-
-  const level = getSafetyLevel();
+  }, [sources]);
 
   return (
-    <section id="hive" className="py-40 bg-slate-900 text-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-blueprint opacity-10" />
-      
-      <div className="container mx-auto px-6 relative">
-        <div className="max-w-4xl mb-24 space-y-4">
+    <section id="hive" className="py-40 bg-white relative">
+      <div className="container mx-auto px-6">
+        <div className="max-w-4xl mb-24">
           <span className="tech-label text-primary">Simulation Engine</span>
-          <h2 className="text-6xl font-headline font-bold text-white tracking-tighter">The Hive Mind.</h2>
-          <p className="text-slate-400 text-xl max-w-2xl leading-relaxed">
-            Speed and Separation Monitoring (SSM) rendered in real-time. Adjust factory variables to see spatial safety volumes adapt instantly.
+          <h2 className="text-5xl font-headline font-bold text-slate-900 leading-tight mt-4">The Hive Engine & Fallback States.</h2>
+          <p className="text-slate-500 text-lg mt-6">
+            Observe how position confidence dictates the safety volume footprint. Adjust reporting sources to see real-time state transitions.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-stretch max-w-7xl mx-auto">
-          {/* Controls */}
-          <div className="lg:col-span-3 space-y-12">
-            <div className="space-y-10">
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <label className="tech-label">Redundancy (Sources)</label>
-                  <span className="text-xl font-headline font-bold text-primary">{sources}</span>
-                </div>
-                <Slider value={[sources]} onValueChange={(v) => setSources(v[0])} max={5} min={1} step={1} className="py-2" />
-                <div className="p-4 bg-white/5 border border-white/10 rounded-sm">
-                   <p className="text-[10px] text-slate-400 leading-tight">Impacts Confidence Factor (C). Sources &lt; 3 disables collaborative zone.</p>
-                </div>
-              </div>
+        <div className="grid lg:grid-cols-12 gap-12 max-w-7xl mx-auto items-stretch">
+          {/* Controls & Visualization */}
+          <div className="lg:col-span-8 flex flex-col gap-8">
+            <div className="bg-slate-50 border border-slate-100 p-12 space-y-12 flex-1 relative overflow-hidden">
+               <div className="absolute top-8 left-8 z-20">
+                 <div className={cn("px-4 py-1.5 font-mono text-[10px] font-bold border rounded-full uppercase tracking-widest transition-all", state.badgeColor)}>
+                   {state.badgeText}
+                 </div>
+               </div>
 
-              <div className="space-y-6">
-                <div className="flex justify-between items-center text-left">
-                  <label className="tech-label">Relative Speed (V_H + V_R)</label>
-                  <span className="text-xl font-headline font-bold text-primary">{speed}%</span>
-                </div>
-                <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} max={100} min={10} step={1} className="py-2" />
-              </div>
+               <div className="relative flex items-center justify-center h-[500px]">
+                  <div className="absolute inset-0 bg-blueprint-fine opacity-30" />
+                  
+                  {/* Dynamic Shells */}
+                  <div className="relative flex items-center justify-center">
+                    <div 
+                      className="absolute rounded-full border border-sky-400/20 bg-sky-400/5 transition-all duration-500 ease-in-out"
+                      style={{ width: state.radii.warning, height: state.radii.warning }}
+                    />
+                    <div 
+                      className="absolute rounded-full border border-yellow-400/20 bg-yellow-400/5 transition-all duration-500 ease-in-out"
+                      style={{ width: state.radii.collaborative, height: state.radii.collaborative }}
+                    />
+                    <div 
+                      className={cn("absolute rounded-full border border-red-500/20 bg-red-500/5 transition-all duration-500 ease-in-out", state.isFallback && "border-red-500/40 bg-red-500/10 animate-pulse")}
+                      style={{ width: state.radii.protective, height: state.radii.protective }}
+                    />
 
-              <div className="space-y-6">
-                <div className="flex justify-between items-center">
-                  <label className="tech-label">Proximity (Approach)</label>
-                  <span className="text-xl font-headline font-bold text-primary">{proximity}%</span>
-                </div>
-                <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={100} min={0} step={1} className="py-2" />
-              </div>
-            </div>
-          </div>
+                    {/* Assets */}
+                    <div className="relative z-10 flex gap-12 items-center">
+                      <div className="w-16 h-16 bg-slate-900 text-white rounded-sm flex items-center justify-center flex-col gap-1 border border-white/10">
+                        <Bot size={24} />
+                        <span className="text-[8px] font-bold uppercase opacity-50">Humanoid</span>
+                      </div>
+                      <div className="w-16 h-16 bg-slate-200 text-slate-400 rounded-sm flex items-center justify-center flex-col gap-1 border border-slate-300">
+                        <Terminal size={24} />
+                        <span className="text-[8px] font-bold uppercase">Blind Cobot</span>
+                      </div>
+                    </div>
+                  </div>
+               </div>
 
-          {/* Visualization */}
-          <div className="lg:col-span-5 relative flex items-center justify-center bg-black/40 border border-white/10 rounded-sm overflow-hidden min-h-[500px]">
-            <div className="absolute top-4 left-4 z-20">
-              <div className={cn("px-4 py-1.5 font-mono text-[10px] font-bold border rounded-full", level.color, level.bg, "border-current")}>
-                {level.badge}
-              </div>
-            </div>
-
-            <div className="relative flex items-center justify-center w-full h-full">
-              {/* Shells */}
-              <div 
-                className={cn("absolute rounded-full border border-sky-400/30 bg-sky-400/5 transition-all duration-300", 
-                  status === "WARNING" && "bg-sky-400/10 border-sky-400/60"
-                )}
-                style={{ width: radii.warning, height: radii.warning }}
-              />
-
-              {isCollaborativeEnabled && (
-                <div 
-                  className={cn("absolute rounded-full border border-yellow-400/30 bg-yellow-400/5 transition-all duration-300",
-                    status === "COLLABORATIVE" && "bg-yellow-400/10 border-yellow-400/60"
-                  )}
-                  style={{ width: radii.collaborative, height: radii.collaborative }}
-                />
-              )}
-
-              <div 
-                className={cn("absolute rounded-full border border-red-500/30 bg-red-500/5 transition-all duration-300",
-                  status === "PROTECTIVE" && "bg-red-500/20 border-red-500/80"
-                )}
-                style={{ width: radii.protective, height: radii.protective }}
-              />
-              
-              {/* Asset Icons */}
-              <div className="relative z-10 w-20 h-20 bg-slate-800 border border-white/20 rounded-sm flex items-center justify-center">
-                <Bot size={40} className={cn("transition-colors", status === "PROTECTIVE" ? "text-red-500" : "text-white")} />
-              </div>
-
-              <div 
-                className="absolute transition-all duration-300 flex flex-col items-center z-20"
-                style={{ transform: `translateX(${workerDist}px)` }}
-              >
-                <div className={cn("w-12 h-12 rounded-full bg-white border-2 flex items-center justify-center shadow-2xl transition-all", 
-                  status === "PROTECTIVE" ? "border-red-500 text-red-500" : 
-                  status === "COLLABORATIVE" ? "border-yellow-500 text-yellow-500" :
-                  status === "WARNING" ? "border-sky-500 text-sky-500" : "border-slate-800 text-slate-800"
-                )}>
-                  <User size={24} />
-                </div>
-              </div>
+               <div className="space-y-6 max-w-md mx-auto relative z-20">
+                  <div className="flex justify-between items-center">
+                    <label className="tech-label text-slate-900">Active Reporting Sources</label>
+                    <span className="text-2xl font-headline font-bold text-primary italic">{sources}</span>
+                  </div>
+                  <Slider value={[sources]} onValueChange={(v) => setSources(v[0])} max={5} min={1} step={1} className="py-2" />
+                  <div className="p-4 bg-white border border-slate-200 flex gap-4 items-start">
+                    <AlertCircle className={cn("shrink-0 mt-0.5", state.isFallback ? "text-red-500" : "text-primary")} size={18} />
+                    <p className="text-xs text-slate-500 font-medium leading-relaxed">{state.statusText}</p>
+                  </div>
+               </div>
             </div>
           </div>
 
           {/* Behavior Map */}
-          <div className="lg:col-span-4 bg-slate-800/50 border border-white/10 rounded-sm p-10 flex flex-col justify-between">
-            <div className="space-y-10">
+          <div className="lg:col-span-4 bg-slate-900 text-white p-12 flex flex-col justify-between border border-slate-800 shadow-2xl">
+            <div className="space-y-12">
               <div className="flex justify-between items-center border-b border-white/10 pb-6">
                 <h3 className="text-xl font-headline font-bold flex items-center gap-3 italic">
                   <Terminal size={20} className="text-primary" />
@@ -168,36 +121,31 @@ export function HiveInteractive() {
                 </h3>
               </div>
 
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {[
-                  { id: 'WARNING', label: 'Warning Shell', action: 'Haptic alert pulse to Smart Vest', color: 'text-sky-400' },
-                  { id: 'COLLABORATIVE', label: 'Collaborative Shell', action: 'Drop to Safe Speed (<250mm/s) & Limit Torque', color: 'text-yellow-400' },
-                  { id: 'PROTECTIVE', label: 'Protective Shell', action: 'Hard Brake Engagement (E-Stop)', color: 'text-red-500' }
+                  { id: 'WARNING', label: 'Warning Shell (Outer)', action: 'Trigger haptic vibration alert on human vest. Nominal speed maintained.', color: 'text-sky-400' },
+                  { id: 'COLLABORATIVE', label: 'Collaborative Shell (Middle)', action: 'Assets drop to safe speed (<250mm/s) and restrict joint torque.', color: 'text-yellow-400' },
+                  { id: 'PROTECTIVE', label: 'Protective Shell (Inner)', action: 'Immediate, fail-safe hardware brake engagement via black-channel.', color: 'text-red-500' }
                 ].map((zone) => (
-                  <div key={zone.id} className={cn("p-6 border transition-all duration-300", 
-                    status === zone.id ? "bg-white/5 border-white/40 shadow-lg" : "bg-transparent border-white/5 opacity-50"
-                  )}>
-                    <div className="flex items-start gap-4">
-                      <div className={cn("w-1.5 h-1.5 rounded-full mt-2", zone.color.replace('text', 'bg'))} />
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className={cn("font-bold text-xs uppercase tracking-widest", zone.color)}>{zone.label}</span>
-                          {zone.id === 'COLLABORATIVE' && !isCollaborativeEnabled && <span className="text-[10px] text-red-500 font-bold uppercase">(Disabled)</span>}
-                        </div>
-                        <p className="text-sm text-slate-300 font-medium">{zone.action}</p>
-                      </div>
+                  <div key={zone.id} className="space-y-3 p-6 bg-white/5 border border-white/5 hover:border-white/10 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className={cn("w-2 h-2 rounded-full", zone.color.replace('text', 'bg'))} />
+                      <span className={cn("font-bold text-xs uppercase tracking-widest", zone.color)}>{zone.label}</span>
                     </div>
+                    <p className="text-sm text-slate-400 font-medium leading-relaxed">{zone.action}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="pt-8 border-t border-white/10 flex items-center justify-between text-xs font-mono text-slate-500">
-              <span>S-DISTANCE: ± {(radii.protective / 4).toFixed(2)} MM</span>
-              <span className="flex items-center gap-2">
-                <Activity size={12} className={status !== 'CLEAR' ? 'text-primary animate-pulse' : ''} />
-                SYSTEM {status}
-              </span>
+            <div className="pt-8 border-t border-white/10 space-y-4">
+              <div className="flex items-center justify-between text-[10px] font-mono text-slate-500">
+                <span>COORD_SYSTEM: WGS84</span>
+                <span className="flex items-center gap-2">
+                  <Activity size={12} className="text-primary animate-pulse" />
+                  DETERMINISTIC_LOCK
+                </span>
+              </div>
             </div>
           </div>
         </div>
