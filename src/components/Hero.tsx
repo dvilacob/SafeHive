@@ -19,10 +19,14 @@ export function Hero() {
             <span className="text-primary italic">Spatial Agents.</span>
           </h1>
           <p className="text-xl lg:text-2xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
-            Dynamic safety volumes powered by integrated, safety-rated communication. Orchestrate humanoids, mobile assets, and teams with 100% deterministic awareness.
+            Dynamic safety volumes powered by integrated, safety-rated communication. Orchestrate humanoids, mobile assets, and workers with deterministic awareness.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-            <Button size="lg" className="rounded-full h-14 px-10 text-lg font-bold shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90">
+            <Button 
+              size="lg" 
+              className="rounded-full h-14 px-10 text-lg font-bold shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90"
+              onClick={() => document.getElementById('configurator')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Get Started
             </Button>
             <Button size="lg" variant="ghost" className="rounded-full h-14 px-10 text-lg font-semibold text-slate-600 hover:bg-slate-50 gap-2">
