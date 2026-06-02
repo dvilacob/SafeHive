@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator, Package, Cpu, Zap, Send, FileDown, Loader2 } from "lucide-react";
+import { Calculator, Package, Cpu, Send, FileDown, Loader2 } from "lucide-react";
 import { aiConfigurationInsights } from '@/ai/flows/ai-configuration-insights-flow';
 import {
   Dialog,
@@ -18,14 +18,13 @@ import {
 } from "@/components/ui/dialog";
 
 export function Configurator() {
-  const [area, setArea] = useState(500);
-  const [machines, setMachines] = useState(2);
-  const [workers, setWorkers] = useState(5);
-  const [isExporting, setIsExporting] = useState(false);
+  const [area, setArea] = useState(1000);
+  const [machines, setMachines] = useState(4);
+  const [workers, setWorkers] = useState(10);
   const [aiInsight, setAiInsight] = useState<string | null>(null);
   const [loadingAi, setLoadingAi] = useState(false);
 
-  // Pricing constants
+  // Pricing constants per user requirements
   const HUB_COST = 12500;
   const AP_COST = 2200;
   const NODE_COST = 1500;
@@ -35,11 +34,8 @@ export function Configurator() {
   const apCount = Math.ceil(area / 500);
   const nodeCount = machines;
   const vestCount = workers;
-  const totalDataSources = apCount + nodeCount + vestCount;
-  
   const totalCost = HUB_COST + (apCount * AP_COST) + (nodeCount * NODE_COST) + (vestCount * VEST_COST);
 
-  // Debounced AI Insight Fetch
   useEffect(() => {
     const timer = setTimeout(async () => {
       setLoadingAi(true);
@@ -51,7 +47,7 @@ export function Configurator() {
           perimeterAccessPoints: apCount,
           mobileNodes: nodeCount,
           mobileVests: vestCount,
-          totalDataSources,
+          totalDataSources: apCount + nodeCount + vestCount,
           totalEstimatedHardwareCost: totalCost
         });
         setAiInsight(result.insights);
@@ -60,168 +56,136 @@ export function Configurator() {
       } finally {
         setLoadingAi(false);
       }
-    }, 1000);
+    }, 1500);
     return () => clearTimeout(timer);
   }, [area, machines, workers]);
 
   return (
-    <section id="configurator" className="py-24 bg-zinc-950">
+    <section id="configurator" className="py-32 bg-white">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-16 space-y-4">
-          <h2 className="text-4xl font-headline text-white">Grid Configurator</h2>
-          <p className="text-muted-foreground text-lg">Calculate your factory hardware needs in seconds.</p>
+        <div className="text-center mb-24 space-y-4">
+          <h2 className="text-4xl lg:text-5xl font-headline font-bold text-slate-900">Cost Configurator</h2>
+          <p className="text-slate-500 text-lg max-w-2xl mx-auto">Calculate your safety grid investment with real-time hardware estimates.</p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 items-start">
+        <div className="grid lg:grid-cols-3 gap-12 items-start max-w-6xl mx-auto">
           {/* Controls */}
-          <div className="lg:col-span-2 space-y-8 bg-zinc-900/50 border border-white/5 p-8 lg:p-12 rounded-[2.5rem] shadow-2xl">
-            <div className="space-y-6">
-              <div className="space-y-4">
+          <div className="lg:col-span-2 space-y-12 bg-slate-50 border border-slate-200 p-10 lg:p-14 rounded-[2.5rem] shadow-sm">
+            <div className="space-y-8">
+              <div className="space-y-6">
                 <div className="flex justify-between items-end">
-                  <Label className="text-white text-lg font-medium">Workplace Area (sq meters)</Label>
+                  <Label className="text-slate-900 text-lg font-bold">Total Work Area (m²)</Label>
                   <span className="text-2xl font-headline font-bold text-primary">{area} m²</span>
                 </div>
                 <Slider 
                   value={[area]} 
                   onValueChange={(v) => setArea(v[0])} 
-                  max={5000} 
-                  min={50} 
-                  step={50}
+                  max={10000} 
+                  min={100} 
+                  step={100}
                   className="py-4"
                 />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-2 gap-10">
                 <div className="space-y-4">
-                  <Label className="text-white text-lg font-medium">Machines without native SAFE ROS</Label>
-                  <div className="flex items-center gap-4">
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setMachines(Math.max(0, machines - 1))}
-                      className="h-12 w-12 rounded-xl text-xl font-bold"
-                    >-</Button>
-                    <Input 
-                      type="number" 
-                      value={machines} 
-                      onChange={(e) => setMachines(parseInt(e.target.value) || 0)}
-                      className="text-center h-12 text-lg font-bold bg-zinc-800 border-white/10"
-                    />
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setMachines(machines + 1)}
-                      className="h-12 w-12 rounded-xl text-xl font-bold"
-                    >+</Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Robots with SAFE ROS don't need nodes.</p>
+                  <Label className="text-slate-900 text-lg font-bold">Non-Native Machines</Label>
+                  <Input 
+                    type="number" 
+                    value={machines} 
+                    onChange={(e) => setMachines(parseInt(e.target.value) || 0)}
+                    className="h-14 text-lg font-bold bg-white border-slate-200 rounded-2xl px-6"
+                  />
+                  <p className="text-xs text-slate-400">Machines requiring Mobile Adapter Nodes.</p>
                 </div>
 
                 <div className="space-y-4">
-                  <Label className="text-white text-lg font-medium">Workers without SAFE ROS wearables</Label>
-                  <div className="flex items-center gap-4">
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setWorkers(Math.max(0, workers - 1))}
-                      className="h-12 w-12 rounded-xl text-xl font-bold"
-                    >-</Button>
-                    <Input 
-                      type="number" 
-                      value={workers} 
-                      onChange={(e) => setWorkers(parseInt(e.target.value) || 0)}
-                      className="text-center h-12 text-lg font-bold bg-zinc-800 border-white/10"
-                    />
-                    <Button 
-                      variant="outline" 
-                      onClick={() => setWorkers(workers + 1)}
-                      className="h-12 w-12 rounded-xl text-xl font-bold"
-                    >+</Button>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Every worker on the floor needs a vest.</p>
+                  <Label className="text-slate-900 text-lg font-bold">Humans</Label>
+                  <Input 
+                    type="number" 
+                    value={workers} 
+                    onChange={(e) => setWorkers(parseInt(e.target.value) || 0)}
+                    className="h-14 text-lg font-bold bg-white border-slate-200 rounded-2xl px-6"
+                  />
+                  <p className="text-xs text-slate-400">Total human workers requiring Smart Vests.</p>
                 </div>
               </div>
             </div>
 
-            <div className="pt-8 border-t border-white/5 space-y-6">
-              <div className="flex items-center gap-3 text-white">
+            <div className="pt-10 border-t border-slate-200 space-y-6">
+              <div className="flex items-center gap-3 text-slate-900">
                 <Cpu className="text-primary" size={24} />
-                <h4 className="text-xl font-headline font-semibold">AI Configuration Analysis</h4>
+                <h4 className="text-xl font-headline font-bold">AI Configuration Analysis</h4>
               </div>
-              <div className="p-6 rounded-2xl bg-black/40 border border-white/5 text-sm leading-relaxed text-muted-foreground min-h-[100px] relative">
+              <div className="p-8 rounded-3xl bg-white border border-slate-200 text-sm leading-relaxed text-slate-500 min-h-[140px] relative shadow-inner">
                 {loadingAi && (
-                  <div className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center rounded-2xl">
+                  <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex items-center justify-center rounded-3xl">
                     <Loader2 className="animate-spin text-primary" />
                   </div>
                 )}
-                {aiInsight || "Calculating optimal Hive Confidence Factor..."}
+                {aiInsight || "Analyzing spatial coverage and confidence factors..."}
               </div>
             </div>
           </div>
 
           {/* BOM Sidebar */}
-          <div className="lg:col-span-1 bg-zinc-900 border border-primary/20 rounded-[2.5rem] p-8 space-y-8 sticky top-24 shadow-[0_0_50px_rgba(247,198,17,0.05)]">
-            <div className="flex items-center gap-3 border-b border-white/5 pb-6">
+          <div className="lg:col-span-1 bg-white border border-slate-200 rounded-[2.5rem] p-10 space-y-10 sticky top-28 shadow-xl shadow-slate-200/50">
+            <div className="flex items-center gap-3 border-b border-slate-100 pb-8">
               <Package className="text-primary" size={24} />
-              <h3 className="text-xl font-headline font-bold text-white uppercase tracking-wider">Bill of Materials</h3>
+              <h3 className="text-xl font-headline font-bold text-slate-900 uppercase tracking-widest">Bill of Materials</h3>
             </div>
 
-            <div className="space-y-4 text-sm">
-              <div className="flex justify-between items-center text-muted-foreground">
+            <div className="space-y-5 text-sm">
+              <div className="flex justify-between items-center text-slate-500">
                 <span>SafeHive Control Hub</span>
-                <span className="text-white font-medium">1 x $12,500</span>
+                <span className="text-slate-900 font-bold">1 x $12,500</span>
               </div>
-              <div className="flex justify-between items-center text-muted-foreground">
+              <div className="flex justify-between items-center text-slate-500">
                 <span>Perimeter Access Points</span>
-                <span className="text-white font-medium">{apCount} x $2,200</span>
+                <span className="text-slate-900 font-bold">{apCount} x $2,200</span>
               </div>
-              <div className="flex justify-between items-center text-muted-foreground">
+              <div className="flex justify-between items-center text-slate-500">
                 <span>Mobile Adapter Nodes</span>
-                <span className="text-white font-medium">{nodeCount} x $1,500</span>
+                <span className="text-slate-900 font-bold">{nodeCount} x $1,500</span>
               </div>
-              <div className="flex justify-between items-center text-muted-foreground">
+              <div className="flex justify-between items-center text-slate-500">
                 <span>Smart Safety Vests</span>
-                <span className="text-white font-medium">{vestCount} x $450</span>
+                <span className="text-slate-900 font-bold">{vestCount} x $450</span>
               </div>
             </div>
 
-            <div className="pt-8 border-t border-white/5 space-y-4">
-              <div className="text-xs uppercase font-bold text-muted-foreground tracking-widest">Total Estimated Hardware</div>
-              <div className="text-4xl font-headline font-bold text-white tabular-nums">${totalCost.toLocaleString()}</div>
-              <div className="p-3 rounded-lg bg-primary/10 border border-primary/20 text-xs text-primary leading-tight font-medium">
-                Your system utilizes {totalDataSources} data sources. This optimizes your Hive Confidence Factor (C) for high-speed operation.
-              </div>
+            <div className="pt-8 border-t border-slate-100 space-y-2">
+              <div className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em]">Total Estimated Hardware</div>
+              <div className="text-4xl font-headline font-bold text-slate-900 tabular-nums">${totalCost.toLocaleString()}</div>
             </div>
 
             <Dialog>
               <DialogTrigger asChild>
-                <Button className="w-full h-14 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg gap-2 shadow-xl shadow-primary/10">
-                  <FileDown size={20} />
-                  Export Quote Request
+                <Button className="w-full h-16 bg-primary hover:bg-primary/90 text-white font-bold text-lg rounded-2xl shadow-lg shadow-primary/20">
+                  Request Quote
                 </Button>
               </DialogTrigger>
-              <DialogContent className="bg-zinc-900 border-white/10 text-white">
+              <DialogContent className="bg-white border-slate-200 text-slate-900 rounded-[2rem]">
                 <DialogHeader>
-                  <DialogTitle className="text-2xl font-headline">Request Final Quote</DialogTitle>
-                  <DialogDescription className="text-muted-foreground">
-                    Complete this form to receive your detailed BOM export and final project quote.
+                  <DialogTitle className="text-2xl font-headline font-bold">Request Final Quote</DialogTitle>
+                  <DialogDescription className="text-slate-500">
+                    Submit your project details for a certified BOM export and site plan.
                   </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
+                <div className="grid gap-6 py-6">
                   <div className="space-y-2">
                     <Label htmlFor="name">Full Name</Label>
-                    <Input id="name" placeholder="John Doe" className="bg-zinc-800 border-white/10" />
+                    <Input id="name" placeholder="Alex Rivera" className="rounded-xl border-slate-200" />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Work Email</Label>
-                    <Input id="email" type="email" placeholder="john@factory.com" className="bg-zinc-800 border-white/10" />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="company">Company Name</Label>
-                    <Input id="company" placeholder="Acme Industrial Corp" className="bg-zinc-800 border-white/10" />
+                    <Input id="email" type="email" placeholder="alex@spatial-automation.com" className="rounded-xl border-slate-200" />
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button className="w-full h-12 bg-primary text-primary-foreground font-bold">
+                  <Button className="w-full h-14 bg-primary text-white font-bold rounded-xl">
                     <Send className="mr-2 h-4 w-4" />
-                    Send Project Details
+                    Send Quote Request
                   </Button>
                 </DialogFooter>
               </DialogContent>
