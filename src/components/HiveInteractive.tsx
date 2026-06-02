@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useMemo } from 'react';
@@ -16,7 +15,7 @@ import {
 
 export function HiveInteractive() {
   const [sources, setSources] = useState(3);
-  const [speed, setSpeed] = useState(50);
+  const [speed, setSpeed] = useState(50); // Combined velocity (v_h + v_r)
   const [proximity, setProximity] = useState(10); // 0 (far) to 100 (contact)
 
   // Collaborative shell availability
@@ -26,26 +25,28 @@ export function HiveInteractive() {
   const VIS_SIZE = 400; // Visualization area px
   const CENTER = VIS_SIZE / 2;
 
-  // Dynamic Physics Calculation
+  // Dynamic Physics Calculation based on ISO 10218-2
   const engine = useMemo(() => {
-    // S = (v * tr) + d_stop + C
-    // Velocity increases the width of the volumes
-    const velocityMultiplier = 0.5 + (speed / 100); 
-    // Redundancy reduces the confidence factor (C), shrinking volumes
-    const redundancyMultiplier = 1.4 - (sources * 0.15); 
-    // User requirement: Volume grows as distance reduces (proximity increases)
-    const proximityMultiplier = 1 + (proximity / 250);
-
+    // S = (v_h + v_r) * tr + d_stop + C
+    // Higher speed expands the volumes for all parties
+    const velocityFactor = 0.5 + (speed / 100); 
+    // Higher redundancy reduces C (confidence factor), shrinking the required safety volume
+    const confidenceFactor = 1.4 - (sources * 0.15); 
+    
     const baseDiameter = 80;
-    const protective = baseDiameter * velocityMultiplier * redundancyMultiplier * proximityMultiplier;
-    const collaborative = protective * 1.7;
-    const warning = protective * 2.6;
+    // Protective Shell corresponds to the absolute minimum safe distance (S)
+    const protective = baseDiameter * velocityFactor * confidenceFactor;
+    // Collaborative Shell adds a buffer for speed/torque reduction
+    const collaborative = protective * 1.6;
+    // Warning Shell is the outer notification boundary
+    const warning = protective * 2.4;
 
-    // Worker's radial position (at 0 proximity, worker is at 190px from center. at 100, worker is at 0)
+    // Worker's radial position relative to center
     const workerDistFromCenter = (VIS_SIZE / 2) * (1 - proximity / 100);
 
     // Determination of State based on spatial intersection
     let status: 'CLEAR' | 'WARNING' | 'COLLABORATIVE' | 'PROTECTIVE' = 'CLEAR';
+    
     if (workerDistFromCenter <= protective / 2) {
       status = 'PROTECTIVE';
     } else if (isCollaborativeEnabled && workerDistFromCenter <= collaborative / 2) {
@@ -68,9 +69,9 @@ export function HiveInteractive() {
   const { status, radii, workerDist } = engine;
 
   const getSafetyLevel = () => {
-    if (sources < 2) return { badge: "PLb Cat 1 (Low Confidence)", color: "text-red-500" };
+    if (sources < 2) return { badge: "PLb Cat 1 (Reduced Confidence)", color: "text-red-500" };
     if (sources < 3) return { badge: "PLc Cat 2 (Medium)", color: "text-yellow-500" };
-    if (sources < 5) return { badge: "PLd Cat 2 (Optimized)", color: "text-green-500" };
+    if (sources < 5) return { badge: "PLd Cat 2 (Standard)", color: "text-green-500" };
     return { badge: "PLd Cat 3 (Maximum)", color: "text-primary" };
   };
 
@@ -82,7 +83,7 @@ export function HiveInteractive() {
         <div className="text-center mb-20 space-y-4">
           <h2 className="text-4xl lg:text-5xl font-headline font-bold text-slate-900">The Hive Engine</h2>
           <p className="text-slate-500 text-lg max-w-2xl mx-auto">
-            Dynamic safety volumes respond to real-time physics. Adjust the variables below to see the Hive's deterministic logic in action.
+            Speed and Separation Monitoring (SSM) in real-time. Adjust the variables to see ISO 10218-2 logic adapt to your factory floor.
           </p>
         </div>
 
@@ -97,7 +98,7 @@ export function HiveInteractive() {
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger><Info size={12} className="text-slate-300" /></TooltipTrigger>
-                        <TooltipContent>The number of robots/APs reporting the asset's position.</TooltipContent>
+                        <TooltipContent>The number of active reporting sources (Robots/APs) verifying position.</TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
                   </div>
@@ -105,27 +106,27 @@ export function HiveInteractive() {
                 </div>
                 <Slider value={[sources]} onValueChange={(v) => setSources(v[0])} max={5} min={1} step={1} className="py-2" />
                 <div className="flex justify-between items-center">
-                  <p className="text-[10px] text-slate-400">Confidence Factor (C)</p>
-                  {!isCollaborativeEnabled && <Badge variant="destructive" className="text-[8px] h-4">COLLABORATIVE DISABLED</Badge>}
+                  <p className="text-[10px] text-slate-400">Impacts Confidence Factor (C)</p>
+                  {!isCollaborativeEnabled && <Badge variant="destructive" className="text-[8px] h-4 uppercase tracking-tighter">Collaborative Mode Disabled</Badge>}
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Asset Velocity (v)</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Relative Velocity (v_h + v_r)</label>
                   <span className="text-lg font-headline font-bold text-primary">{speed}%</span>
                 </div>
                 <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} max={100} min={10} step={1} className="py-2" />
-                <p className="text-[10px] text-slate-400">Velocity impacts required stopping distance (d_stop).</p>
+                <p className="text-[10px] text-slate-400">Higher relative speed increases the protective separation distance (S).</p>
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Worker Proximity (Distance)</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Human Separation (Proximity)</label>
                   <span className="text-lg font-headline font-bold text-primary">{proximity}% Deep</span>
                 </div>
                 <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={100} min={0} step={1} className="py-2" />
-                <p className="text-[10px] text-slate-400">Move the worker towards the asset.</p>
+                <p className="text-[10px] text-slate-400">Simulation of human operator movement towards the humanoid asset.</p>
               </div>
             </div>
 
@@ -183,7 +184,7 @@ export function HiveInteractive() {
                   )}>
                     <User size={20} />
                   </div>
-                  <span className="text-[8px] font-bold uppercase tracking-tighter">Worker</span>
+                  <span className="text-[8px] font-bold uppercase tracking-tighter">Human</span>
                 </div>
               </div>
 
@@ -205,7 +206,7 @@ export function HiveInteractive() {
                   SSET · HUMANOID-01
                 </CardTitle>
                 <div className="flex items-center gap-1.5 text-[10px] font-bold text-green-500 uppercase">
-                  <ShieldCheck size={12} /> Live Engine
+                  <ShieldCheck size={12} /> SSM LIVE
                 </div>
               </div>
             </CardHeader>
@@ -239,12 +240,12 @@ export function HiveInteractive() {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <h4 className="font-headline font-bold text-slate-900">Collaborative Shell (Middle)</h4>
-                        {!isCollaborativeEnabled && <span className="text-[8px] text-red-500 font-bold uppercase">(Disabled: Redundancy &lt; 2)</span>}
+                        {!isCollaborativeEnabled && <span className="text-[8px] text-red-500 font-bold uppercase">(Disabled: Low Confidence)</span>}
                       </div>
                       <p className="text-xs text-slate-500 leading-relaxed">Humanoid instantly drops to a regulated safe speed (&lt;250mm/s) and restricts joint torque for co-working.</p>
                       {status === "COLLABORATIVE" && isCollaborativeEnabled && (
                         <div className="pt-2 flex items-center gap-2 text-[10px] font-bold text-yellow-600 animate-pulse">
-                          <Zap size={10} /> SPEED & TORQUE LIMITED
+                          <Zap size={10} /> REDUCED SPEED & TORQUE
                         </div>
                       )}
                     </div>
@@ -272,7 +273,7 @@ export function HiveInteractive() {
 
               <div className="pt-8 border-t border-slate-100 grid grid-cols-2 gap-8">
                 <div className="space-y-1">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Confidence Buffer (C)</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Intrusion Distance (C)</div>
                   <div className="text-sm font-bold text-slate-900">± {(radii.protective / 4).toFixed(1)} mm</div>
                 </div>
                 <div className="space-y-1">
@@ -280,7 +281,7 @@ export function HiveInteractive() {
                   <div className="text-sm font-bold text-slate-900">
                     {status === "PROTECTIVE" ? "PROTECTIVE" : 
                      status === "COLLABORATIVE" ? "COLLABORATIVE" :
-                     status === "WARNING" ? "WARNING" : "NOMINAL"}
+                     status === "WARNING" ? "WARNING" : "CLEAR"}
                   </div>
                 </div>
               </div>

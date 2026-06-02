@@ -12,7 +12,7 @@ export function SafetyVolumes() {
     {
       icon: <Gauge className="w-8 h-8 text-primary" />,
       title: "2. Speed",
-      text: "The faster a machine, humanoid, or a human moves, the larger its and the others' protective bubbles expand to guarantee a safe stopping distance for all parties involved."
+      text: "Safety volume is a direct function of relative velocity. The faster a machine, humanoid, or a human moves, the larger its and the others' protective bubbles expand to guarantee a safe stopping distance for all parties involved."
     },
     {
       icon: <Share2 className="w-8 h-8 text-primary" />,
@@ -57,7 +57,7 @@ export function SafetyVolumes() {
             <div className="space-y-4">
               <h4 className="text-xl font-headline font-bold text-slate-900">The Roadmap: Pure Algorithmic Awareness</h4>
               <p className="text-sm text-slate-500 leading-relaxed">
-                While we currently utilize safety-rated <strong>Mobile Adapter Nodes</strong> for forklifts and <strong>Smart Vests</strong> for human tracking, these are interim solutions. As our deterministic recognition algorithms evolve, the hardware burden will vanish, leaving only the native communication integrated within your humanoid fleet.
+                While we currently utilize safety-rated <strong>Mobile Adapter Nodes</strong> for legacy equipment and <strong>Smart Vests</strong> for human tracking, these are interim solutions. As our deterministic recognition algorithms evolve, the hardware burden will vanish, leaving only the native communication integrated within your humanoid fleet.
               </p>
             </div>
           </div>

@@ -27,17 +27,18 @@ export default function Home() {
               </AccordionTrigger>
               <AccordionContent className="pt-8 space-y-6 text-slate-500 leading-relaxed">
                 <div className="p-8 rounded-2xl bg-slate-50 border border-slate-100 space-y-4">
-                  <h4 className="font-headline font-bold text-slate-900">Safety Buffer Formula (S)</h4>
-                  <p className="font-mono text-xs">S = (v × t_r) + d_stop + C</p>
+                  <h4 className="font-headline font-bold text-slate-900">Protective Separation Distance (S) - ISO 10218-2</h4>
+                  <p className="font-mono text-xs">S = (v_h + v_r) × t_r + d_stop + C</p>
                   <ul className="text-xs space-y-2 list-disc pl-4">
-                    <li>v: Maximum velocity of the asset (mm/s)</li>
+                    <li>v_h: Maximum speed of the human operator (mm/s)</li>
+                    <li>v_r: Maximum speed of the robot/humanoid (mm/s)</li>
                     <li>t_r: System response time including network latency (ms)</li>
-                    <li>d_stop: Physical braking distance at velocity v</li>
-                    <li>C: Confidence Factor based on reporting source redundancy</li>
+                    <li>d_stop: Physical braking distance of the robot</li>
+                    <li>C: Confidence Factor (Intrusion Distance) based on source redundancy</li>
                   </ul>
                 </div>
                 <p className="text-sm">
-                  SafeHive is fully compliant with ISO/TS 15066 and RIA R15.06 standards for collaborative robotics. Our system utilizes a deterministic mesh network with &lt;20ms end-to-end latency for all safety-critical signals.
+                  SafeHive is fully compliant with ISO 10218-2 and ISO/TS 15066 standards for collaborative robotics. Our system utilizes a deterministic mesh network with &lt;20ms end-to-end latency to ensure real-time Speed and Separation Monitoring (SSM).
                 </p>
               </AccordionContent>
             </AccordionItem>
