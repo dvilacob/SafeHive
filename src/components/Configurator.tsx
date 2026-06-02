@@ -98,24 +98,24 @@ export function Configurator() {
                   <Monitor className="text-primary" size={20} />
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {[
                     { label: 'SafeHive Control Hub', qty: 1, unit: HUB_COST, desc: 'Central deterministic processing unit' },
                     { label: 'Perimeter Access Points (APs)', qty: apCount, unit: AP_COST, desc: 'Overhead spatial anchors' },
                     { label: 'Black-Channel Jetson Modules', qty: jetsonCount, unit: JETSON_COST, desc: 'Edge safety for blind machines' },
                     { label: 'Smart Safety Wearables', qty: vestCount, unit: VEST_COST, desc: 'Xsens / Haptic personnel trackers' }
                   ].map((item, i) => (
-                    <div key={i} className="flex justify-between items-center group">
-                      <div className="flex flex-col">
-                        <span className="text-sm font-bold text-slate-900">{item.label}</span>
-                        <span className="text-[10px] text-slate-400 uppercase tracking-widest">{item.qty} x ${item.unit.toLocaleString()}</span>
+                    <div key={i} className="flex justify-between items-center group py-2 border-b border-slate-50 last:border-0">
+                      <div className="flex items-baseline gap-2">
+                        <span className="text-xs font-bold text-slate-900">{item.label}</span>
+                        <span className="text-[9px] text-slate-400 uppercase tracking-widest font-mono">({item.qty} × ${item.unit.toLocaleString()})</span>
                       </div>
-                      <span className="text-sm font-mono font-bold text-slate-900">${(item.qty * item.unit).toLocaleString()}</span>
+                      <span className="text-xs font-mono font-bold text-slate-900">${(item.qty * item.unit).toLocaleString()}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="pt-10 border-t border-slate-100 space-y-6">
+                <div className="pt-10 border-t border-slate-100 space-y-8">
                   <div className="flex justify-between items-end">
                     <span className="tech-label text-slate-400">Total Hardware Estimate</span>
                     <div className="text-5xl font-headline font-bold text-slate-900 tracking-tighter">${totalCost.toLocaleString()}</div>
@@ -123,8 +123,9 @@ export function Configurator() {
                   
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button className="w-full h-20 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3">
-                        Request Quote & Core Architecture Spec <ArrowRight size={20} />
+                      <Button className="w-full h-auto py-6 px-8 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 whitespace-normal flex items-center justify-center">
+                        <span className="text-center">Request Quote & Core Architecture Spec</span>
+                        <ArrowRight size={20} className="shrink-0" />
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="rounded-none border-4 border-slate-900">
