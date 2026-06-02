@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Ruler, Gauge, Share2, Sparkles } from "lucide-react";
@@ -13,7 +12,7 @@ export function SafetyVolumes() {
     {
       icon: <Gauge className="w-8 h-8 text-primary" />,
       title: "2. Speed",
-      text: "Safety volume is a direct function of velocity. The faster a machine or humanoid moves, the larger its protective bubble expands to guarantee a safe stopping distance."
+      text: "The faster a machine, humanoid, or a human moves, the larger its and the others' protective bubbles expand to guarantee a safe stopping distance for all parties involved."
     },
     {
       icon: <Share2 className="w-8 h-8 text-primary" />,
