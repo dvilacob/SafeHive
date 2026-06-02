@@ -89,7 +89,7 @@ const aiConfigurationInsightsFlow = ai.defineFlow(
   async input => {
     const {output} = await aiConfigurationInsightsPrompt(input);
     if (!output) {
-      throw new Error('AI failed to generate insights.');
+      throw new Error('AI failed to generate insights. Check if GEMINI_API_KEY is configured.');
     }
     return output;
   }
