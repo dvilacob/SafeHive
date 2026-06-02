@@ -4,26 +4,26 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222 47% 11%;
+    --background: 210 20% 98%;
+    --foreground: 224 71% 4%;
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 224 71% 4%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 199 89% 48%; /* SafeHive Blue */
+    --popover-foreground: 224 71% 4%;
+    --primary: 201 96% 32%; /* Deeper SafeHive Blue */
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 199 89% 95%; /* Light Airy Blue */
+    --accent: 199 89% 95%;
     --accent-foreground: 222 47% 11.2%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214.3 32% 91%;
+    --border: 214.3 32% 85%;
     --input: 214.3 32% 91%;
-    --ring: 199 89% 48%;
-    --radius: 0.75rem;
+    --ring: 201 96% 32%;
+    --radius: 0.5rem;
   }
 }
 
@@ -32,18 +32,32 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body selection:bg-primary/20 selection:text-primary-foreground antialiased;
+    @apply bg-background text-foreground font-body selection:bg-primary/20 antialiased;
   }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-headline font-semibold tracking-tight;
+  h1, h2, h3, h4 {
+    @apply font-headline font-bold tracking-tight text-slate-900;
   }
 }
 
-.bg-dot-pattern {
-  background-image: radial-gradient(circle, #e2e8f0 1px, transparent 1px);
-  background-size: 24px 24px;
+/* Blueprint Grid Background */
+.bg-blueprint {
+  background-image: 
+    linear-gradient(to right, rgba(0, 102, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 102, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-.glass-card {
-  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm;
+.bg-blueprint-fine {
+  background-image: 
+    linear-gradient(to right, rgba(0, 102, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 102, 255, 0.02) 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+.glass-panel {
+  @apply bg-white/60 backdrop-blur-xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+}
+
+.tech-label {
+  @apply font-mono text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400;
 }

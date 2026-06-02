@@ -1,4 +1,3 @@
-
 "use client"
 
 import { Power, Map, Link2, Unlink, Lock } from "lucide-react";
@@ -6,60 +5,56 @@ import { Power, Map, Link2, Unlink, Lock } from "lucide-react";
 export function Deployment() {
   const steps = [
     {
-      icon: <Power className="w-6 h-6" />,
+      icon: <Power className="w-10 h-10" />,
       title: "Power On",
-      body: "Mount the Central Control Hub enclosure to the wall and initialize power."
+      body: "Mount the Control Hub enclosure and initialize power."
     },
     {
-      icon: <Map className="w-6 h-6" />,
+      icon: <Map className="w-10 h-10" />,
       title: "Map Coverage",
-      body: "Position overhead Perimeter Access Points (APs) to establish your spatial safety grid anchors."
+      body: "Position Perimeter Access Points (APs) for spatial grid anchors."
     },
     {
-      icon: <Unlink className="w-6 h-6" />,
+      icon: <Unlink className="w-10 h-10" />,
       title: "Connect Assets",
-      body: "Equip legacy machines with safety-rated nodes and workers with smart comms vests."
+      body: "Equip legacy machines with nodes and workers with smart vests."
     },
     {
-      icon: <Link2 className="w-6 h-6" />,
+      icon: <Link2 className="w-10 h-10" />,
       title: "Link Hive",
-      body: "Use the browser-based tool to pair devices over the air. Humanoids sync natively via integrated comms."
+      body: "Pair devices over the air via the browser-based safety tool."
     },
     {
-      icon: <Lock className="w-6 h-6" />,
-      title: "Lock Configuration",
-      body: "Set safety profiles, run the heartbeat check, and lock the system."
+      icon: <Lock className="w-10 h-10" />,
+      title: "Lock Logic",
+      body: "Run the grid heartbeat check and lock safety behavior profiles."
     }
   ];
 
   return (
-    <section id="deployment" className="py-32 bg-slate-50">
+    <section id="deployment" className="py-40 bg-slate-50 border-y border-slate-100">
       <div className="container mx-auto px-6">
-        <div className="text-center mb-24 space-y-4">
-          <h2 className="text-4xl lg:text-5xl font-headline font-bold text-slate-900">How It Works</h2>
-          <p className="text-slate-500 text-lg max-w-2xl mx-auto">Zero coding. Zero rewiring. Just Five Steps to Absolute Safety.</p>
+        <div className="max-w-4xl mb-24 space-y-4">
+          <span className="tech-label">Implementation</span>
+          <h2 className="text-5xl font-headline font-bold">Zero Rewiring Deployment.</h2>
+          <p className="text-slate-500 text-lg">Five steps from installation to a deterministic spatial safety grid.</p>
         </div>
 
-        <div className="relative">
-          {/* Connecting Line */}
-          <div className="absolute top-10 left-0 w-full h-0.5 bg-slate-200 hidden lg:block" />
-          
-          <div className="grid lg:grid-cols-5 gap-12 lg:gap-8">
-            {steps.map((step, idx) => (
-              <div key={idx} className="relative group text-center lg:text-left">
-                <div className="flex flex-col items-center lg:items-start space-y-8">
-                  <div className="w-20 h-20 rounded-full bg-white border-4 border-slate-50 flex items-center justify-center text-primary shadow-lg z-10 group-hover:scale-110 transition-transform duration-300">
-                    {step.icon}
-                  </div>
-                  <div className="space-y-3 px-4 lg:px-0">
-                    <div className="text-primary font-bold text-[10px] uppercase tracking-[0.2em]">Step 0{idx + 1}</div>
-                    <h3 className="text-xl font-headline font-bold text-slate-900">{step.title}</h3>
-                    <p className="text-sm text-slate-500 leading-relaxed">{step.body}</p>
-                  </div>
+        <div className="grid lg:grid-cols-5 gap-1 shadow-2xl shadow-slate-200">
+          {steps.map((step, idx) => (
+            <div key={idx} className="relative bg-white p-12 border border-slate-100 group hover:bg-primary transition-colors duration-500">
+              <div className="space-y-12">
+                <div className="flex justify-between items-start">
+                  <span className="font-mono text-4xl font-bold opacity-10 group-hover:opacity-20 transition-opacity">0{idx + 1}</span>
+                  <div className="text-primary group-hover:text-white transition-colors">{step.icon}</div>
+                </div>
+                <div className="space-y-4">
+                  <h3 className="text-xl font-headline font-bold group-hover:text-white transition-colors">{step.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed group-hover:text-white/80 transition-colors">{step.body}</p>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
