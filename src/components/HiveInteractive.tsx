@@ -23,9 +23,8 @@ export function HiveInteractive() {
 
   // Visual/Logic Synchronization Constants
   const VIS_SIZE = 400; // Visualization area px
-  const CENTER = VIS_SIZE / 2;
 
-  // Dynamic Physics Calculation based on ISO 10218-2
+  // Dynamic Physics Calculation based on ISO 10218-2 / ISO/TS 15066
   const engine = useMemo(() => {
     // S = (v_h + v_r) * tr + d_stop + C
     // Higher speed expands the volumes for all parties
@@ -42,11 +41,13 @@ export function HiveInteractive() {
     const warning = protective * 2.4;
 
     // Worker's radial position relative to center
-    const workerDistFromCenter = (VIS_SIZE / 2) * (1 - proximity / 100);
+    // As proximity increases (0 to 100), the distance from center decreases (far to contact)
+    const workerDistFromCenter = (VIS_SIZE / 2) * (1 - (proximity / 100) * 0.9);
 
     // Determination of State based on spatial intersection
     let status: 'CLEAR' | 'WARNING' | 'COLLABORATIVE' | 'PROTECTIVE' = 'CLEAR';
     
+    // We check zones from inner to outer
     if (workerDistFromCenter <= protective / 2) {
       status = 'PROTECTIVE';
     } else if (isCollaborativeEnabled && workerDistFromCenter <= collaborative / 2) {
@@ -117,13 +118,13 @@ export function HiveInteractive() {
                   <span className="text-lg font-headline font-bold text-primary">{speed}%</span>
                 </div>
                 <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} max={100} min={10} step={1} className="py-2" />
-                <p className="text-[10px] text-slate-400">Higher relative speed increases the protective separation distance (S).</p>
+                <p className="text-[10px] text-slate-400">Higher relative speed increases the protective separation distance (S) for all agents.</p>
               </div>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Human Separation (Proximity)</label>
-                  <span className="text-lg font-headline font-bold text-primary">{proximity}% Deep</span>
+                  <span className="text-lg font-headline font-bold text-primary">{proximity}% Approached</span>
                 </div>
                 <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={100} min={0} step={1} className="py-2" />
                 <p className="text-[10px] text-slate-400">Simulation of human operator movement towards the humanoid asset.</p>
@@ -203,7 +204,7 @@ export function HiveInteractive() {
               <div className="flex justify-between items-center">
                 <CardTitle className="text-xl font-headline font-bold text-slate-900 flex items-center gap-2">
                   <Activity size={20} className="text-primary" />
-                  SSET · HUMANOID-01
+                  HUMANOID-01 BEHAVIOR MAP
                 </CardTitle>
                 <div className="flex items-center gap-1.5 text-[10px] font-bold text-green-500 uppercase">
                   <ShieldCheck size={12} /> SSM LIVE
