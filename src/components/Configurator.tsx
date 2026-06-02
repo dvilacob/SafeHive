@@ -79,7 +79,7 @@ export function Configurator() {
               </div>
 
               <div className="p-12 border border-slate-200 flex gap-8 items-start bg-slate-50">
-                <div className="w-12 h-12 bg-primary/10 rounded-sm flex items-center justify-center text-primary shrink-0">
+                <div className="w-12 h-12 bg-primary/10 rounded-sm flex items-center justify-center text-primary shrink-0 shadow-sm border border-primary/10">
                   <ListCheck size={24} />
                 </div>
                 <div className="space-y-2">

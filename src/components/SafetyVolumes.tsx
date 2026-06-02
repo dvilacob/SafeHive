@@ -16,7 +16,7 @@ export function SafetyVolumes() {
     },
     {
       icon: <Activity className="w-8 h-8" />,
-      title: "3. Certainty (The Hive)",
+      title: "3. Redundancy (The Hive)",
       text: "Position confidence dictates the volume footprint. Redundant tracking from multiple onboard humanoid cameras (NVIDIA/YOLO) and smart wearable trackers builds a high-certainty spatial model. More sources = higher confidence = smaller, tighter safety volumes."
     }
   ];
@@ -35,7 +35,7 @@ export function SafetyVolumes() {
         <div className="grid lg:grid-cols-3 gap-px bg-slate-100 border border-slate-100">
           {features.map((feature, idx) => (
             <div key={idx} className="bg-white p-12 space-y-8 group transition-colors hover:bg-slate-50">
-              <div className="text-primary p-4 bg-primary/5 inline-block rounded-sm transition-transform group-hover:scale-110">
+              <div className="text-primary p-4 bg-primary/5 inline-block rounded-sm transition-transform group-hover:scale-110 shadow-sm border border-primary/10">
                 {feature.icon}
               </div>
               <div className="space-y-4">

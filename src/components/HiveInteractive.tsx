@@ -11,23 +11,25 @@ export function HiveInteractive() {
   const [proximity, setProximity] = useState(1000); // mm distance
 
   const state = useMemo(() => {
-    // Logic based on requirements:
-    // If redundancy < 2, Collaborative zone is disabled (system treats it as a gap between warning and protective).
+    // Redundancy constraint: If < 2, Collaborative zone is disabled
     const isCollabEnabled = redundancy >= 2;
     
-    // Volume base sizes grow with speed (S = v*t + d_stop)
-    // Here we use speed to scale the overall shell multipliers
-    const speedMultiplier = 1 + (speed / 1000); 
+    // ISO/TS 15066 Logic: Speed (v) determines the size of the protective bubble.
+    // As requested: The faster a machine/humanoid moves, the larger its and the others' bubbles expand.
+    // We use a base scale derived from speed.
+    const speedFactor = speed / 1000; 
     
-    // Confidence Factor (C) based on redundancy (Inverse)
-    const confidenceFactor = 100 / Math.max(1, redundancy);
+    // Confidence Factor (C) is lower (better) with higher redundancy.
+    const confidenceFactor = 150 / Math.max(1, redundancy);
 
-    // Shell thresholds (visual radius in px)
-    const protectiveRadius = (100 + confidenceFactor) * speedMultiplier;
-    const collabRadius = isCollabEnabled ? (protectiveRadius + 80 * speedMultiplier) : 0;
-    const warningRadius = (isCollabEnabled ? collabRadius : protectiveRadius) + 100 * speedMultiplier;
+    // Radii in pixels for the visualizer
+    const protectiveRadius = (80 + confidenceFactor) * (1 + speedFactor);
+    const collabRadius = isCollabEnabled ? (protectiveRadius + 70 * (1 + speedFactor)) : 0;
+    const warningRadius = (isCollabEnabled ? collabRadius : protectiveRadius) + 90 * (1 + speedFactor);
 
-    // Determine current state based on proximity
+    // Current State determination based on Proximity (Slider drives the distance)
+    // The proximity value in mm is mapped to visual px relative to center.
+    // Note: We use proximity directly to compare with shell boundaries.
     let currentZone = "OUTSIDE";
     if (proximity < protectiveRadius) {
       currentZone = "PROTECTIVE";
@@ -37,10 +39,10 @@ export function HiveInteractive() {
       currentZone = "WARNING";
     }
 
-    // Badge mapping
+    // Performance Level (PL) logic based on redundancy
     let badgeText = "PLd Cat 2 (Standard)";
     let badgeColor = "text-primary border-primary bg-primary/5";
-    if (redundancy < 2) {
+    if (redundancy < 3) {
       badgeText = "PLb Cat 1 (Low Confidence)";
       badgeColor = "text-red-500 border-red-500 bg-red-50";
     } else if (redundancy === 5) {
@@ -68,42 +70,45 @@ export function HiveInteractive() {
           <span className="tech-label text-primary">Simulation Engine</span>
           <h2 className="text-5xl font-headline font-bold text-slate-900 leading-tight mt-4">The Hive Engine & Fallback States.</h2>
           <p className="text-slate-500 text-lg mt-6">
-            Observe how position confidence dictates the safety volume footprint. Adjust reporting sources to see real-time state transitions.
+            Adjust redundancy, velocity, and distance to observe how the spatial grid dictates behavior in real-time.
           </p>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-12 max-w-7xl mx-auto items-stretch">
           <div className="lg:col-span-8 flex flex-col gap-8">
-            <div className="bg-slate-50 border border-slate-100 p-12 space-y-12 flex-1 relative overflow-hidden flex flex-col justify-center">
+            <div className="bg-slate-50 border border-slate-100 p-12 space-y-12 flex-1 relative overflow-hidden flex flex-col justify-center min-h-[600px]">
                <div className="absolute top-8 left-8 z-20">
                  <div className={cn("px-4 py-1.5 font-mono text-[10px] font-bold border rounded-full uppercase tracking-widest transition-all", state.badgeColor)}>
                    {state.badgeText}
                  </div>
                </div>
 
-               <div className="relative flex items-center justify-center h-[500px]">
+               <div className="relative flex items-center justify-center h-full">
                   <div className="absolute inset-0 bg-blueprint-fine opacity-30" />
                   
                   {/* Dynamic Shells */}
                   <div className="relative flex items-center justify-center">
+                    {/* Warning Shell */}
                     <div 
-                      className="absolute rounded-full border border-sky-400/20 bg-sky-400/5 transition-all duration-300"
+                      className="absolute rounded-full border border-sky-400/30 bg-sky-400/5 transition-all duration-300"
                       style={{ width: state.radii.warning * 2, height: state.radii.warning * 2 }}
                     />
+                    {/* Collaborative Shell */}
                     {state.isCollabEnabled && (
                       <div 
-                        className="absolute rounded-full border border-yellow-400/20 bg-yellow-400/5 transition-all duration-300"
+                        className="absolute rounded-full border border-yellow-400/30 bg-yellow-400/5 transition-all duration-300"
                         style={{ width: state.radii.collaborative * 2, height: state.radii.collaborative * 2 }}
                       />
                     )}
+                    {/* Protective Shell */}
                     <div 
-                      className={cn("absolute rounded-full border border-red-500/20 bg-red-500/5 transition-all duration-300", state.currentZone === "PROTECTIVE" && "border-red-500/40 bg-red-500/10 animate-pulse")}
+                      className={cn("absolute rounded-full border border-red-500/30 bg-red-500/5 transition-all duration-300", state.currentZone === "PROTECTIVE" && "border-red-500/50 bg-red-500/10 animate-pulse")}
                       style={{ width: state.radii.protective * 2, height: state.radii.protective * 2 }}
                     />
 
                     {/* Robot Asset */}
                     <div className="relative z-10">
-                      <div className="w-16 h-16 bg-slate-900 text-white rounded-sm flex items-center justify-center flex-col gap-1 border border-white/10">
+                      <div className="w-16 h-16 bg-slate-900 text-white rounded-sm flex items-center justify-center flex-col gap-1 border border-white/10 shadow-xl">
                         <Bot size={24} />
                         <span className="text-[8px] font-bold uppercase opacity-50">Humanoid</span>
                       </div>
@@ -117,34 +122,34 @@ export function HiveInteractive() {
                       <div className="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-lg">
                         <Activity size={20} />
                       </div>
-                      <span className="text-[8px] font-bold uppercase text-primary">Worker</span>
+                      <span className="text-[8px] font-bold uppercase text-primary font-bold">Worker</span>
                     </div>
                   </div>
                </div>
 
-               <div className="space-y-10 max-w-xl mx-auto relative z-20 bg-white/80 p-8 border backdrop-blur">
+               <div className="space-y-10 max-w-xl mx-auto relative z-20 bg-white/90 p-8 border backdrop-blur-md shadow-lg">
                   <div className="grid grid-cols-2 gap-8">
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <label className="tech-label text-slate-900">Redundancy (Sources)</label>
-                        <span className="text-sm font-bold text-primary italic">{redundancy}</span>
+                        <label className="tech-label text-slate-900">Hive Redundancy</label>
+                        <span className="text-sm font-bold text-primary">{redundancy} Sources</span>
                       </div>
                       <Slider value={[redundancy]} onValueChange={(v) => setRedundancy(v[0])} max={5} min={1} step={1} />
                     </div>
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <label className="tech-label text-slate-900">Velocity (v)</label>
-                        <span className="text-sm font-bold text-primary italic">{speed} mm/s</span>
+                        <label className="tech-label text-slate-900">System Velocity</label>
+                        <span className="text-sm font-bold text-primary">{speed} mm/s</span>
                       </div>
                       <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} max={1500} min={100} step={50} />
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <label className="tech-label text-slate-900">Proximity (Worker Distance)</label>
-                      <span className="text-sm font-bold text-primary italic">{proximity} mm</span>
+                      <label className="tech-label text-slate-900">Worker Proximity (Distance)</label>
+                      <span className="text-sm font-bold text-primary">{proximity} mm</span>
                     </div>
-                    <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={600} min={50} step={10} />
+                    <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={600} min={20} step={10} />
                   </div>
                </div>
             </div>
@@ -159,7 +164,7 @@ export function HiveInteractive() {
                 </h3>
               </div>
 
-              <div className="space-y-8">
+              <div className="space-y-6">
                 {[
                   { id: 'WARNING', label: 'Warning Shell (Outer)', action: 'Trigger haptic vibration alert on human vest. Nominal speed maintained.', color: 'text-sky-400' },
                   { id: 'COLLABORATIVE', label: 'Collaborative Shell (Middle)', action: 'Assets drop to safe speed (<250mm/s) and restrict joint torque.', color: 'text-yellow-400', disabled: !state.isCollabEnabled },
@@ -168,8 +173,8 @@ export function HiveInteractive() {
                   <div 
                     key={zone.id} 
                     className={cn(
-                      "space-y-3 p-6 border transition-all",
-                      state.currentZone === zone.id ? "bg-white/10 border-white/20 scale-[1.02]" : "bg-white/5 border-white/5 opacity-50",
+                      "space-y-3 p-6 border transition-all duration-500",
+                      state.currentZone === zone.id ? "bg-white/10 border-white/30 scale-[1.02] shadow-xl" : "bg-white/5 border-white/5 opacity-50",
                       zone.disabled && "hidden"
                     )}
                   >
@@ -180,14 +185,21 @@ export function HiveInteractive() {
                     <p className="text-sm text-slate-400 font-medium leading-relaxed">{zone.action}</p>
                   </div>
                 ))}
+
+                {state.currentZone === "OUTSIDE" && (
+                  <div className="p-6 bg-white/5 border border-white/5">
+                    <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Zone Status: Clear</span>
+                    <p className="text-sm text-slate-400 mt-2">No intrusion detected in safety volumes.</p>
+                  </div>
+                )}
               </div>
             </div>
 
             <div className="pt-8 border-t border-white/10 space-y-4">
-               <div className="p-4 bg-primary/10 border border-primary/20 flex gap-3 items-start">
+               <div className="p-4 bg-primary/10 border border-primary/20 flex gap-3 items-start rounded-sm">
                   <AlertCircle className="text-primary shrink-0 mt-0.5" size={16} />
                   <p className="text-[10px] text-primary-foreground/70 font-bold uppercase tracking-widest leading-relaxed">
-                    ISO 10218-2 Compliant Logic Active
+                    Deterministic logic active: (V_H + V_R) × T_R + D_STOP + C
                   </p>
                </div>
             </div>
