@@ -1,4 +1,4 @@
 import { config } from 'dotenv';
 config();
 
-import '@/ai/flows/ai-configuration-insights-flow.ts';
+// AI flows can be registered here when needed.

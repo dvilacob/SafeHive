@@ -1,12 +1,11 @@
 "use client"
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Calculator, Package, Cpu, Send, Info, Loader2, AlertTriangle } from "lucide-react";
-import { aiConfigurationInsights } from '@/ai/flows/ai-configuration-insights-flow';
+import { Package, Cpu, Send, Info } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -27,9 +26,6 @@ export function Configurator() {
   const [area, setArea] = useState(1000);
   const [machines, setMachines] = useState(4);
   const [workers, setWorkers] = useState(10);
-  const [aiInsight, setAiInsight] = useState<string | null>(null);
-  const [loadingAi, setLoadingAi] = useState(false);
-  const [aiError, setAiError] = useState(false);
 
   // Pricing constants
   const HUB_COST = 12500;
@@ -42,37 +38,6 @@ export function Configurator() {
   const nodeCount = machines;
   const vestCount = workers;
   const totalCost = HUB_COST + (apCount * AP_COST) + (nodeCount * NODE_COST) + (vestCount * VEST_COST);
-
-  const fetchInsights = useCallback(async () => {
-    setLoadingAi(true);
-    setAiError(false);
-    try {
-      const result = await aiConfigurationInsights({
-        workplaceAreaSqMeters: area,
-        nonNativeMachines: machines,
-        nonNativeHumans: workers,
-        perimeterAccessPoints: apCount,
-        mobileNodes: nodeCount,
-        mobileVests: vestCount,
-        totalDataSources: apCount + nodeCount + vestCount,
-        totalEstimatedHardwareCost: totalCost
-      });
-      setAiInsight(result.insights);
-    } catch (err) {
-      console.error("Failed to fetch AI insights", err);
-      setAiError(true);
-      setAiInsight("Unable to generate analysis at this time. Please check your network or try adjusting values.");
-    } finally {
-      setLoadingAi(false);
-    }
-  }, [area, machines, workers, apCount, nodeCount, vestCount, totalCost]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchInsights();
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, [fetchInsights]);
 
   return (
     <section id="configurator" className="py-32 bg-white">
@@ -134,36 +99,16 @@ export function Configurator() {
               </div>
             </div>
 
-            <div className="pt-10 border-t border-slate-200 space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3 text-slate-900">
-                  <Cpu className="text-primary" size={24} />
-                  <h4 className="text-xl font-headline font-bold">AI Configuration Analysis</h4>
+            <div className="p-8 rounded-3xl bg-primary/5 border border-primary/10 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  <Cpu size={20} />
                 </div>
-                {aiError && (
-                  <Button variant="ghost" size="sm" onClick={fetchInsights} className="text-xs text-primary hover:text-primary/80">
-                    Retry Analysis
-                  </Button>
-                )}
+                <h4 className="text-lg font-headline font-bold text-slate-900">Deterministic Coverage Plan</h4>
               </div>
-              <div className="p-8 rounded-3xl bg-white border border-slate-200 text-sm leading-relaxed text-slate-500 min-h-[160px] relative shadow-inner">
-                {loadingAi ? (
-                  <div className="absolute inset-0 bg-white/60 backdrop-blur-[2px] flex flex-col items-center justify-center rounded-3xl gap-3">
-                    <Loader2 className="animate-spin text-primary" size={32} />
-                    <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Generating Insights...</span>
-                  </div>
-                ) : aiError ? (
-                  <div className="flex flex-col items-center justify-center h-full text-center space-y-2 py-4">
-                    <AlertTriangle className="text-amber-500" size={24} />
-                    <p className="font-medium text-slate-900">Analysis Interrupted</p>
-                    <p className="text-xs max-w-xs">{aiInsight}</p>
-                  </div>
-                ) : (
-                  <div className="whitespace-pre-wrap">
-                    {aiInsight || "Adjust the values above to see a detailed spatial coverage and safety confidence analysis."}
-                  </div>
-                )}
-              </div>
+              <p className="text-sm text-slate-500 leading-relaxed">
+                Based on your {area}m² facility, the SafeHive grid will utilize {apCount} Perimeter Access Points to maintain a safety heartbeat. {nodeCount} legacy assets will be integrated into the mesh via safety-rated adapter nodes, while {workers} workers receive real-time haptic alerts via smart vests.
+              </p>
             </div>
           </div>
 
