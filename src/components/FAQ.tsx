@@ -26,7 +26,7 @@ const faqs = [
   },
   {
     tag: "INTEGRATION",
-    question: "Does SafeHive integrate with or rewrite the facility's existing central safety PLCs?",
+    question: "Does SafeHive need the plant PLC to be modified?",
     answer: "No. SafeHive operates as a 100% independent, decentralized safety mesh. The safety loop closes entirely at the edge module level mounted directly on each mobile asset. You can deploy SafeHive as a modular overlay without touching, rewiring, or reprogramming a single line of the factory's legacy central safety PLC code."
   },
   {
