@@ -21,8 +21,8 @@ export function SafetyVolumes() {
     },
     {
       icon: <Activity className="w-8 h-8" />,
-      title: '4. The Hive redundancy',
-      text: 'Position confidence dictates the volume footprint. Redundant tracking from multiple sources utilizing native humanoid vision paired with ceiling access points builds a high-certainty spatial model. More sources = higher confidence = smaller, tighter safety volumes.',
+      title: '4. Hive Redundancy',
+      text: 'The more the system sees, the closer the robot can safely get. Combining the humanoid’s vision with your other data sources creates an accurate map. More sources = higher confidence = smaller safety volumes that keep your workflow moving.',
     },
     {
       icon: <Ghost className="w-8 h-8" />,
