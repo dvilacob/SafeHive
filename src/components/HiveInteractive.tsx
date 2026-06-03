@@ -9,19 +9,17 @@ export function HiveInteractive() {
   const [redundancy, setRedundancy] = useState(3);
   const [speed, setSpeed] = useState(500); // mm/s
   const [proximity, setProximity] = useState(150); // mm distance
-  const [sensitivity, setSensitivity] = useState(1.0); // alpha (α)
 
   const state = useMemo(() => {
     // Redundancy constraint logic
-    const isCollabEnabled = redundancy >= 2;
-    const isSafeCrawlActive = redundancy === 1;
+    const isCollabEnabled = redundancy >= 3;
+    const isSafeCrawlActive = redundancy <= 2;
     
     // Effective speed capped during Fallback
     const effectiveSpeed = isSafeCrawlActive ? Math.min(speed, 250) : speed;
     
     const speedFactor = effectiveSpeed / 1000; 
-    // Confidence Factor (C) scaled by Sensitivity (α)
-    const confidenceFactor = (150 / Math.max(1, redundancy)) * sensitivity;
+    const confidenceFactor = 150 / Math.max(1, redundancy);
 
     const baseScale = 0.8;
     const protectiveRadius = (60 + confidenceFactor) * (1 + speedFactor) * baseScale;
@@ -45,11 +43,11 @@ export function HiveInteractive() {
     if (redundancy <= 2) {
       badgeText = "PLb Cat 1 (Low Confidence)";
       badgeColor = "text-red-500 border-red-500 bg-red-50";
-      statusDesc = "System enforces macro fallback buffer in mm, forcing safe-crawl state (<250mm/s)";
+      statusDesc = "System enforces a macro fallback proximity buffer in mm, forcing a safe-crawl state under 250mm/s";
     } else if (redundancy === 5) {
       badgeText = "PLd Cat 3 (Deterministic Certainty)";
       badgeColor = "text-emerald-600 border-emerald-600 bg-emerald-50";
-      statusDesc = "Minimum footprint in mm optimized tightly to physical asset boundaries";
+      statusDesc = "Minimum footprint in mm optimized tightly to the physical asset boundaries";
     }
 
     return {
@@ -66,7 +64,7 @@ export function HiveInteractive() {
         protective: protectiveRadius
       }
     };
-  }, [redundancy, speed, proximity, sensitivity]);
+  }, [redundancy, speed, proximity]);
 
   return (
     <section id="hive" className="py-40 bg-white relative overflow-hidden">
@@ -75,7 +73,7 @@ export function HiveInteractive() {
           <span className="tech-label text-primary">Simulation Engine</span>
           <h2 className="text-5xl font-headline font-bold text-slate-900 leading-tight mt-4">The Hive Engine & Fallback States.</h2>
           <p className="text-slate-500 text-lg mt-6 font-medium">
-            Observe how spatial confidence and sensitivity dictate behavior in real-time. Adjust the alpha multiplier to scale the global protective margin.
+            Observe how spatial confidence dictates behavior in real-time. The system calculates physical safety volumes every 10ms based on real-time redundancy and kinematics.
           </p>
         </div>
 
@@ -125,7 +123,7 @@ export function HiveInteractive() {
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <label className="tech-label text-slate-900">Hive Redundancy (Sources)</label>
+                        <label className="tech-label text-slate-900">Active Reporting Sources</label>
                         <span className="text-sm font-bold text-primary">{redundancy} SOURCES</span>
                       </div>
                       <Slider value={[redundancy]} onValueChange={(v) => setRedundancy(v[0])} max={5} min={1} step={1} />
@@ -141,22 +139,12 @@ export function HiveInteractive() {
                     </div>
                   </div>
                   
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <label className="tech-label text-slate-900">Sensitivity (α)</label>
-                        <span className="text-sm font-bold text-primary">{sensitivity.toFixed(1)}x</span>
-                      </div>
-                      <Slider value={[sensitivity]} onValueChange={(v) => setSensitivity(v[0])} max={2.0} min={0.5} step={0.1} />
-                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tight">Scales global protective margin</p>
+                  <div className="space-y-4 max-w-sm mx-auto">
+                    <div className="flex justify-between items-center">
+                      <label className="tech-label text-slate-900">Worker Proximity</label>
+                      <span className="text-sm font-bold text-primary">{proximity} mm</span>
                     </div>
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <label className="tech-label text-slate-900">Worker Proximity</label>
-                        <span className="text-sm font-bold text-primary">{proximity} mm</span>
-                      </div>
-                      <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={300} min={10} step={5} />
-                    </div>
+                    <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={300} min={10} step={5} />
                   </div>
                </div>
             </div>
@@ -194,10 +182,10 @@ export function HiveInteractive() {
                     <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Deterministic Safety Logic</span>
                   </div>
                   <div className="text-lg font-headline font-bold tracking-tight text-white italic">
-                    (Vh * Tr) + (Vr * Tb) + (α * C)
+                    (Vh + Vr) x Tr + T_stop + C
                   </div>
                   <div className="text-[9px] text-slate-400 font-medium leading-relaxed mt-2 uppercase tracking-widest">
-                    Adjusting the Sensitivity slider scales the alpha multiplier (α). Higher sensitivity prioritizes maximum risk mitigation by expanding all volumes globally.
+                    The safety loop is evaluated locally at the asset level using cross-referenced spatial data from the hive mind.
                   </div>
                </div>
             </div>
