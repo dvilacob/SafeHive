@@ -1,6 +1,6 @@
 'use client';
 
-import { Ruler, Gauge, Activity, ShieldAlert, Ghost } from 'lucide-react';
+import { Ruler, Gauge, Activity, ShieldAlert, Ghost, Zap } from 'lucide-react';
 
 export function SafetyVolumes() {
   const features = [
@@ -29,6 +29,11 @@ export function SafetyVolumes() {
       title: '5. Ghost Assets',
       text: "Track moving machines that aren't broadcasting data. By processing humanoid hive vision, the system identifies untracked moving machines and projects dynamic safety volumes over them. More sources = more data = better ghost asset identification",
     },
+    {
+      icon: <Zap className="w-8 h-8" />,
+      title: '6. Real-Time Safety Dynamics',
+      text: 'Safety volumes that adapt to movement. Once the system identifies assets and sets up safety zones, it assigns a specific behavior profile to each volume. As objects move or conditions change, the system sends real-time commands to the equipment to throttle speeds or adjust safety parameters dynamically. This ensures the workspace stays safe without needing constant manual resets.',
+    },
   ];
 
   return (
@@ -45,7 +50,7 @@ export function SafetyVolumes() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, idx) => (
             <div
               key={idx}
