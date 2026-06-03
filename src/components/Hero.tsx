@@ -1,7 +1,6 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
 
 export function Hero() {
   return (
@@ -31,20 +30,13 @@ export function Hero() {
             </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-6 pt-6">
+          <div className="flex justify-center pt-6">
             <Button 
               size="lg" 
               className="h-16 px-12 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20"
               onClick={() => document.getElementById('configurator')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Configure Infrastructure
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="h-16 px-12 text-lg font-bold rounded-none border-2 border-slate-200 hover:bg-white gap-3 transition-colors"
-            >
-              Architecture Spec <ArrowRight size={20} className="text-primary" />
             </Button>
           </div>
         </div>
