@@ -22,7 +22,7 @@ const faqs = [
   {
     tag: "FAIL-SAFE",
     question: "How does the system guarantee a safe state if a total network drop or critical perception failure occurs?",
-    answer: "The architecture enforces an autonomous, local hardware fail-safe. SafeHive treats the wireless layer as an inherently unreliable 'Black Channel.' If communication drops completely for a duration exceeding a strict 100ms timeout threshold, the onboard edge module autonomously drops its safety-rated output relays. This triggers an immediate mechanical brake engagement directly at the asset level, completely independent of the central network or facility infrastructure. The asset fails into its safest physical state instantly."
+    answer: "No, because safety happens right at the machine level. The system uses a built-in hardware fail-safe that treats the wireless network as an unreliable \"Black Channel.\"\n\nIf the wireless signal drops for even 100 milliseconds, the onboard module instantly drops its safety relays. This cuts power and locks the mechanical brakes directly on the machine—completely independent of your main network or plant infrastructure. If communication fails, the asset instantly stops itself in its safest state."
   },
   {
     tag: "INTEGRATION",
@@ -68,7 +68,7 @@ export function FAQ() {
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pb-8 pt-2">
-                <div className="pl-0 text-slate-500 leading-relaxed text-sm font-medium border-l-2 border-primary/20 pl-6">
+                <div className="pl-0 text-slate-500 leading-relaxed text-sm font-medium border-l-2 border-primary/20 pl-6 whitespace-pre-line">
                   {faq.answer}
                 </div>
               </AccordionContent>
