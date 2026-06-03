@@ -113,9 +113,9 @@ export function Configurator() {
                     <div key={i} className="flex flex-row justify-between items-center py-2 border-b border-slate-50 last:border-0 overflow-hidden">
                       <div className="flex items-center gap-2 overflow-hidden">
                         <span className="text-xs font-bold text-slate-900 truncate whitespace-nowrap">{item.label}</span>
-                        <span className="text-[9px] text-slate-400 uppercase tracking-widest font-mono whitespace-nowrap">({item.qty} × ${item.unit.toLocaleString()})</span>
+                        <span className="text-[9px] text-slate-400 uppercase tracking-widest font-mono whitespace-nowrap">({item.qty} × ${item.unit.toLocaleString('en-US')})</span>
                       </div>
-                      <span className="text-xs font-mono font-bold text-slate-900 shrink-0 ml-4">${(item.qty * item.unit).toLocaleString()}</span>
+                      <span className="text-xs font-mono font-bold text-slate-900 shrink-0 ml-4">${(item.qty * item.unit).toLocaleString('en-US')}</span>
                     </div>
                   ))}
                 </div>
@@ -123,7 +123,7 @@ export function Configurator() {
                 <div className="pt-10 border-t border-slate-100 space-y-8">
                   <div className="flex justify-between items-end">
                     <span className="tech-label text-slate-400">Total Hardware Estimate</span>
-                    <div className="text-5xl font-headline font-bold text-slate-900 tracking-tighter whitespace-nowrap">${totalCost.toLocaleString()}</div>
+                    <div className="text-5xl font-headline font-bold text-slate-900 tracking-tighter whitespace-nowrap">${totalCost.toLocaleString('en-US')}</div>
                   </div>
                   
                   <Dialog>
