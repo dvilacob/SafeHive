@@ -17,7 +17,7 @@ export function SafetyVolumes() {
     {
       icon: <ShieldAlert className="w-8 h-8" />,
       title: '3. Body Volumes Sensitivity',
-      text: 'Configure a master safety volume split into independent body-part sub-volumes (e.g., higher sensitivity for fast hands, lower for the torso). For human proximity, these zones automatically enforce ISO/TS 15066 Power and Force Limiting (PFL) profiles, ensuring potential impact forces never exceed regulated safety thresholds.',
+      text: 'Safety volumes are tailored to the specific morphology and mechanical weakness of each asset. For humans, the system automatically enforces ISO/TS 15066 thresholds, ensuring protection is highest where the body is most vulnerable.',
     },
     {
       icon: <Activity className="w-8 h-8" />,
