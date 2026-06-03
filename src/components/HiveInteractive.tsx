@@ -8,10 +8,10 @@ import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 
 export function HiveInteractive() {
-  const [activeShell, setActiveShell] = useState('outer');
+  const [activeShell, setActiveShell] = useState('confidence');
 
   // Interactive States
-  const [proximity, setProximity] = useState(400); // mm
+  const [proximity, setProximity] = useState(600); // mm
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sources
 
@@ -42,7 +42,7 @@ export function HiveInteractive() {
     if (proximity <= rawInner) return 'inner';
     if (proximity <= rawMiddle) return 'middle';
     if (proximity <= rawOuter) return 'outer';
-    return 'outer'; // Default to outer for warning state visibility
+    return 'confidence'; // Nominal state when outside all shells
   }, [proximity, speed, redundancy]);
 
   // Sync active tab with the physical zone of the worker
@@ -112,7 +112,9 @@ export function HiveInteractive() {
                           ? 'bg-red-600'
                           : activeShell === 'middle'
                             ? 'bg-amber-500'
-                            : 'bg-blue-500'
+                            : activeShell === 'outer'
+                              ? 'bg-blue-500'
+                              : 'bg-slate-400'
                       )}
                     >
                       <User size={20} />
@@ -160,7 +162,7 @@ export function HiveInteractive() {
                     value={[proximity]}
                     onValueChange={v => setProximity(v[0])}
                     min={50}
-                    max={600}
+                    max={800}
                     step={10}
                   />
                 </div>
@@ -222,7 +224,13 @@ export function HiveInteractive() {
                 </div>
 
                 <Tabs value={activeShell} onValueChange={setActiveShell} className="w-full">
-                  <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-8">
+                  <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-6 overflow-x-auto flex-nowrap justify-start scrollbar-hide">
+                    <TabsTrigger
+                      value="confidence"
+                      className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-slate-400 data-[state=active]:bg-transparent rounded-none text-[11px] font-bold uppercase tracking-[0.2em] transition-all"
+                    >
+                      Confidence
+                    </TabsTrigger>
                     <TabsTrigger
                       value="outer"
                       className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-[11px] font-bold uppercase tracking-[0.2em] transition-all"
@@ -244,6 +252,19 @@ export function HiveInteractive() {
                   </TabsList>
 
                   <div className="min-h-[180px]">
+                    <TabsContent value="confidence" className="mt-0 space-y-4">
+                      <div className="flex gap-6">
+                        <div className="w-1.5 h-20 bg-slate-300 rounded-full shrink-0" />
+                        <div className="space-y-3">
+                          <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900">
+                            High-Fidelity Tracking Active
+                          </h4>
+                          <p className="text-sm text-slate-500 leading-relaxed font-medium">
+                            Tracks relative distance, velocity, and position certainty between assets. High-fidelity tracking removes speed limits on the Humanoid.
+                          </p>
+                        </div>
+                      </div>
+                    </TabsContent>
                     <TabsContent value="outer" className="mt-0 space-y-4">
                       <div className="flex gap-6">
                         <div className="w-1.5 h-20 bg-blue-400 rounded-full shrink-0" />
