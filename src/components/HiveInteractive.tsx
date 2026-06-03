@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Bot, User, Activity, ShieldCheck, Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -17,7 +17,6 @@ export function HiveInteractive() {
   const [redundancy, setRedundancy] = useState(3); // 1-5 sources
 
   // Visual scaling factor: Optimized for a "zoomed-in" technical feel
-  // 0.55 ensures that a 600mm total distance feels substantial while keeping assets on-canvas
   const SCALE = 0.55;
 
   // Dynamic Shell Calculations (Visual Radii in px)
@@ -30,7 +29,7 @@ export function HiveInteractive() {
     const outer = middle + (80 + confidenceBuffer) * SCALE;
 
     return { inner, middle, outer };
-  }, [speed, redundancy, SCALE]);
+  }, [speed, redundancy]);
 
   // Determine active state based on proximity vs shells (Logic in mm)
   const currentZone = useMemo(() => {
@@ -44,8 +43,13 @@ export function HiveInteractive() {
     if (proximity <= rawInner) return "inner";
     if (proximity <= rawMiddle) return "middle";
     if (proximity <= rawOuter) return "outer";
-    return "none";
+    return "outer"; // Default to outer for warning state visibility
   }, [proximity, speed, redundancy]);
+
+  // Sync active tab with the physical zone of the worker
+  useEffect(() => {
+    setActiveShell(currentZone);
+  }, [currentZone]);
 
   return (
     <section id="hive" className="py-24 bg-[#F8F9FA] border-y border-slate-200 overflow-hidden">
@@ -66,21 +70,21 @@ export function HiveInteractive() {
                 <div 
                   className={cn(
                     "absolute rounded-full border border-dashed border-blue-400/40 transition-all duration-300",
-                    (activeShell === 'outer' || currentZone === 'outer') && "bg-blue-50/40 border-blue-400/80"
+                    activeShell === 'outer' && "bg-blue-50/40 border-blue-400/80"
                   )}
                   style={{ width: shells.outer * 2, height: shells.outer * 2 }}
                 />
                 <div 
                   className={cn(
                     "absolute rounded-full border border-amber-400/40 transition-all duration-300",
-                    (activeShell === 'middle' || currentZone === 'middle') && "bg-amber-50/40 border-amber-400/80"
+                    activeShell === 'middle' && "bg-amber-50/40 border-amber-400/80"
                   )}
                   style={{ width: shells.middle * 2, height: shells.middle * 2 }}
                 />
                 <div 
                   className={cn(
                     "absolute rounded-full border border-red-500/40 transition-all duration-300",
-                    (activeShell === 'inner' || currentZone === 'inner') && "bg-red-50/40 border-red-500/80"
+                    activeShell === 'inner' && "bg-red-50/40 border-red-500/80"
                   )}
                   style={{ width: shells.inner * 2, height: shells.inner * 2 }}
                 />
@@ -99,9 +103,9 @@ export function HiveInteractive() {
                   <div className="flex flex-col items-center gap-1.5">
                     <div className={cn(
                       "w-12 h-12 rounded-full flex items-center justify-center text-white shadow-xl transition-colors",
-                      currentZone === 'inner' ? "bg-red-600" : 
-                      currentZone === 'middle' ? "bg-amber-500" : 
-                      currentZone === 'outer' ? "bg-blue-500" : "bg-slate-900"
+                      activeShell === 'inner' ? "bg-red-600" : 
+                      activeShell === 'middle' ? "bg-amber-500" : 
+                      "bg-blue-500"
                     )}>
                       <User size={20} />
                     </div>
@@ -188,7 +192,7 @@ export function HiveInteractive() {
                         <div className="space-y-3">
                           <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900">Collaborative State / Speed &lt;250 mm/s</h4>
                           <p className="text-sm text-slate-500 leading-relaxed font-medium">
-                            Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting joint torque restrictions based on localized body segment tolerances (a_zone).
+                            Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting collaborative speed restrictions based on localized body segment tolerances (a_zone).
                           </p>
                         </div>
                       </div>
