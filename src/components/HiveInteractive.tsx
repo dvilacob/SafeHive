@@ -2,13 +2,14 @@
 
 import { useState, useMemo } from 'react';
 import { Slider } from "@/components/ui/slider";
-import { Bot, Activity, AlertCircle, ShieldCheck } from "lucide-react";
+import { Bot, Activity, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function HiveInteractive() {
   const [redundancy, setRedundancy] = useState(3);
   const [speed, setSpeed] = useState(500); // mm/s
   const [proximity, setProximity] = useState(150); // mm distance
+  const [sensitivity, setSensitivity] = useState(1.0); // alpha (α)
 
   const state = useMemo(() => {
     // Redundancy constraint logic
@@ -19,7 +20,8 @@ export function HiveInteractive() {
     const effectiveSpeed = isSafeCrawlActive ? Math.min(speed, 250) : speed;
     
     const speedFactor = effectiveSpeed / 1000; 
-    const confidenceFactor = 150 / Math.max(1, redundancy);
+    // Confidence Factor (C) scaled by Sensitivity (α)
+    const confidenceFactor = (150 / Math.max(1, redundancy)) * sensitivity;
 
     const baseScale = 0.8;
     const protectiveRadius = (60 + confidenceFactor) * (1 + speedFactor) * baseScale;
@@ -64,7 +66,7 @@ export function HiveInteractive() {
         protective: protectiveRadius
       }
     };
-  }, [redundancy, speed, proximity]);
+  }, [redundancy, speed, proximity, sensitivity]);
 
   return (
     <section id="hive" className="py-40 bg-white relative overflow-hidden">
@@ -72,8 +74,8 @@ export function HiveInteractive() {
         <div className="max-w-4xl mb-24">
           <span className="tech-label text-primary">Simulation Engine</span>
           <h2 className="text-5xl font-headline font-bold text-slate-900 leading-tight mt-4">The Hive Engine & Fallback States.</h2>
-          <p className="text-slate-500 text-lg mt-6">
-            Observe how spatial confidence dictates behavior in real-time. Low redundancy triggers safety-rated fallback modes and expanded proximity buffers.
+          <p className="text-slate-500 text-lg mt-6 font-medium">
+            Observe how spatial confidence and sensitivity dictate behavior in real-time. Adjust the alpha multiplier to scale the global protective margin.
           </p>
         </div>
 
@@ -138,12 +140,23 @@ export function HiveInteractive() {
                       <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} max={1500} min={100} step={50} />
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <label className="tech-label text-slate-900">Worker Proximity</label>
-                      <span className="text-sm font-bold text-primary">{proximity} mm</span>
+                  
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <label className="tech-label text-slate-900">Sensitivity (α)</label>
+                        <span className="text-sm font-bold text-primary">{sensitivity.toFixed(1)}x</span>
+                      </div>
+                      <Slider value={[sensitivity]} onValueChange={(v) => setSensitivity(v[0])} max={2.0} min={0.5} step={0.1} />
+                      <p className="text-[9px] text-slate-400 font-bold uppercase tracking-tight">Scales global protective margin</p>
                     </div>
-                    <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={300} min={10} step={5} />
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center">
+                        <label className="tech-label text-slate-900">Worker Proximity</label>
+                        <span className="text-sm font-bold text-primary">{proximity} mm</span>
+                      </div>
+                      <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} max={300} min={10} step={5} />
+                    </div>
                   </div>
                </div>
             </div>
@@ -181,7 +194,10 @@ export function HiveInteractive() {
                     <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Deterministic Safety Logic</span>
                   </div>
                   <div className="text-lg font-headline font-bold tracking-tight text-white italic">
-                    (Vh + Vr) x Tr + T_stop + C
+                    (Vh * Tr) + (Vr * Tb) + (α * C)
+                  </div>
+                  <div className="text-[9px] text-slate-400 font-medium leading-relaxed mt-2 uppercase tracking-widest">
+                    Adjusting the Sensitivity slider scales the alpha multiplier (α). Higher sensitivity prioritizes maximum risk mitigation by expanding all volumes globally.
                   </div>
                </div>
             </div>
