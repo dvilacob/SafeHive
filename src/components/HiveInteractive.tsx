@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useMemo } from 'react';
@@ -11,13 +12,13 @@ export function HiveInteractive() {
   const [activeShell, setActiveShell] = useState("outer");
   
   // Interactive States
-  const [proximity, setProximity] = useState(400); // mm
+  const [proximity, setProximity] = useState(450); // mm
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sources
 
   // Visual scaling factor: converts mm to display pixels
-  // A factor of 0.2 ensures 800mm fits comfortably within the 50% width column
-  const SCALE = 0.22;
+  // Balanced to ensure 800mm fits comfortably within the 55% width column
+  const SCALE = 0.32;
 
   // Dynamic Shell Calculations (Visual Radii in px)
   const shells = useMemo(() => {
@@ -29,7 +30,7 @@ export function HiveInteractive() {
     const outer = middle + (80 + confidenceBuffer) * SCALE;
 
     return { inner, middle, outer };
-  }, [speed, redundancy]);
+  }, [speed, redundancy, SCALE]);
 
   // Determine active state based on proximity vs shells (Logic in mm)
   const currentZone = useMemo(() => {
@@ -52,10 +53,10 @@ export function HiveInteractive() {
           <div className="grid lg:grid-cols-10 h-full">
             
             {/* 1. Minimalist Blueprint Canvas (Left Column) */}
-            <div className="lg:col-span-5 bg-white border-r border-slate-100 p-12 relative min-h-[500px] flex flex-col items-center justify-center overflow-hidden">
+            <div className="lg:col-span-5 bg-white border-r border-slate-100 p-12 relative min-h-[550px] flex flex-col items-center justify-center overflow-hidden">
               {/* Technical Grid Background */}
               <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-                style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '30px 30px' }} 
+                style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
               />
               
               <div className="relative w-full h-full flex items-center justify-center">
@@ -63,29 +64,29 @@ export function HiveInteractive() {
                 <div 
                   className={cn(
                     "absolute rounded-full border border-dashed border-blue-400/40 transition-all duration-300",
-                    (activeShell === 'outer' || currentZone === 'outer') && "bg-blue-50/30 border-blue-400/80"
+                    (activeShell === 'outer' || currentZone === 'outer') && "bg-blue-50/40 border-blue-400/80"
                   )}
                   style={{ width: shells.outer * 2, height: shells.outer * 2 }}
                 />
                 <div 
                   className={cn(
                     "absolute rounded-full border border-amber-400/40 transition-all duration-300",
-                    (activeShell === 'middle' || currentZone === 'middle') && "bg-amber-50/30 border-amber-400/80"
+                    (activeShell === 'middle' || currentZone === 'middle') && "bg-amber-50/40 border-amber-400/80"
                   )}
                   style={{ width: shells.middle * 2, height: shells.middle * 2 }}
                 />
                 <div 
                   className={cn(
                     "absolute rounded-full border border-red-500/40 transition-all duration-300",
-                    (activeShell === 'inner' || currentZone === 'inner') && "bg-red-50/30 border-red-500/80"
+                    (activeShell === 'inner' || currentZone === 'inner') && "bg-red-50/40 border-red-500/80"
                   )}
                   style={{ width: shells.inner * 2, height: shells.inner * 2 }}
                 />
 
                 {/* Humanoid Anchor */}
-                <div className="relative z-10 w-12 h-12 bg-white border border-slate-200 rounded shadow-sm flex items-center justify-center">
-                  <Bot size={20} className="text-slate-900" />
-                  <span className="absolute -top-6 text-[8px] font-mono font-bold text-slate-400 tracking-widest uppercase">Humanoid</span>
+                <div className="relative z-10 w-14 h-14 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center">
+                  <Bot size={24} className="text-slate-900" />
+                  <span className="absolute -top-7 text-[9px] font-mono font-bold text-slate-400 tracking-widest uppercase">Humanoid</span>
                 </div>
 
                 {/* Worker Asset */}
@@ -93,14 +94,14 @@ export function HiveInteractive() {
                   className="absolute transition-all duration-300" 
                   style={{ transform: `translateX(${proximity * SCALE}px)` }}
                 >
-                  <div className="flex flex-col items-center gap-1">
+                  <div className="flex flex-col items-center gap-1.5">
                     <div className={cn(
-                      "w-8 h-8 rounded-full flex items-center justify-center text-white shadow-lg transition-colors",
+                      "w-10 h-10 rounded-full flex items-center justify-center text-white shadow-xl transition-colors",
                       currentZone === 'inner' ? "bg-red-600" : currentZone === 'middle' ? "bg-amber-500" : "bg-slate-900"
                     )}>
-                      <User size={14} />
+                      <User size={18} />
                     </div>
-                    <span className="text-[8px] font-mono font-bold text-slate-900 uppercase">Worker</span>
+                    <span className="text-[9px] font-mono font-bold text-slate-900 uppercase">Worker</span>
                   </div>
                 </div>
 
@@ -109,11 +110,11 @@ export function HiveInteractive() {
                   <line 
                     x1="50%" y1="50%" 
                     x2={`calc(50% + ${proximity * SCALE}px)`} y2="50%" 
-                    stroke="#cbd5e1" strokeWidth="1" strokeDasharray="3 3" 
+                    stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" 
                   />
                   <text 
-                    x={`calc(50% + ${(proximity * SCALE) / 2}px)`} y="48%" 
-                    textAnchor="middle" fill="#94a3b8" fontSize="10" className="font-mono font-bold"
+                    x={`calc(50% + ${(proximity * SCALE) / 2}px)`} y="47%" 
+                    textAnchor="middle" fill="#94a3b8" fontSize="11" className="font-mono font-bold"
                   >
                     {proximity} mm
                   </text>
@@ -121,7 +122,7 @@ export function HiveInteractive() {
               </div>
 
               {/* Slider Controls Overlay (Minimal) */}
-              <div className="absolute bottom-8 left-8 right-8 grid grid-cols-3 gap-8 bg-white/80 backdrop-blur-sm p-6 border border-slate-100">
+              <div className="absolute bottom-8 left-8 right-8 grid grid-cols-3 gap-8 bg-white/90 backdrop-blur-md p-6 border border-slate-200 shadow-sm">
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Proximity (Vh)</Label>
@@ -165,7 +166,7 @@ export function HiveInteractive() {
                     <TabsTrigger value="inner" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-[11px] font-bold uppercase tracking-[0.2em] transition-all">Inner Shell</TabsTrigger>
                   </TabsList>
                   
-                  <div className="min-h-[140px]">
+                  <div className="min-h-[160px]">
                     <TabsContent value="outer" className="mt-0 space-y-4">
                       <div className="flex gap-6">
                         <div className="w-1.5 h-16 bg-blue-400 rounded-full shrink-0" />
@@ -206,9 +207,9 @@ export function HiveInteractive() {
               {/* Engineering Micro-Badges (Bottom Status Bar) */}
               <div className="pt-10 flex items-center gap-10 border-t border-slate-50">
                 {[
-                  { icon: <Zap size={12} />, label: "LATENCY: <12ms" },
-                  { icon: <Activity size={12} />, label: "INTEGRITY: 99.999%" },
-                  { icon: <ShieldCheck size={12} />, label: "DETERMINISM: SIL 3 / PLd" }
+                  { icon: <Zap size={14} />, label: "LATENCY: <12ms" },
+                  { icon: <Activity size={14} />, label: "INTEGRITY: 99.999%" },
+                  { icon: <ShieldCheck size={14} />, label: "DETERMINISM: SIL 3 / PLd" }
                 ].map((badge, i) => (
                   <div key={i} className="flex items-center gap-2.5 text-[10px] font-bold text-slate-400 tracking-widest uppercase">
                     <span className="text-primary">{badge.icon}</span>
