@@ -19,8 +19,8 @@ export function Navbar() {
         </Link>
         
         <div className="hidden lg:flex items-center gap-12">
-          <Link href="#volumes" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Volumes</Link>
           <Link href="#hive" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">The Engine</Link>
+          <Link href="#volumes" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Volumes</Link>
           <Link href="#configurator" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Configurator</Link>
           <Link href="#deployment" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Deployment</Link>
         </div>
