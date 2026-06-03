@@ -1,7 +1,6 @@
 "use client"
 
 import Link from 'next/link';
-import { Button } from "@/components/ui/button";
 import { ShieldCheck } from "lucide-react";
 
 export function Navbar() {
@@ -19,18 +18,14 @@ export function Navbar() {
         </Link>
         
         <div className="hidden lg:flex items-center gap-12">
-          <Link href="#hive" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">The Engine</Link>
           <Link href="#volumes" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Volumes</Link>
+          <Link href="#hive" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">The Engine</Link>
           <Link href="#configurator" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Configurator</Link>
           <Link href="#deployment" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">Deployment</Link>
+          <Link href="#faq" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">FAQs</Link>
         </div>
 
-        <Button 
-          onClick={() => document.getElementById('configurator')?.scrollIntoView({ behavior: 'smooth' })}
-          className="bg-primary hover:bg-primary/90 text-white font-bold rounded-none px-8 h-12 shadow-lg shadow-primary/20"
-        >
-          Request Spec
-        </Button>
+        <div className="w-32" /> {/* Spacer to balance logo */}
       </div>
     </nav>
   );

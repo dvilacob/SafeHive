@@ -96,8 +96,8 @@ export function Configurator() {
                   
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button className="w-full h-auto py-6 px-8 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 flex items-center justify-center">
-                        <span className="text-center whitespace-normal">Request Phase 1 Architecture Spec</span>
+                      <Button className="w-full h-auto py-6 px-8 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 flex items-center justify-center uppercase tracking-widest">
+                        Order
                         <ArrowRight size={20} className="shrink-0" />
                       </Button>
                     </DialogTrigger>

@@ -1,7 +1,5 @@
 "use client"
 
-import { Button } from "@/components/ui/button";
-
 export function Hero() {
   return (
     <section className="relative pt-48 pb-32 overflow-hidden bg-blueprint">
@@ -28,16 +26,6 @@ export function Hero() {
             <p className="text-sm text-slate-400 font-semibold leading-relaxed max-w-2xl mx-auto border-t border-slate-100 pt-10">
               Designed for modern ISO standards: Achieving deterministic safety via &lt; 10⁻⁷ probability thresholds over black-channel safety-rated networks—completely bypassing the need for traditional dual-channel hardware.
             </p>
-          </div>
-
-          <div className="flex justify-center pt-6">
-            <Button 
-              size="lg" 
-              className="h-16 px-12 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20"
-              onClick={() => document.getElementById('configurator')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Configure Infrastructure
-            </Button>
           </div>
         </div>
       </div>
