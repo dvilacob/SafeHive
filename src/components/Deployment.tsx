@@ -7,27 +7,27 @@ export function Deployment() {
     {
       icon: <Power className="w-10 h-10" />,
       title: "Power On",
-      body: "Mount the Control Hub enclosure and initialize power."
+      body: "Mount the Control Hub enclosure and initialize system power."
     },
     {
       icon: <Map className="w-10 h-10" />,
       title: "Map Coverage",
-      body: "Position Perimeter Access Points (APs) for spatial grid anchors."
+      body: "Position Perimeter Access Points (APs) to anchor the spatial grid."
     },
     {
       icon: <Unlink className="w-10 h-10" />,
       title: "Connect Assets",
-      body: "Equip legacy machines with nodes and workers with smart vests."
+      body: "Provision legacy machines with edge modules and teams with vests."
     },
     {
       icon: <Link2 className="w-10 h-10" />,
       title: "Link Hive",
-      body: "Pair devices over the air via the browser-based safety tool."
+      body: "Securely pair all devices over-the-air using the browser tool."
     },
     {
       icon: <Lock className="w-10 h-10" />,
       title: "Lock Logic",
-      body: "Run the grid heartbeat check and lock safety behavior profiles."
+      body: "Run the automated grid heartbeat check and lock safety profiles."
     }
   ];
 
@@ -49,7 +49,7 @@ export function Deployment() {
                   <div className="text-primary group-hover:text-white transition-colors">{step.icon}</div>
                 </div>
                 <div className="space-y-4">
-                  <h3 className="text-xl font-headline font-bold group-hover:text-white transition-colors">{step.title}</h3>
+                  <h3 className="text-xl font-headline font-bold group-hover:text-white transition-colors uppercase tracking-widest">{step.title}</h3>
                   <p className="text-sm text-slate-500 leading-relaxed group-hover:text-white/80 transition-colors">{step.body}</p>
                 </div>
               </div>

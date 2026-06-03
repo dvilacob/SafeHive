@@ -1,6 +1,6 @@
 "use client"
 
-import { Zap, ShieldCheck, Share2 } from "lucide-react";
+import { Zap, ShieldCheck, Bot, Package } from "lucide-react";
 
 export function BlindAssets() {
   return (
@@ -11,16 +11,16 @@ export function BlindAssets() {
         <div className="grid lg:grid-cols-2 gap-24 items-center max-w-7xl mx-auto">
           <div className="space-y-10">
             <div className="space-y-4">
-              <span className="tech-label text-primary">Asset Integration</span>
+              <span className="tech-label text-primary">Asset Orchestration</span>
               <h2 className="text-5xl font-headline font-bold leading-tight">Bring Spatial Awareness to Blind Assets.</h2>
             </div>
             
             <div className="space-y-8 text-slate-500 text-lg leading-relaxed">
               <p>
-                Humanoids feature integrated safety-rated communication. This deterministic backbone extends awareness to standalone robots and legacy machines via our safety-rated bridge nodes.
+                By processing vision data from the humanoid hive and cross-referencing it via black-channel communication, we project a dynamic safety shield over blind assets—actively throttling their execution speeds in real-time based on human proximity, completely bypassing the need for complex hardware rewiring.
               </p>
               <p>
-                By processing vision data from the humanoid hive and cross-referencing it via black-channel communication, we project a dynamic safety shield over blind assets without requiring complex new hardware or rewiring. These accessory nodes and vests will eventually be phased out as recognition algorithms for humans and objects reach deterministic safety levels.
+                This deterministic backbone extends awareness to standalone robots and legacy machines via our safety-rated bridge nodes, ensuring that "blind" equipment operates with the same spatial intelligence as native agents.
               </p>
             </div>
 
@@ -42,37 +42,70 @@ export function BlindAssets() {
             </div>
           </div>
 
-          <div className="relative p-1 bg-white border border-slate-200 shadow-2xl">
-            <div className="aspect-square bg-slate-900 relative overflow-hidden flex items-center justify-center">
-              <div className="absolute inset-0 bg-blueprint opacity-20" />
-              <div className="relative z-10 text-center space-y-6">
-                <div className="w-32 h-32 mx-auto border-2 border-primary/40 border-dashed rounded-full flex items-center justify-center animate-spin-slow">
-                   <Share2 className="text-primary" size={48} />
-                </div>
-                <div className="space-y-2">
-                  <div className="text-white font-headline font-bold text-xl tracking-widest">HIVE LINK ACTIVE</div>
-                  <div className="text-primary text-[10px] font-bold uppercase tracking-[0.3em]">Cross-Referencing Spatial Data</div>
-                </div>
-              </div>
+          <div className="relative p-1 bg-white border border-slate-200 shadow-2xl overflow-hidden">
+            <div className="aspect-square bg-slate-900 relative flex items-center justify-center overflow-hidden">
+              <div className="absolute inset-0 bg-blueprint opacity-10" />
               
-              {/* Decorative Data Nodes */}
-              {[...Array(6)].map((_, i) => (
-                <div 
-                  key={i} 
-                  className="absolute w-2 h-2 bg-primary rounded-full animate-pulse"
-                  style={{
-                    top: `${Math.random() * 80 + 10}%`,
-                    left: `${Math.random() * 80 + 10}%`,
-                    animationDelay: `${i * 0.5}s`
-                  }}
-                />
-              ))}
+              {/* Technical Schematic View */}
+              <div className="relative w-full h-full p-12">
+                {/* Robot Nodes Forming Triangle */}
+                <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 group">
+                  <div className="w-10 h-10 bg-primary/20 border border-primary/50 text-primary flex items-center justify-center rounded-sm">
+                    <Bot size={20} />
+                  </div>
+                  <span className="text-[8px] font-mono text-primary/70">HIVE NODE A</span>
+                </div>
+                <div className="absolute top-1/4 right-1/4 translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-1 group">
+                  <div className="w-10 h-10 bg-primary/20 border border-primary/50 text-primary flex items-center justify-center rounded-sm">
+                    <Bot size={20} />
+                  </div>
+                  <span className="text-[8px] font-mono text-primary/70">HIVE NODE B</span>
+                </div>
+                <div className="absolute bottom-1/4 left-1/2 -translate-x-1/2 translate-y-1/2 flex flex-col items-center gap-1 group">
+                  <div className="w-10 h-10 bg-primary/20 border border-primary/50 text-primary flex items-center justify-center rounded-sm">
+                    <Bot size={20} />
+                  </div>
+                  <span className="text-[8px] font-mono text-primary/70">HIVE NODE C</span>
+                </div>
+
+                {/* Blind Asset in Center */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                  <div className="relative p-6 border-2 border-primary animate-pulse">
+                    <div className="absolute -top-12 -left-12 w-24 h-24 border border-dashed border-primary/20 rounded-full animate-spin-slow" />
+                    <Package className="text-white w-12 h-12" />
+                    
+                    {/* Bounding Box Labels */}
+                    <div className="absolute -top-2 -left-2 w-2 h-2 bg-primary" />
+                    <div className="absolute -top-2 -right-2 w-2 h-2 bg-primary" />
+                    <div className="absolute -bottom-2 -left-2 w-2 h-2 bg-primary" />
+                    <div className="absolute -bottom-2 -right-2 w-2 h-2 bg-primary" />
+
+                    {/* Telemetry Callout */}
+                    <div className="absolute left-20 top-0 w-48 bg-white/5 border border-white/10 backdrop-blur-sm p-3 font-mono text-[9px] text-white space-y-1 pointer-events-none">
+                      <div className="text-primary font-bold border-b border-white/10 pb-1 mb-1">ASSET ID: FKL-007 (Blind)</div>
+                      <div className="flex justify-between"><span>CALCULATED POS:</span> <span className="text-primary">X: 14.2m, Y: 9.1m</span></div>
+                      <div className="flex justify-between"><span>ORIENTATION:</span> <span>32°</span></div>
+                      <div className="flex justify-between"><span>HIVE CONFIDENCE:</span> <span className="text-emerald-400">98.5%</span></div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tracking Laser Lines (SVG) */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                  <line x1="25%" y1="25%" x2="50%" y2="50%" stroke="rgba(0, 102, 255, 0.4)" strokeWidth="1" strokeDasharray="4 2" />
+                  <line x1="75%" y1="25%" x2="50%" y2="50%" stroke="rgba(0, 102, 255, 0.4)" strokeWidth="1" strokeDasharray="4 2" />
+                  <line x1="50%" y1="75%" x2="50%" y2="50%" stroke="rgba(0, 102, 255, 0.4)" strokeWidth="1" strokeDasharray="4 2" />
+                </svg>
+              </div>
             </div>
             
             <div className="p-8 bg-white border-t border-slate-200">
               <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                <span>Latency: &lt;12ms</span>
-                <span>Signal Integrity: 99.999%</span>
+                <span className="flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> HIVE LINK ACTIVE | CROSS-REFERENCING SPATIAL DATA</span>
+                <span className="flex gap-4">
+                  <span>LATENCY: &lt;12MS</span>
+                  <span>SIGNAL INTEGRITY: 99.999%</span>
+                </span>
               </div>
             </div>
           </div>

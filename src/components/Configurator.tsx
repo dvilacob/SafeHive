@@ -21,9 +21,10 @@ export function Configurator() {
   const [blindMachines, setBlindMachines] = useState(4);
   const [humans, setHumans] = useState(10);
 
+  // Locked unit costs per requirements
   const HUB_COST = 12500;
   const AP_COST = 2200;
-  const JETSON_COST = 3800;
+  const JETSON_COST = 1500;
   const VEST_COST = 450;
 
   const apCount = Math.ceil(area / 500);
@@ -47,7 +48,7 @@ export function Configurator() {
               <div className="space-y-12">
                 <div className="space-y-8">
                   <div className="flex justify-between items-end">
-                    <Label className="text-slate-900 text-lg font-bold">Total Work Area (m²)</Label>
+                    <Label className="text-slate-900 text-lg font-bold uppercase tracking-widest">Total Work Area (m²)</Label>
                     <span className="text-4xl font-headline font-bold text-primary italic">{area} m²</span>
                   </div>
                   <Slider value={[area]} onValueChange={(v) => setArea(v[0])} max={10000} min={100} step={100} className="py-4" />
@@ -55,14 +56,16 @@ export function Configurator() {
 
                 <div className="grid md:grid-cols-2 gap-12">
                   <div className="space-y-4">
-                    <Label className="tech-label text-slate-900">Blind/Non-Native Machines</Label>
+                    <Label className="tech-label text-slate-900">Blind / Non-Native Machines</Label>
                     <Input 
                       type="number" 
                       value={blindMachines} 
                       onChange={(e) => setBlindMachines(Math.max(0, parseInt(e.target.value) || 0))}
                       className="h-20 text-3xl font-headline font-bold rounded-none border-2 border-slate-100 focus:border-primary transition-all px-8 bg-slate-50"
                     />
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Requires Black-Channel Jetson Modules</p>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
+                      Requires Black-Channel Jetson Modules: Acts as an edge bridge to translate real-time speed commands directly into the legacy controller without safety re-wiring.
+                    </p>
                   </div>
 
                   <div className="space-y-4">
@@ -73,7 +76,9 @@ export function Configurator() {
                       onChange={(e) => setHumans(Math.max(0, parseInt(e.target.value) || 0))}
                       className="h-20 text-3xl font-headline font-bold rounded-none border-2 border-slate-100 focus:border-primary transition-all px-8 bg-slate-50"
                     />
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Equipped with Smart Vests / Xsens</p>
+                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
+                      Equipped with Smart Vests / Xsens: Provides a redundant secondary source of truth to maintain tracking certainty if humanoid or other sensor sources line-of-sight is obstructed.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -83,7 +88,7 @@ export function Configurator() {
                   <ListCheck size={24} />
                 </div>
                 <div className="space-y-2">
-                  <h4 className="text-xl font-headline font-bold">Preliminary Coverage Verified</h4>
+                  <h4 className="text-xl font-headline font-bold uppercase tracking-widest">Preliminary Coverage Verified</h4>
                   <p className="text-sm text-slate-500 leading-relaxed max-w-lg">
                     Infrastructure utilizes {apCount} Perimeter Access Points (APs) to establish the spatial heartbeat. Blind assets are integrated via Black-Channel Edge modules, ensuring no safety logic re-wiring is required.
                   </p>
@@ -105,12 +110,12 @@ export function Configurator() {
                     { label: 'Black-Channel Jetson Modules', qty: jetsonCount, unit: JETSON_COST, desc: 'Edge safety for blind machines' },
                     { label: 'Smart Safety Wearables', qty: vestCount, unit: VEST_COST, desc: 'Xsens / Haptic personnel trackers' }
                   ].map((item, i) => (
-                    <div key={i} className="flex justify-between items-center group py-2 border-b border-slate-50 last:border-0">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-xs font-bold text-slate-900">{item.label}</span>
-                        <span className="text-[9px] text-slate-400 uppercase tracking-widest font-mono">({item.qty} × ${item.unit.toLocaleString()})</span>
+                    <div key={i} className="flex flex-row justify-between items-center py-2 border-b border-slate-50 last:border-0 overflow-hidden">
+                      <div className="flex items-center gap-2 overflow-hidden">
+                        <span className="text-xs font-bold text-slate-900 truncate whitespace-nowrap">{item.label}</span>
+                        <span className="text-[9px] text-slate-400 uppercase tracking-widest font-mono whitespace-nowrap">({item.qty} × ${item.unit.toLocaleString()})</span>
                       </div>
-                      <span className="text-xs font-mono font-bold text-slate-900">${(item.qty * item.unit).toLocaleString()}</span>
+                      <span className="text-xs font-mono font-bold text-slate-900 shrink-0 ml-4">${(item.qty * item.unit).toLocaleString()}</span>
                     </div>
                   ))}
                 </div>
@@ -118,13 +123,13 @@ export function Configurator() {
                 <div className="pt-10 border-t border-slate-100 space-y-8">
                   <div className="flex justify-between items-end">
                     <span className="tech-label text-slate-400">Total Hardware Estimate</span>
-                    <div className="text-5xl font-headline font-bold text-slate-900 tracking-tighter">${totalCost.toLocaleString()}</div>
+                    <div className="text-5xl font-headline font-bold text-slate-900 tracking-tighter whitespace-nowrap">${totalCost.toLocaleString()}</div>
                   </div>
                   
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button className="w-full h-auto py-6 px-8 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 whitespace-normal flex items-center justify-center">
-                        <span className="text-center">Request Quote & Core Architecture Spec</span>
+                      <Button className="w-full h-auto py-6 px-8 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 flex items-center justify-center">
+                        <span className="text-center whitespace-normal">Request Quote & Architecture Spec</span>
                         <ArrowRight size={20} className="shrink-0" />
                       </Button>
                     </DialogTrigger>

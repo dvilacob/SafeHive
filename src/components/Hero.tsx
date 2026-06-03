@@ -10,23 +10,23 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/80 to-background -z-10" />
       
       <div className="container mx-auto px-6">
-        <div className="max-w-5xl mx-auto text-center flex flex-col items-center space-y-10">
+        <div className="max-w-5xl mx-auto text-center flex flex-col items-center space-y-12">
           <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20">
             <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">System Architecture v2.4.0</span>
           </div>
 
-          <h1 className="text-7xl lg:text-[8rem] font-headline font-bold tracking-tighter leading-[0.85] text-slate-900">
+          <h1 className="text-7xl lg:text-[8.5rem] font-headline font-bold tracking-tighter leading-[0.85] text-slate-900">
             Spatial Safety for <br />
             <span className="text-primary italic">Spatial Agents.</span>
           </h1>
 
-          <div className="max-w-3xl space-y-8">
+          <div className="max-w-3xl space-y-10">
             <p className="text-xl lg:text-2xl text-slate-500 font-medium leading-relaxed">
-              Dynamic safety volumes that adapt to your factory floor. Orchestrate humanoids, mobile devices, and teams to gain true safety awareness.
+              Dynamic safety volumes that adapt to your factory floor. Actively orchestrate and throttle asset speeds in real-time to maintain true spatial safety awareness.
             </p>
             
-            <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto border-t border-slate-100 pt-8">
+            <p className="text-sm text-slate-400 font-semibold leading-relaxed max-w-2xl mx-auto border-t border-slate-100 pt-10">
               Designed for modern ISO standards: Achieving deterministic safety via &lt; 10⁻⁷ probability thresholds over black-channel safety-rated networks—completely bypassing the need for traditional dual-channel hardware.
             </p>
           </div>

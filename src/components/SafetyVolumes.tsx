@@ -17,7 +17,7 @@ export function SafetyVolumes() {
     {
       icon: <Activity className="w-8 h-8" />,
       title: "3. Redundancy (The Hive)",
-      text: "Position confidence dictates the volume footprint. Redundant tracking from multiple onboard humanoid cameras (NVIDIA/YOLO) and smart wearable trackers builds a high-certainty spatial model. More sources = higher confidence = smaller, tighter safety volumes."
+      text: "Position confidence dictates the volume footprint. Redundant tracking from multiple sources utilizing native humanoid vision paired with smart wearable trackers builds a high-certainty spatial model. More sources = higher confidence = smaller, tighter safety volumes."
     }
   ];
 
@@ -32,14 +32,14 @@ export function SafetyVolumes() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-px bg-slate-100 border border-slate-100">
+        <div className="grid lg:grid-cols-3 gap-8">
           {features.map((feature, idx) => (
-            <div key={idx} className="bg-white p-12 space-y-8 group transition-colors hover:bg-slate-50">
+            <div key={idx} className="bg-slate-50 p-12 space-y-8 group transition-all border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1">
               <div className="text-primary p-4 bg-primary/5 inline-block rounded-sm transition-transform group-hover:scale-110 shadow-sm border border-primary/10">
                 {feature.icon}
               </div>
               <div className="space-y-4">
-                <h3 className="text-xl font-headline font-bold">{feature.title}</h3>
+                <h3 className="text-2xl font-headline font-bold">{feature.title}</h3>
                 <p className="text-slate-500 leading-relaxed text-sm">
                   {feature.text}
                 </p>
