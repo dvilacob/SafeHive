@@ -38,6 +38,11 @@ const faqs = [
     tag: "ROS/OPS",
     question: "Can the SafeHive control hub send active operational commands back to the humanoids?",
     answer: "Yes. SafeHive features a dedicated product section specifically designed to define and command humanoid behaviors. While local safety loops remain strictly autonomous at the edge, SafeHive exposes standard, asynchronous ROS Action Topics. This allows the factory orchestration layer or Line PLC to actively push non-safety operational goals, task overrides, and trajectory changes (such as automated rerouting or task pausing) directly back to the fleet."
+  },
+  {
+    tag: "INTEROP",
+    question: "Can I add my own data sources?",
+    answer: "Yes. The system is designed for high interoperability. You simply need to connect your source to a ROS/ROS2 topic; our bridge nodes will ingest the data, validate it through the black-channel protocol, and integrate it into the Hive’s spatial logic grid."
   }
 ];
 
