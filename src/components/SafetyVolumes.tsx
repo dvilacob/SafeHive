@@ -1,6 +1,6 @@
 'use client';
 
-import { Ruler, Gauge, Activity, ShieldAlert } from 'lucide-react';
+import { Ruler, Gauge, Activity, ShieldAlert, Ghost } from 'lucide-react';
 
 export function SafetyVolumes() {
   const features = [
@@ -24,6 +24,11 @@ export function SafetyVolumes() {
       title: '4. Redundancy (The Hive)',
       text: 'Position confidence dictates the volume footprint. Redundant tracking from multiple sources utilizing native humanoid vision paired with ceiling access points builds a high-certainty spatial model. More sources = higher confidence = smaller, tighter safety volumes.',
     },
+    {
+      icon: <Ghost className="w-8 h-8" />,
+      title: '5. Ghost Assets',
+      text: 'Generates dynamic ghost volumes over blind assets by processing vision data from the humanoid hive. Cross-referencing this data via black-channel communication projects a real-time safety shield to throttle legacy equipment without rewiring.',
+    },
   ];
 
   return (
@@ -40,7 +45,7 @@ export function SafetyVolumes() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
           {features.map((feature, idx) => (
             <div
               key={idx}
