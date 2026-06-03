@@ -1,6 +1,6 @@
 "use client"
 
-import { Power, Map, Link2, Unlink, Lock } from "lucide-react";
+import { Power, Map, Unlink, Lock, ShieldCheck } from "lucide-react";
 
 export function Deployment() {
   const steps = [
@@ -20,9 +20,9 @@ export function Deployment() {
       body: "Securely pair all available data sources—including humanoids, external cameras, safety sensors, and auxiliary information feeds—directly to the Hive over-the-air."
     },
     {
-      icon: <Link2 className="w-10 h-10" />,
-      title: "Link Hive",
-      body: "Securely pair all devices over-the-air using the browser tool."
+      icon: <ShieldCheck className="w-10 h-10" />,
+      title: "Profiles Sensitivity",
+      body: "Assign specific sensitivity profiles based on the morphology and mechanical weaknesses of each asset. For human interaction areas, the system automatically applies ISO/TS 15066 safety limits to protect vulnerable body parts."
     },
     {
       icon: <Lock className="w-10 h-10" />,
