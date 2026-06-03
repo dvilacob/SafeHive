@@ -18,19 +18,14 @@ import {
 
 export function Configurator() {
   const [area, setArea] = useState(1000);
-  const [blindMachines, setBlindMachines] = useState(4);
-  const [humans, setHumans] = useState(10);
 
-  // Locked unit costs per requirements
+  // Phase 1 Hardware Costs
   const HUB_COST = 12500;
   const AP_COST = 2200;
-  const JETSON_COST = 1500;
-  const VEST_COST = 450;
 
+  // Calculation logic for perimeter coverage
   const apCount = Math.ceil(area / 500);
-  const jetsonCount = blindMachines;
-  const vestCount = humans;
-  const totalCost = HUB_COST + (apCount * AP_COST) + (jetsonCount * JETSON_COST) + (vestCount * VEST_COST);
+  const totalCost = HUB_COST + (apCount * AP_COST);
 
   return (
     <section id="configurator" className="py-40 bg-white">
@@ -42,7 +37,7 @@ export function Configurator() {
               <div className="space-y-4">
                 <span className="tech-label text-primary">Infrastructure Planning</span>
                 <h2 className="text-6xl font-headline font-bold tracking-tighter">Architecture Configurator.</h2>
-                <p className="text-slate-500 text-xl max-w-2xl">Define facility constraints to generate a certified hardware specification for spatial awareness integration.</p>
+                <p className="text-slate-500 text-xl max-w-2xl">Define facility constraints to generate a Phase 1 certified hardware specification for core spatial grid coverage.</p>
               </div>
 
               <div className="space-y-12">
@@ -52,34 +47,9 @@ export function Configurator() {
                     <span className="text-4xl font-headline font-bold text-primary italic">{area} m²</span>
                   </div>
                   <Slider value={[area]} onValueChange={(v) => setArea(v[0])} max={10000} min={100} step={100} className="py-4" />
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-12">
-                  <div className="space-y-4">
-                    <Label className="tech-label text-slate-900">Blind / Non-Native Machines</Label>
-                    <Input 
-                      type="number" 
-                      value={blindMachines} 
-                      onChange={(e) => setBlindMachines(Math.max(0, parseInt(e.target.value) || 0))}
-                      className="h-20 text-3xl font-headline font-bold rounded-none border-2 border-slate-100 focus:border-primary transition-all px-8 bg-slate-50"
-                    />
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
-                      Requires Black-Channel Jetson Modules: Acts as an edge bridge to translate real-time speed commands directly into the legacy controller without safety re-wiring.
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <Label className="tech-label text-slate-900">Humans (Wearable Assets)</Label>
-                    <Input 
-                      type="number" 
-                      value={humans} 
-                      onChange={(e) => setHumans(Math.max(0, parseInt(e.target.value) || 0))}
-                      className="h-20 text-3xl font-headline font-bold rounded-none border-2 border-slate-100 focus:border-primary transition-all px-8 bg-slate-50"
-                    />
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
-                      Equipped with Smart Vests / Xsens: Provides a redundant secondary source of truth to maintain tracking certainty if humanoid or other sensor sources line-of-sight is obstructed.
-                    </p>
-                  </div>
+                  <p className="text-sm text-slate-400 font-medium leading-relaxed max-w-lg">
+                    The spatial grid utilizes high-frequency anchors to establish the deterministic heartbeat. Phase 1 deployment focuses on establishing maximum coverage density for native spatial agents.
+                  </p>
                 </div>
               </div>
 
@@ -88,9 +58,9 @@ export function Configurator() {
                   <ListCheck size={24} />
                 </div>
                 <div className="space-y-2">
-                  <h4 className="text-xl font-headline font-bold uppercase tracking-widest">Preliminary Coverage Verified</h4>
+                  <h4 className="text-xl font-headline font-bold uppercase tracking-widest">Core Coverage Verified</h4>
                   <p className="text-sm text-slate-500 leading-relaxed max-w-lg">
-                    Infrastructure utilizes {apCount} Perimeter Access Points (APs) to establish the spatial heartbeat. Blind assets are integrated via Black-Channel Edge modules, ensuring no safety logic re-wiring is required.
+                    Your facility requires {apCount} Perimeter Access Points (APs) to maintain a safety-rated spatial mesh. This configuration provides the deterministic backbone required for Phase 1 humanoid orchestration.
                   </p>
                 </div>
               </div>
@@ -99,16 +69,14 @@ export function Configurator() {
             <div className="lg:col-span-5">
               <div className="sticky top-32 glass-panel p-12 space-y-10 border-slate-200 shadow-2xl">
                 <div className="flex justify-between items-center border-b border-slate-100 pb-8">
-                  <h3 className="tech-label text-slate-900">Architecture BOM</h3>
+                  <h3 className="tech-label text-slate-900">Phase 1 BOM</h3>
                   <Monitor className="text-primary" size={20} />
                 </div>
 
                 <div className="space-y-6">
                   {[
                     { label: 'SafeHive Control Hub', qty: 1, unit: HUB_COST, desc: 'Central deterministic processing unit' },
-                    { label: 'Perimeter Access Points (APs)', qty: apCount, unit: AP_COST, desc: 'Overhead spatial anchors' },
-                    { label: 'Black-Channel Jetson Modules', qty: jetsonCount, unit: JETSON_COST, desc: 'Edge safety for blind machines' },
-                    { label: 'Smart Safety Wearables', qty: vestCount, unit: VEST_COST, desc: 'Xsens / Haptic personnel trackers' }
+                    { label: 'Perimeter Access Points (APs)', qty: apCount, unit: AP_COST, desc: 'Overhead spatial anchors' }
                   ].map((item, i) => (
                     <div key={i} className="flex flex-row justify-between items-center py-2 border-b border-slate-50 last:border-0 overflow-hidden">
                       <div className="flex items-center gap-2 overflow-hidden">
@@ -122,21 +90,21 @@ export function Configurator() {
 
                 <div className="pt-10 border-t border-slate-100 space-y-8">
                   <div className="flex justify-between items-end">
-                    <span className="tech-label text-slate-400">Total Hardware Estimate</span>
+                    <span className="tech-label text-slate-400">Phase 1 Hardware Estimate</span>
                     <div className="text-5xl font-headline font-bold text-slate-900 tracking-tighter whitespace-nowrap">${totalCost.toLocaleString('en-US')}</div>
                   </div>
                   
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button className="w-full h-auto py-6 px-8 text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 flex items-center justify-center">
-                        <span className="text-center whitespace-normal">Request Quote & Architecture Spec</span>
+                        <span className="text-center whitespace-normal">Request Phase 1 Architecture Spec</span>
                         <ArrowRight size={20} className="shrink-0" />
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="rounded-none border-4 border-slate-900">
                       <DialogHeader>
-                        <DialogTitle className="text-3xl font-headline">Request Architecture Spec</DialogTitle>
-                        <DialogDescription>Our engineers will generate a verified site plan based on these coordinates.</DialogDescription>
+                        <DialogTitle className="text-3xl font-headline">Request Site Specification</DialogTitle>
+                        <DialogDescription>Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
                       </DialogHeader>
                       <div className="space-y-6 py-8">
                         <div className="space-y-2">
@@ -149,7 +117,7 @@ export function Configurator() {
                         </div>
                       </div>
                       <DialogFooter>
-                        <Button className="w-full h-16 rounded-none bg-primary font-bold text-lg">Generate Site Specification</Button>
+                        <Button className="w-full h-16 rounded-none bg-primary font-bold text-lg">Generate Phase 1 Site Spec</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
