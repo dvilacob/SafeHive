@@ -158,12 +158,13 @@ export function HiveInteractive() {
             {/* 2. Compact Tabbed Specifications (Right Column) */}
             <div className="lg:col-span-5 p-12 flex flex-col justify-between bg-white">
               <div className="space-y-10">
-                <div className="space-y-4">
-                  <div className="text-2xl font-mono font-bold text-slate-900 tracking-tight">
+                <div className="space-y-3">
+                  <h3 className="text-sm font-medium text-slate-900">Protective Separation Distance (S) Calculation</h3>
+                  <div className="font-mono text-sm text-slate-600 bg-slate-50 p-3 border border-slate-100 rounded-sm">
                     S = Σ[(V<sub>h</sub> · T<sub>r</sub>) + (V<sub>r</sub> · T<sub>b</sub>) + (a<sub>zone</sub> · C)]
                   </div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed border-l-2 border-slate-100 pl-4">
-                    Where a_zone allocation dictates individual body segment sensitivity per ISO/TS 15066.
+                  <p className="text-[10px] text-slate-400 leading-relaxed italic">
+                    Where a_zone represents the specific ISO-compliant sensitivity tolerance allocated to each individual body segment.
                   </p>
                 </div>
 
