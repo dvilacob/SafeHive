@@ -12,13 +12,13 @@ export function HiveInteractive() {
   const [activeShell, setActiveShell] = useState("outer");
   
   // Interactive States
-  const [proximity, setProximity] = useState(450); // mm
+  const [proximity, setProximity] = useState(400); // mm
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sources
 
-  // Visual scaling factor: converts mm to display pixels
-  // Balanced to ensure 800mm fits comfortably within the 55% width column
-  const SCALE = 0.32;
+  // Visual scaling factor: Optimized for a "zoomed-in" technical feel
+  // 0.55 ensures that a 600mm total distance feels substantial while keeping assets on-canvas
+  const SCALE = 0.55;
 
   // Dynamic Shell Calculations (Visual Radii in px)
   const shells = useMemo(() => {
@@ -39,10 +39,12 @@ export function HiveInteractive() {
     
     const rawInner = 50 + baseScale;
     const rawMiddle = rawInner + 60 + confidenceBuffer;
+    const rawOuter = rawMiddle + 80 + confidenceBuffer;
 
     if (proximity <= rawInner) return "inner";
     if (proximity <= rawMiddle) return "middle";
-    return "outer";
+    if (proximity <= rawOuter) return "outer";
+    return "none";
   }, [proximity, speed, redundancy]);
 
   return (
@@ -53,7 +55,7 @@ export function HiveInteractive() {
           <div className="grid lg:grid-cols-10 h-full">
             
             {/* 1. Minimalist Blueprint Canvas (Left Column) */}
-            <div className="lg:col-span-5 bg-white border-r border-slate-100 p-12 relative min-h-[550px] flex flex-col items-center justify-center overflow-hidden">
+            <div className="lg:col-span-5 bg-white border-r border-slate-100 p-12 relative min-h-[600px] flex flex-col items-center justify-center overflow-hidden">
               {/* Technical Grid Background */}
               <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
                 style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
@@ -84,9 +86,9 @@ export function HiveInteractive() {
                 />
 
                 {/* Humanoid Anchor */}
-                <div className="relative z-10 w-14 h-14 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center">
-                  <Bot size={24} className="text-slate-900" />
-                  <span className="absolute -top-7 text-[9px] font-mono font-bold text-slate-400 tracking-widest uppercase">Humanoid</span>
+                <div className="relative z-10 w-16 h-16 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center">
+                  <Bot size={28} className="text-slate-900" />
+                  <span className="absolute -top-8 text-[10px] font-mono font-bold text-slate-400 tracking-widest uppercase">Humanoid</span>
                 </div>
 
                 {/* Worker Asset */}
@@ -96,12 +98,14 @@ export function HiveInteractive() {
                 >
                   <div className="flex flex-col items-center gap-1.5">
                     <div className={cn(
-                      "w-10 h-10 rounded-full flex items-center justify-center text-white shadow-xl transition-colors",
-                      currentZone === 'inner' ? "bg-red-600" : currentZone === 'middle' ? "bg-amber-500" : "bg-slate-900"
+                      "w-12 h-12 rounded-full flex items-center justify-center text-white shadow-xl transition-colors",
+                      currentZone === 'inner' ? "bg-red-600" : 
+                      currentZone === 'middle' ? "bg-amber-500" : 
+                      currentZone === 'outer' ? "bg-blue-500" : "bg-slate-900"
                     )}>
-                      <User size={18} />
+                      <User size={20} />
                     </div>
-                    <span className="text-[9px] font-mono font-bold text-slate-900 uppercase">Worker</span>
+                    <span className="text-[10px] font-mono font-bold text-slate-900 uppercase tracking-tighter">Worker</span>
                   </div>
                 </div>
 
@@ -114,32 +118,32 @@ export function HiveInteractive() {
                   />
                   <text 
                     x={`calc(50% + ${(proximity * SCALE) / 2}px)`} y="47%" 
-                    textAnchor="middle" fill="#94a3b8" fontSize="11" className="font-mono font-bold"
+                    textAnchor="middle" fill="#94a3b8" fontSize="12" className="font-mono font-bold"
                   >
                     {proximity} mm
                   </text>
                 </svg>
               </div>
 
-              {/* Slider Controls Overlay (Minimal) */}
-              <div className="absolute bottom-8 left-8 right-8 grid grid-cols-3 gap-8 bg-white/90 backdrop-blur-md p-6 border border-slate-200 shadow-sm">
+              {/* Slider Controls Overlay */}
+              <div className="absolute bottom-8 left-8 right-8 grid grid-cols-3 gap-8 bg-white/95 backdrop-blur-md p-6 border border-slate-200 shadow-lg">
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Proximity (Vh)</Label>
+                    <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Proximity (Vh)</Label>
                     <span className="text-xs font-mono font-bold text-slate-900">{proximity}mm</span>
                   </div>
-                  <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} min={50} max={800} step={10} />
+                  <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} min={50} max={600} step={10} />
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Speed (Vr)</Label>
+                    <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Speed (Vr)</Label>
                     <span className="text-xs font-mono font-bold text-slate-900">{speed}mm/s</span>
                   </div>
                   <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} min={100} max={1500} step={50} />
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Redundancy (C)</Label>
+                    <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Redundancy (C)</Label>
                     <span className="text-xs font-mono font-bold text-slate-900">{redundancy} Src</span>
                   </div>
                   <Slider value={[redundancy]} onValueChange={(v) => setRedundancy(v[0])} min={1} max={5} step={1} />
@@ -148,13 +152,13 @@ export function HiveInteractive() {
             </div>
 
             {/* 2. Compact Tabbed Specifications (Right Column) */}
-            <div className="lg:col-span-5 p-12 flex flex-col justify-between">
+            <div className="lg:col-span-5 p-12 flex flex-col justify-between bg-white">
               <div className="space-y-10">
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="text-2xl font-mono font-bold text-slate-900 tracking-tight">
                     S = Σ[(V<sub>h</sub> · T<sub>r</sub>) + (V<sub>r</sub> · T<sub>b</sub>) + (a<sub>zone</sub> · C)]
                   </div>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed">
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-relaxed border-l-2 border-slate-100 pl-4">
                     Where a_zone allocation dictates individual body segment sensitivity per ISO/TS 15066.
                   </p>
                 </div>
@@ -166,10 +170,10 @@ export function HiveInteractive() {
                     <TabsTrigger value="inner" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-[11px] font-bold uppercase tracking-[0.2em] transition-all">Inner Shell</TabsTrigger>
                   </TabsList>
                   
-                  <div className="min-h-[160px]">
+                  <div className="min-h-[180px]">
                     <TabsContent value="outer" className="mt-0 space-y-4">
                       <div className="flex gap-6">
-                        <div className="w-1.5 h-16 bg-blue-400 rounded-full shrink-0" />
+                        <div className="w-1.5 h-20 bg-blue-400 rounded-full shrink-0" />
                         <div className="space-y-3">
                           <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900">Warning State / Nominal Speed</h4>
                           <p className="text-sm text-slate-500 leading-relaxed font-medium">
@@ -180,7 +184,7 @@ export function HiveInteractive() {
                     </TabsContent>
                     <TabsContent value="middle" className="mt-0 space-y-4">
                       <div className="flex gap-6">
-                        <div className="w-1.5 h-16 bg-amber-400 rounded-full shrink-0" />
+                        <div className="w-1.5 h-20 bg-amber-400 rounded-full shrink-0" />
                         <div className="space-y-3">
                           <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900">Collaborative State / Speed &lt;250 mm/s</h4>
                           <p className="text-sm text-slate-500 leading-relaxed font-medium">
@@ -191,7 +195,7 @@ export function HiveInteractive() {
                     </TabsContent>
                     <TabsContent value="inner" className="mt-0 space-y-4">
                       <div className="flex gap-6">
-                        <div className="w-1.5 h-16 bg-red-500 rounded-full shrink-0" />
+                        <div className="w-1.5 h-20 bg-red-500 rounded-full shrink-0" />
                         <div className="space-y-3">
                           <h4 className="text-xs font-bold uppercase tracking-widest text-slate-900">Protective State / Fail-Safe Brake</h4>
                           <p className="text-sm text-slate-500 leading-relaxed font-medium">
@@ -205,7 +209,7 @@ export function HiveInteractive() {
               </div>
 
               {/* Engineering Micro-Badges (Bottom Status Bar) */}
-              <div className="pt-10 flex items-center gap-10 border-t border-slate-50">
+              <div className="pt-10 flex items-center gap-8 border-t border-slate-50">
                 {[
                   { icon: <Zap size={14} />, label: "LATENCY: <12ms" },
                   { icon: <Activity size={14} />, label: "INTEGRITY: 99.999%" },
