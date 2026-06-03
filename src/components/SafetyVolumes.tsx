@@ -17,7 +17,7 @@ export function SafetyVolumes() {
     {
       icon: <ShieldAlert className="w-8 h-8" />,
       title: '3. Body Volumes Sensitivity',
-      text: 'Safety volumes are tailored to the specific morphology and mechanical weakness of each asset. For humans, the system automatically enforces ISO/TS 15066 thresholds, ensuring protection is highest where the body is most vulnerable.',
+      text: 'Safety volumes are tailored to the specific morphology and mechanical weakness of each asset. For humans, the system automatically enforces ISO/TS 15066 thresholds, ensuring protection is highest where the body is most vulnerable',
     },
     {
       icon: <Activity className="w-8 h-8" />,
@@ -27,7 +27,7 @@ export function SafetyVolumes() {
     {
       icon: <Ghost className="w-8 h-8" />,
       title: '5. Ghost Assets',
-      text: 'Identifies and generates dynamic ghost volumes over blind assets by processing humanoid hive vision data. Cross-referencing via black-channel communication projects a real-time safety shield to throttle legacy equipment without rewiring',
+      text: "Track moving machines that aren't broadcasting data. By processing humanoid hive vision, the system identifies untracked moving machines and projects dynamic safety volumes over them. More sources = more data = better ghost asset identification",
     },
   ];
 
