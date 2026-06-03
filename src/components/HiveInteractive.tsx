@@ -127,7 +127,6 @@ export function HiveInteractive() {
                   <line
                     x1="50%"
                     y1="50%"
-                    max-x1="calc(50% + 150px)"
                     x2={`calc(50% + ${proximity * SCALE}px)`}
                     y2="50%"
                     stroke="#cbd5e1"
@@ -202,7 +201,7 @@ export function HiveInteractive() {
               <div className="space-y-10">
                 <div className="space-y-3">
                   <h3 className="text-sm font-medium text-slate-900">
-                    Protective Separation Distance (S) Calculation
+                    Real-Time Safety Dynamic Volumes
                   </h3>
                   <div className="font-mono text-sm text-slate-600 bg-slate-50 p-3 border border-slate-100 rounded-sm">
                     S = Σ[(V<sub>h</sub> · T<sub>r</sub>) + (V<sub>r</sub> · T<sub>b</sub>) + (a<sub>zone</sub> · C)]
