@@ -12,7 +12,7 @@ const faqs = [
   {
     tag: "SSM CALC",
     question: "How exactly does the real-time safety bubble calculate its physical size?",
-    answer: "The physical safety volume (S) is calculated dynamically every millisecond as a function of Proximity, Speed, and Certainty using the formula: S = (Vh * Tr) + (Vr * Tb) + C. 'Vh' represents human approach speed, 'Vr' is the asset's velocity, 'Tr/Tb' represent system response and mechanical braking times, and 'C' is the Hive's Confidence Buffer. When multiple Hive sources track a target, certainty maxes out, driving 'C' to zero and shrinking the bubble tight for maximum throughput."
+    answer: "The physical safety volume (S) is calculated dynamically every millisecond as a function of Proximity, Speed, and Certainty using the formula: S = Σ [ (Vh * Tr) + (Vr * Tb) + (α_zone * C) ]. 'Vh' represents human approach speed, 'Vr' is the asset's velocity, 'Tr/Tb' represent system response and mechanical braking times, and 'C' is the Hive's Confidence Buffer scaled by the zone-specific sensitivity α_zone. When multiple Hive sources track a target, certainty maxes out, driving 'C' to zero and shrinking the bubble tight for maximum throughput."
   },
   {
     tag: "DETERMINISM",

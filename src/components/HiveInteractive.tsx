@@ -43,7 +43,7 @@ export function HiveInteractive() {
     if (redundancy <= 2) {
       badgeText = "PLb Cat 1 (Low Confidence)";
       badgeColor = "text-red-500 border-red-500 bg-red-50";
-      statusDesc = "System enforces a macro fallback proximity buffer in mm, forcing a safe-crawl state under 250mm/s";
+      statusDesc = "System enforces a macro fallback proximity buffer in mm dictated by asset size and kinematics, forcing a safe-crawl state under 250mm/s";
     } else if (redundancy === 5) {
       badgeText = "PLd Cat 3 (Deterministic Certainty)";
       badgeColor = "text-emerald-600 border-emerald-600 bg-emerald-50";
@@ -182,10 +182,10 @@ export function HiveInteractive() {
                     <span className="text-[10px] text-primary font-bold uppercase tracking-widest">Deterministic Safety Logic</span>
                   </div>
                   <div className="text-lg font-headline font-bold tracking-tight text-white italic">
-                    (Vh + Vr) x Tr + T_stop + C
+                    S = Σ [ (Vh * Tr) + (Vr * Tb) + (α_zone * C) ]
                   </div>
                   <div className="text-[9px] text-slate-400 font-medium leading-relaxed mt-2 uppercase tracking-widest">
-                    The safety loop is evaluated locally at the asset level using cross-referenced spatial data from the hive mind.
+                    α_zone represents the specific ISO-compliant sensitivity tolerance allocated to each individual body segment.
                   </div>
                </div>
             </div>

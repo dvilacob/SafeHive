@@ -7,7 +7,6 @@ import { Configurator } from "@/components/Configurator";
 import { Deployment } from "@/components/Deployment";
 import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function Home() {
   return (
@@ -26,13 +25,13 @@ export default function Home() {
         <div className="container mx-auto px-6 max-w-3xl text-center">
           <div className="p-8 rounded-2xl bg-white border border-slate-100 space-y-4 shadow-sm">
             <h4 className="font-headline font-bold text-slate-900 uppercase text-xs tracking-widest">ISO 10218-2 / ISO/TS 15066 Regulatory Framework</h4>
-            <p className="font-mono text-[11px] bg-slate-50 p-4 border rounded text-slate-600">S = (v_h + v_r) × t_r + d_stop + C</p>
+            <p className="font-mono text-[11px] bg-slate-50 p-4 border rounded text-slate-600">S = Σ [ (v_h * t_r) + (v_r * t_b) + (α_zone * C) ]</p>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-4">
               {[
                 { l: "v_h", d: "Human Speed" },
                 { l: "v_r", d: "Asset Speed" },
-                { l: "t_r", d: "Latency" },
-                { l: "d_stop", d: "Braking" },
+                { l: "t_r/t_b", d: "Latency/Brake" },
+                { l: "α_zone", d: "Sensitivity" },
                 { l: "C", d: "Confidence" }
               ].map((item, i) => (
                 <div key={i} className="flex flex-col gap-1">
