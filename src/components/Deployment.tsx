@@ -16,8 +16,8 @@ export function Deployment() {
     },
     {
       icon: <Unlink className="w-10 h-10" />,
-      title: "Connect Assets",
-      body: "Provision legacy machines with edge modules and teams with vests."
+      title: "Connect Sources",
+      body: "Securely pair all available data sources—including humanoids, external cameras, safety sensors, and auxiliary information feeds—directly to the Hive over-the-air."
     },
     {
       icon: <Link2 className="w-10 h-10" />,
