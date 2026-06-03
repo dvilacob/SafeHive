@@ -11,7 +11,7 @@ export function HiveInteractive() {
   const [activeShell, setActiveShell] = useState('outer');
 
   // Interactive States
-  const [proximity, setProximity] = useState(600); // mm
+  const [proximity, setProximity] = useState(500); // mm
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sources
 
@@ -127,6 +127,7 @@ export function HiveInteractive() {
                   <line
                     x1="50%"
                     y1="50%"
+                    max-x1="calc(50% + 150px)"
                     x2={`calc(50% + ${proximity * SCALE}px)`}
                     y2="50%"
                     stroke="#cbd5e1"
@@ -159,7 +160,7 @@ export function HiveInteractive() {
                     value={[proximity]}
                     onValueChange={v => setProximity(v[0])}
                     min={50}
-                    max={600}
+                    max={500}
                     step={10}
                   />
                 </div>
