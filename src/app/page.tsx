@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { SafetyVolumes } from "@/components/SafetyVolumes";
-import { BlindAssets } from "@/components/BlindAssets";
 import { HiveInteractive } from "@/components/HiveInteractive";
 import { Configurator } from "@/components/Configurator";
 import { Deployment } from "@/components/Deployment";
@@ -18,7 +17,6 @@ export default function Home() {
       <SafetyVolumes />
       <HiveInteractive />
       
-      <BlindAssets />
       <Configurator />
       <Deployment />
       <FAQ />
