@@ -5,6 +5,7 @@ import { BlindAssets } from "@/components/BlindAssets";
 import { HiveInteractive } from "@/components/HiveInteractive";
 import { Configurator } from "@/components/Configurator";
 import { Deployment } from "@/components/Deployment";
+import { FAQ } from "@/components/FAQ";
 import { Footer } from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
@@ -18,33 +19,29 @@ export default function Home() {
       <HiveInteractive />
       <Configurator />
       <Deployment />
+      <FAQ />
       
-      {/* Technical Details & ISO Compliance Section */}
-      <section className="py-24 bg-white border-t border-slate-50">
-        <div className="container mx-auto px-6 max-w-3xl">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="tech-specs" className="border-none">
-              <AccordionTrigger className="text-slate-400 hover:text-primary text-xs font-bold uppercase tracking-[0.2em] transition-colors">
-                Technical Details & ISO Compliance
-              </AccordionTrigger>
-              <AccordionContent className="pt-8 space-y-6 text-slate-500 leading-relaxed">
-                <div className="p-8 rounded-2xl bg-slate-50 border border-slate-100 space-y-4">
-                  <h4 className="font-headline font-bold text-slate-900 uppercase text-xs tracking-widest">ISO 10218-2 / ISO/TS 15066 Regulatory Framework</h4>
-                  <p className="font-mono text-[11px] bg-white p-4 border rounded">S = (v_h + v_r) × t_r + d_stop + C</p>
-                  <ul className="text-xs space-y-2 list-disc pl-4 font-medium">
-                    <li>v_h: Maximum speed of the human operator (mm/s)</li>
-                    <li>v_r: Maximum speed of the robot/humanoid (mm/s)</li>
-                    <li>t_r: System response time including network latency (ms)</li>
-                    <li>d_stop: Physical braking distance of the robot</li>
-                    <li>C: Confidence Factor (Intrusion Distance) based on source redundancy</li>
-                  </ul>
+      {/* ISO Compliance Quick-Reference (Secondary) */}
+      <section className="py-24 bg-slate-50 border-t border-slate-100">
+        <div className="container mx-auto px-6 max-w-3xl text-center">
+          <div className="p-8 rounded-2xl bg-white border border-slate-100 space-y-4 shadow-sm">
+            <h4 className="font-headline font-bold text-slate-900 uppercase text-xs tracking-widest">ISO 10218-2 / ISO/TS 15066 Regulatory Framework</h4>
+            <p className="font-mono text-[11px] bg-slate-50 p-4 border rounded text-slate-600">S = (v_h + v_r) × t_r + d_stop + C</p>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 pt-4">
+              {[
+                { l: "v_h", d: "Human Speed" },
+                { l: "v_r", d: "Asset Speed" },
+                { l: "t_r", d: "Latency" },
+                { l: "d_stop", d: "Braking" },
+                { l: "C", d: "Confidence" }
+              ].map((item, i) => (
+                <div key={i} className="flex flex-col gap-1">
+                  <span className="font-bold text-primary text-[10px] font-mono">{item.l}</span>
+                  <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{item.d}</span>
                 </div>
-                <p className="text-sm font-medium">
-                  SafeHive is designed to achieve SIL 3 / PLd performance levels. Our implementation of the Black-Channel safety protocol ensures a Probability of Failure per Hour (PFH) of &lt; 10⁻⁷, meeting the most stringent industrial safety requirements for collaborative work environments.
-                </p>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
