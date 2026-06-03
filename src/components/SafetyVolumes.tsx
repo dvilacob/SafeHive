@@ -27,7 +27,7 @@ export function SafetyVolumes() {
     {
       icon: <Ghost className="w-8 h-8" />,
       title: '5. Ghost Assets',
-      text: 'Generates dynamic ghost volumes over blind assets by processing vision data from the humanoid hive. Cross-referencing this data via black-channel communication projects a real-time safety shield to throttle legacy equipment without rewiring.',
+      text: 'Identifies and generates dynamic ghost volumes over blind assets by processing humanoid hive vision data. Cross-referencing via black-channel communication projects a real-time safety shield to throttle legacy equipment without rewiring',
     },
   ];
 
