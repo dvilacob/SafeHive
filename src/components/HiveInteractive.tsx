@@ -15,24 +15,34 @@ export function HiveInteractive() {
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sources
 
-  // Dynamic Shell Calculations (Simplified for Visualization)
+  // Visual scaling factor: converts mm to display pixels
+  // A factor of 0.2 ensures 800mm fits comfortably within the 50% width column
+  const SCALE = 0.22;
+
+  // Dynamic Shell Calculations (Visual Radii in px)
   const shells = useMemo(() => {
     const baseScale = speed / 10;
     const confidenceBuffer = (6 - redundancy) * 15;
     
-    const inner = 40 + baseScale;
-    const middle = inner + 40 + confidenceBuffer;
-    const outer = middle + 50 + confidenceBuffer;
+    const inner = (50 + baseScale) * SCALE;
+    const middle = inner + (60 + confidenceBuffer) * SCALE;
+    const outer = middle + (80 + confidenceBuffer) * SCALE;
 
     return { inner, middle, outer };
   }, [speed, redundancy]);
 
-  // Determine active state based on proximity vs shells
+  // Determine active state based on proximity vs shells (Logic in mm)
   const currentZone = useMemo(() => {
-    if (proximity <= shells.inner) return "inner";
-    if (proximity <= shells.middle) return "middle";
+    const baseScale = speed / 10;
+    const confidenceBuffer = (6 - redundancy) * 15;
+    
+    const rawInner = 50 + baseScale;
+    const rawMiddle = rawInner + 60 + confidenceBuffer;
+
+    if (proximity <= rawInner) return "inner";
+    if (proximity <= rawMiddle) return "middle";
     return "outer";
-  }, [proximity, shells]);
+  }, [proximity, speed, redundancy]);
 
   return (
     <section id="hive" className="py-24 bg-[#F8F9FA] border-y border-slate-200 overflow-hidden">
@@ -49,7 +59,7 @@ export function HiveInteractive() {
               />
               
               <div className="relative w-full h-full flex items-center justify-center">
-                {/* Concentric Shells */}
+                {/* Concentric Shells (Visualized as Circles) */}
                 <div 
                   className={cn(
                     "absolute rounded-full border border-dashed border-blue-400/40 transition-all duration-300",
@@ -81,7 +91,7 @@ export function HiveInteractive() {
                 {/* Worker Asset */}
                 <div 
                   className="absolute transition-all duration-300" 
-                  style={{ transform: `translateX(${proximity / 2}px)` }}
+                  style={{ transform: `translateX(${proximity * SCALE}px)` }}
                 >
                   <div className="flex flex-col items-center gap-1">
                     <div className={cn(
@@ -98,11 +108,11 @@ export function HiveInteractive() {
                 <svg className="absolute inset-0 w-full h-full pointer-events-none">
                   <line 
                     x1="50%" y1="50%" 
-                    x2={`calc(50% + ${proximity / 2}px)`} y2="50%" 
+                    x2={`calc(50% + ${proximity * SCALE}px)`} y2="50%" 
                     stroke="#cbd5e1" strokeWidth="1" strokeDasharray="3 3" 
                   />
                   <text 
-                    x={`calc(50% + ${proximity / 4}px)`} y="48%" 
+                    x={`calc(50% + ${(proximity * SCALE) / 2}px)`} y="48%" 
                     textAnchor="middle" fill="#94a3b8" fontSize="10" className="font-mono font-bold"
                   >
                     {proximity} mm
