@@ -200,9 +200,12 @@ export function HiveInteractive() {
             <div className="lg:col-span-5 p-12 flex flex-col justify-between bg-white">
               <div className="space-y-10">
                 <div className="space-y-3">
-                  <h3 className="text-sm font-medium text-slate-900">
+                  <h3 className="text-sm font-bold text-slate-900">
                     Real-Time Safety Dynamic Volumes Calculation
                   </h3>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    Calculated dynamically by combining individual body-part sensitivity volumes with real-time speed separation boundaries.
+                  </p>
                 </div>
 
                 <Tabs value={activeShell} onValueChange={setActiveShell} className="w-full">
