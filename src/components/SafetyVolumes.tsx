@@ -17,7 +17,7 @@ export function SafetyVolumes() {
     {
       icon: <ShieldAlert className="w-8 h-8" />,
       title: "3. Body Volumes Sensitivity",
-      text: "Configure a master safety volume composed of different sub-volumes distributed across the robot's body. Users can assign independent tolerances to specific limbs—setting a high sensitivity for high-speed hands to project a larger protective buffer, while maintaining a lower sensitivity on the torso to allow close-range collaboration without false-positive stops. For human interactions, these sub-volumes automatically load specific profile configurations compliant with ISO/TS 15066 Power and Force Limiting (PFL) standards, ensuring transient and quasi-static impact forces never exceed regulated human pain thresholds."
+      text: "Configure a master safety volume split into independent body-part sub-volumes (e.g., higher sensitivity for fast hands, lower for the torso). For human proximity, these zones automatically enforce ISO/TS 15066 Power and Force Limiting (PFL) profiles, ensuring potential impact forces never exceed regulated safety thresholds."
     },
     {
       icon: <Activity className="w-8 h-8" />,
