@@ -31,18 +31,13 @@ const faqs = [
   },
   {
     tag: "SCALABILITY",
-    question: "How can an engineer expand system confidence, and what are the deployment costs?",
-    answer: "SafeHive is completely sensor-agnostic. You can connect any external source of truth via ROS—including traditional hardware like SICK laser scanners, light curtains, or new AI computer vision algorithms. Every added source increases spatial triangulation certainty, allowing the bubble to shrink safely. Costs are mapped predictably via our Architecture Configurator: you pay for one central SafeHive Control Hub, independent Edge Modules only for the specific assets you want to control, and scalable wearable trackers/node licenses based on your fleet size."
+    question: "How can an engineer expand system confidence adding sources ?",
+    answer: "SafeHive is completely sensor-agnostic. You can connect any external source of truth—from traditional SICK laser scanners and light curtains to new AI computer vision algorithms. You simply link your source to a ROS/ROS2 topic; our bridge nodes ingest the data, validate it through the black-channel protocol, and integrate it into the Hive’s spatial logic grid. More sources = higher triangulation certainty = smaller safety bubbles."
   },
   {
     tag: "ROS/OPS",
     question: "Can the SafeHive control hub send active operational commands back to the humanoids?",
     answer: "Yes. SafeHive features a dedicated product section specifically designed to define and command humanoid behaviors. While local safety loops remain strictly autonomous at the edge, SafeHive exposes standard, asynchronous ROS Action Topics."
-  },
-  {
-    tag: "INTEROP",
-    question: "Can I add my own data sources?",
-    answer: "Yes. The system is designed for high interoperability. You simply need to connect your source to a ROS/ROS2 topic; our bridge nodes will ingest the data, validate it through the black-channel protocol, and integrate it into the Hive’s spatial logic grid."
   }
 ];
 
