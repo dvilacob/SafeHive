@@ -147,7 +147,7 @@ export function HiveInteractive() {
               </div>
 
               {/* Slider Controls Overlay */}
-              <div className="absolute bottom-8 left-8 right-8 grid grid-cols-1 md:grid-cols-4 gap-6 bg-white/95 backdrop-blur-md p-6 border border-slate-200 shadow-lg">
+              <div className="absolute bottom-8 left-8 right-8 grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/95 backdrop-blur-md p-6 border border-slate-200 shadow-lg">
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
                     <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
@@ -192,14 +192,6 @@ export function HiveInteractive() {
                     max={5}
                     step={1}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                    Real-Time Mesh
-                  </Label>
-                  <p className="text-[9px] text-slate-500 leading-tight">
-                    Deterministic tracking ensures the safety loop closes at the edge. High redundancy (C) tightens the protective separation shells.
-                  </p>
                 </div>
               </div>
             </div>
