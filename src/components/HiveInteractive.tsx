@@ -15,8 +15,8 @@ export function HiveInteractive() {
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sources
 
-  // Visual scaling factor: Optimized for a "zoomed-in" technical feel
-  const SCALE = 0.55;
+  // Visual scaling factor: Adjusted to make the sketch "just a bit smaller"
+  const SCALE = 0.48;
 
   // Dynamic Shell Calculations (Visual Radii in px)
   const shells = useMemo(() => {
