@@ -11,11 +11,11 @@ export function HiveInteractive() {
   const [activeShell, setActiveShell] = useState('outer');
 
   // Interactive States
-  const [proximity, setProximity] = useState(500); // mm
+  const [proximity, setProximity] = useState(400); // mm
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sources
 
-  // Visual scaling factor: Adjusted to make the sketch "just a bit smaller"
+  // Visual scaling factor
   const SCALE = 0.48;
 
   // Dynamic Shell Calculations (Visual Radii in px)
@@ -201,15 +201,8 @@ export function HiveInteractive() {
               <div className="space-y-10">
                 <div className="space-y-3">
                   <h3 className="text-sm font-medium text-slate-900">
-                    Real-Time Safety Dynamic Volumes
+                    Real-Time Safety Dynamic Volumes Calculation
                   </h3>
-                  <div className="font-mono text-sm text-slate-600 bg-slate-50 p-3 border border-slate-100 rounded-sm">
-                    S = Σ[(V<sub>h</sub> · T<sub>r</sub>) + (V<sub>r</sub> · T<sub>b</sub>) + (a<sub>zone</sub> · C)]
-                  </div>
-                  <p className="text-[10px] text-slate-400 leading-relaxed italic">
-                    Where a_zone represents the specific ISO-compliant sensitivity tolerance allocated to
-                    each individual body segment.
-                  </p>
                 </div>
 
                 <Tabs value={activeShell} onValueChange={setActiveShell} className="w-full">
