@@ -160,16 +160,16 @@ export function SafetyVolumes() {
                       <CylinderPath radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <CylinderPath radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
 
-                      {/* Grounded Humanoid Asset Silhouette */}
-                      <g transform="translate(0, 0) scale(0.6) rotate(0)" className="text-primary transition-all duration-700">
+                      {/* Grounded Humanoid Asset Silhouette - Scaled 3x (0.6 * 3 = 1.8) */}
+                      <g transform="translate(0, 0) scale(1.8) rotate(0)" className="text-primary transition-all duration-700">
                         {/* Translate silhouette so its base is at SVG 0,0 */}
                         <g transform="translate(-20, -100)">
                            <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM10 18H30V48H26V95H14V48H10V18ZM16 22V44H24V22H16Z" fill="currentColor" className="animate-pulse-glow" />
                         </g>
                       </g>
 
-                      {/* Grounded Worker Asset Silhouette */}
-                      <g transform={`translate(${proximity * visualScale}, 0) scale(0.5)`} className={cn("transition-all duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
+                      {/* Grounded Worker Asset Silhouette - Scaled 3x (0.5 * 3 = 1.5) */}
+                      <g transform={`translate(${proximity * visualScale}, 0) scale(1.5)`} className={cn("transition-all duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
                         <g transform="translate(-20, -100)">
                            <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46H12V94H28V46H32V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
                         </g>
