@@ -32,12 +32,12 @@ const faqs = [
   {
     tag: "SCALABILITY",
     question: "How can an engineer expand system confidence adding sources ?",
-    answer: "SafeHive is completely sensor-agnostic. You can connect any external source of truth—from traditional SICK laser scanners and light curtains to new AI computer vision algorithms. You simply link your source to a ROS/ROS2 topic; our bridge nodes ingest the data, validate it through the black-channel protocol, and integrate it into the Hive’s spatial logic grid. More sources = higher triangulation certainty = smaller safety bubbles."
+    answer: "SafeHive is sensor-agnostic. You can connect any external source of truth—from traditional SICK laser scanners to AI vision algorithms. You simply link your source to a ROS/ROS2 topic; our bridge nodes ingest the data and integrate it into the Hive’s spatial logic grid. More sources = higher triangulation certainty = smaller safety bubbles."
   },
   {
     tag: "ROS/OPS",
     question: "Can the SafeHive control hub send active operational commands back to the humanoids?",
-    answer: "Yes. SafeHive features a dedicated product section specifically designed to define and command humanoid behaviors. While local safety loops remain strictly autonomous at the edge, SafeHive exposes standard, asynchronous ROS Action Topics."
+    answer: "Yes. SafeHive features a dedicated section specifically designed to command humanoid behaviors. While local safety loops remain strictly autonomous at the edge, SafeHive exposes standard, asynchronous ROS Action Topics."
   }
 ];
 
@@ -46,7 +46,6 @@ export function FAQ() {
     <section id="faq" className="py-32 bg-white border-t border-slate-100">
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="space-y-4 mb-16">
-          <span className="tech-label text-primary">Technical Documentation</span>
           <h2 className="text-4xl font-headline font-bold text-slate-900">FAQs</h2>
         </div>
 
