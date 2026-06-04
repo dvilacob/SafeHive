@@ -224,12 +224,17 @@ export function HiveInteractive() {
                     {is3D ? (
                       <div className="relative h-24 lg:h-32 w-12 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_15px_rgba(0,102,255,0.5)]">
-                          {/* Stylized Humanoid Digital Twin Silhouette */}
+                          {/* Robotic Digital Twin Silhouette with mechanical details */}
                           <path 
                             d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" 
                             fill="currentColor" 
                             className="text-primary animate-pulse-glow"
                           />
+                          {/* Joint Details */}
+                          <circle cx="12" cy="22" r="1.5" fill="white" fillOpacity="0.5" />
+                          <circle cx="28" cy="22" r="1.5" fill="white" fillOpacity="0.5" />
+                          <circle cx="15" cy="55" r="1.5" fill="white" fillOpacity="0.5" />
+                          <circle cx="25" cy="55" r="1.5" fill="white" fillOpacity="0.5" />
                         </svg>
                         <div className="absolute bottom-0 w-8 h-2 bg-primary/20 blur-sm rounded-full" />
                       </div>
@@ -254,20 +259,35 @@ export function HiveInteractive() {
                   >
                     <div className={cn(
                       "flex flex-col items-center gap-1.5 transition-all duration-700",
-                      is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-30px]" : ""
+                      is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-40px]" : ""
                     )}>
-                      <div
-                        className={cn(
-                          'w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white shadow-2xl transition-colors border-2 border-white',
-                          activeShell === 'inner'
-                            ? 'bg-red-600'
-                            : activeShell === 'middle'
-                              ? 'bg-amber-500'
-                              : 'bg-blue-500'
-                        )}
-                      >
-                        <User size={18} />
-                      </div>
+                      {is3D ? (
+                         <div className="relative h-20 lg:h-24 w-10 flex items-center justify-center">
+                            <svg viewBox="0 0 40 100" className={cn(
+                              "h-full w-full drop-shadow-2xl transition-colors",
+                              activeShell === 'inner' ? "text-red-600" : activeShell === 'middle' ? "text-amber-500" : "text-blue-500"
+                            )}>
+                              {/* Organic Human Silhouette */}
+                              <path 
+                                d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                         </div>
+                      ) : (
+                        <div
+                          className={cn(
+                            'w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white shadow-2xl transition-colors border-2 border-white',
+                            activeShell === 'inner'
+                              ? 'bg-red-600'
+                              : activeShell === 'middle'
+                                ? 'bg-amber-500'
+                                : 'bg-blue-500'
+                          )}
+                        >
+                          <User size={18} />
+                        </div>
+                      )}
                       <span className={cn(
                         "text-[8px] lg:text-[10px] font-mono font-bold uppercase tracking-tighter whitespace-nowrap",
                         is3D ? "text-white bg-slate-900/80 px-1.5 py-0.5 rounded backdrop-blur-sm" : "text-slate-900"
