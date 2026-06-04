@@ -35,7 +35,6 @@ export function Configurator() {
             
             <div className="lg:col-span-7 space-y-10 lg:space-y-16">
               <div className="space-y-4">
-                <span className="tech-label text-primary">Infrastructure Planning</span>
                 <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tighter">Hive Configurator.</h2>
                 <p className="text-slate-500 text-lg lg:text-xl max-w-2xl">Define facility constraints to generate your order</p>
               </div>
