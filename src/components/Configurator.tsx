@@ -83,10 +83,10 @@ export function Configurator() {
                       step={100}
                       className="relative flex w-full touch-none select-none items-center cursor-pointer"
                     >
-                      <SliderPrimitive.Track className="relative h-4 w-full grow overflow-hidden bg-slate-200/50 border border-slate-200 rounded-full inner-shadow-recessed">
+                      <SliderPrimitive.Track className="relative h-4 lg:h-6 w-full grow overflow-hidden bg-slate-200/50 border border-slate-200 rounded-full inner-shadow-recessed">
                         <SliderPrimitive.Range className="absolute h-full bg-primary/20" />
                       </SliderPrimitive.Track>
-                      <SliderPrimitive.Thumb className="group relative block h-10 w-10 lg:h-12 lg:w-12 outline-none focus:ring-4 focus:ring-primary/20 rounded-full">
+                      <SliderPrimitive.Thumb className="group relative block h-10 w-10 lg:h-14 lg:w-14 outline-none focus:ring-4 focus:ring-primary/20 rounded-full">
                         <div className="absolute inset-0 flex items-center justify-center transition-transform duration-200 group-hover:scale-110 group-active:scale-90">
                           <Target className="text-primary fill-white w-full h-full drop-shadow-[0_4px_16px_rgba(0,102,255,0.4)]" />
                         </div>
