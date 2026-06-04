@@ -1,3 +1,4 @@
+
 import { ShieldCheck } from "lucide-react";
 
 export function Footer() {

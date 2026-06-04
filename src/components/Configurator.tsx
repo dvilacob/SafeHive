@@ -55,81 +55,81 @@ export function Configurator() {
             </div>
 
             <div className="lg:col-span-5 w-full">
-              <div className="sticky top-32 glass-panel p-6 lg:p-12 space-y-8 lg:space-y-10 border-slate-200 shadow-2xl">
+              <div className="sticky top-32 glass-panel p-0 overflow-hidden space-y-0 border-slate-200 shadow-2xl rounded-sm">
                 
                 {hubImage && (
-                  <div className="space-y-4">
-                    <div className="relative aspect-[16/9] w-full overflow-hidden border border-slate-200 shadow-inner group">
-                      <Image
-                        src={hubImage.imageUrl}
-                        alt={hubImage.description}
-                        width={600}
-                        height={337}
-                        className="object-cover w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"
-                        data-ai-hint={hubImage.imageHint}
-                      />
-                      <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors" />
-                    </div>
-                    <div className="flex justify-between items-center text-[10px] font-mono text-slate-400 font-bold uppercase tracking-widest px-1">
-                      <span>SH-CONTROL-v2</span>
-                      <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Verified Hardware</span>
+                  <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-slate-100 group">
+                    <Image
+                      src={hubImage.imageUrl}
+                      alt={hubImage.description}
+                      width={600}
+                      height={375}
+                      className="object-cover w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"
+                      data-ai-hint={hubImage.imageHint}
+                    />
+                    <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors" />
+                    <div className="absolute bottom-4 right-4 flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2 py-1 border border-slate-200 shadow-sm">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-slate-900">Verified Hardware</span>
                     </div>
                   </div>
                 )}
 
-                <div className="flex justify-between items-center border-b border-slate-100 pb-6 lg:pb-8 pt-4">
-                  <h3 className="tech-label text-slate-900 uppercase">Bill of materials</h3>
-                  <Monitor className="text-primary" size={18} />
-                </div>
-
-                <div className="space-y-4 lg:space-y-6">
-                  {[
-                    { label: 'SafeHive Control Hub', qty: 1, unit: HUB_COST, desc: 'Central deterministic processing unit' },
-                    { label: 'Perimeter Access Points (APs)', qty: apCount, unit: AP_COST, desc: 'Overhead spatial anchors' }
-                  ].map((item, i) => (
-                    <div key={i} className="flex flex-row justify-between items-center py-2 border-b border-slate-50 last:border-0 overflow-hidden">
-                      <div className="flex items-center gap-2 overflow-hidden">
-                        <span className="text-[10px] lg:text-xs font-bold text-slate-900 truncate whitespace-nowrap">{item.label}</span>
-                        <span className="text-[8px] lg:text-[9px] text-slate-400 uppercase tracking-widest font-mono whitespace-nowrap">({item.qty} × ${item.unit.toLocaleString('en-US')})</span>
-                      </div>
-                      <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900 shrink-0 ml-2 lg:ml-4">${(item.qty * item.unit).toLocaleString('en-US')}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="pt-8 lg:pt-10 border-t border-slate-100 space-y-6 lg:space-y-8">
-                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2">
-                    <span className="tech-label text-slate-400">Total</span>
-                    <div className="text-3xl lg:text-5xl font-headline font-bold text-slate-900 tracking-tighter whitespace-nowrap">${totalCost.toLocaleString('en-US')}</div>
+                <div className="p-8 lg:p-10 space-y-8">
+                  <div className="flex justify-between items-center border-b border-slate-100 pb-6">
+                    <h3 className="tech-label text-slate-900 uppercase">Bill of materials</h3>
+                    <Monitor className="text-primary" size={16} />
                   </div>
-                  
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button className="w-full h-auto py-4 lg:py-6 px-6 lg:px-8 text-base lg:text-lg font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 flex items-center justify-center uppercase tracking-widest">
-                        Order
-                        <ArrowRight size={18} className="shrink-0" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="rounded-none border-4 border-slate-900 w-[95vw] max-w-lg">
-                      <DialogHeader>
-                        <DialogTitle className="text-2xl lg:text-3xl font-headline">Order Phase 1 Site Spec</DialogTitle>
-                        <DialogDescription>Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-4 lg:space-y-6 py-6 lg:py-8">
-                        <div className="space-y-2">
-                          <Label className="tech-label">Lead Integration Engineer</Label>
-                          <Input placeholder="Full Name" className="h-12 lg:h-14 rounded-none border-2" />
+
+                  <div className="space-y-4">
+                    {[
+                      { label: 'SafeHive Control Hub', qty: 1, unit: HUB_COST },
+                      { label: 'Perimeter Access Points (APs)', qty: apCount, unit: AP_COST }
+                    ].map((item, i) => (
+                      <div key={i} className="flex justify-between items-center text-xs">
+                        <div className="flex flex-col gap-0.5">
+                          <span className="font-bold text-slate-900">{item.label}</span>
+                          <span className="text-[9px] text-slate-400 font-mono">({item.qty} × ${item.unit.toLocaleString()})</span>
                         </div>
-                        <div className="space-y-2">
-                          <Label className="tech-label">Corporate Email Address</Label>
-                          <Input placeholder="email@company.com" className="h-12 lg:h-14 rounded-none border-2" />
-                        </div>
+                        <span className="font-mono font-bold text-slate-900">${(item.qty * item.unit).toLocaleString()}</span>
                       </div>
-                      <DialogFooter>
-                        <Button className="w-full h-14 lg:h-16 rounded-none bg-primary font-bold text-base lg:text-lg">Order</Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+                    ))}
+                  </div>
+
+                  <div className="pt-8 border-t border-slate-100 space-y-6">
+                    <div className="flex justify-between items-end">
+                      <span className="tech-label text-slate-400">Total</span>
+                      <div className="text-3xl lg:text-5xl font-headline font-bold text-slate-900 tracking-tighter">${totalCost.toLocaleString()}</div>
+                    </div>
+                    
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button className="w-full h-16 text-base font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 flex items-center justify-center uppercase tracking-widest">
+                          Order
+                          <ArrowRight size={18} />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="rounded-none border-4 border-slate-900 w-[95vw] max-w-lg">
+                        <DialogHeader>
+                          <DialogTitle className="text-2xl font-headline">Order Phase 1 Site Spec</DialogTitle>
+                          <DialogDescription>Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-6 py-8">
+                          <div className="space-y-2">
+                            <Label className="tech-label">Lead Integration Engineer</Label>
+                            <Input placeholder="Full Name" className="h-14 rounded-none border-2" />
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="tech-label">Corporate Email Address</Label>
+                            <Input placeholder="email@company.com" className="h-14 rounded-none border-2" />
+                          </div>
+                        </div>
+                        <DialogFooter>
+                          <Button className="w-full h-16 rounded-none bg-primary font-bold text-lg">Order</Button>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
                 </div>
               </div>
             </div>
