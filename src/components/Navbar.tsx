@@ -25,7 +25,7 @@ export function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-headline font-bold tracking-tight text-slate-900 leading-none">SafeHive</span>
-            <span className="text-[9px] font-bold text-primary uppercase tracking-widest mt-1">Spatial Logic Grid</span>
+            <span className="text-[9px] font-bold text-primary uppercase tracking-widest mt-1">Spatial awareness</span>
           </div>
         </Link>
         
