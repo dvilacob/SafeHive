@@ -1,30 +1,73 @@
 'use client';
 
-import { Ruler, Gauge, ShieldAlert, RefreshCw, Ghost, Zap, Bot } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Ruler, Gauge, ShieldAlert, RefreshCw, Bot, User, Target } from 'lucide-react';
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { cn } from '@/lib/utils';
 
 export function SafetyVolumes() {
+  // Interaction State
+  const [proximity, setProximity] = useState(400); // mm
+  const [speed, setSpeed] = useState(500); // mm/s
+  const [redundancy, setRedundancy] = useState(3); // 1-5 sensors
+  const [is3D, setIs3D] = useState(true);
+  const [visualScale, setVisualScale] = useState(0.48);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setVisualScale(window.innerWidth < 640 ? 0.3 : 0.48);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const boundaries = useMemo(() => {
+    const baseScale = speed / 10;
+    const confidenceBuffer = (6 - redundancy) * 15;
+    const rawInner = 50 + baseScale;
+    const rawMiddle = rawInner + 60 + confidenceBuffer;
+    const rawOuter = rawMiddle + 80 + confidenceBuffer;
+    return { rawInner, rawMiddle, rawOuter };
+  }, [speed, redundancy]);
+
+  const shells = useMemo(() => {
+    const inner = boundaries.rawInner * visualScale;
+    const middle = (boundaries.rawInner + 60 + (6 - redundancy) * 15) * visualScale;
+    const outer = (boundaries.rawInner + 140 + (6 - redundancy) * 30) * visualScale;
+    return { inner, middle, outer };
+  }, [boundaries, visualScale, redundancy]);
+
+  const activeShell = useMemo(() => {
+    if (proximity <= boundaries.rawInner) return 'inner';
+    if (proximity <= boundaries.rawMiddle) return 'middle';
+    return 'outer';
+  }, [proximity, boundaries]);
+
   const telemetry = [
     {
       icon: <Ruler className="w-4 h-4" />,
       label: 'PROXIMITY',
       value: 'Dynamic Tracking',
-      subtext: 'Calculates real-time separation distance between assets.',
+      subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.',
     },
     {
       icon: <Gauge className="w-4 h-4" />,
       label: 'SPEED',
       value: 'Velocity Scaled',
-      subtext: 'Automatically resizes protective volumes based on speed.',
+      subtext: 'Automatically shrinks or expands protective volumes based on the live velocity vectors of different equipment.',
     },
     {
       icon: <ShieldAlert className="w-4 h-4" />,
       label: 'MORPHOLOGY',
-      value: 'ISO/TS 15066',
-      subtext: 'Tailors bubble zones to human body segment thresholds.',
+      value: 'ISO/TS 15066 Active',
+      subtext: 'Tailors protective bubble zones to human body segments and localized impact thresholds.',
     },
     {
       icon: <RefreshCw className="w-4 h-4" />,
-      label: 'INTEGRITY',
+      label: 'HIVE INTEGRITY',
       value: 'Fused Spatial Mapping',
       subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.',
     },
@@ -48,7 +91,7 @@ export function SafetyVolumes() {
     <section id="volumes" className="py-24 bg-white border-b border-slate-100 relative overflow-hidden">
       <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
       <div className="container mx-auto px-6 relative">
-        <div className="max-w-7xl mx-auto space-y-20">
+        <div className="max-w-7xl mx-auto space-y-16">
           <div className="flex flex-col lg:flex-row lg:items-start gap-16 justify-between">
             <div className="max-w-xl space-y-4">
               <span className="tech-label text-primary">Spatial Calibration Engine</span>
@@ -83,44 +126,90 @@ export function SafetyVolumes() {
             </div>
           </div>
 
-          {/* 3D Static Schematic Graphic */}
-          <div className="relative w-full max-w-4xl mx-auto h-[400px] bg-slate-50/50 border border-slate-100 rounded-sm overflow-hidden flex items-center justify-center">
+          {/* Interactive Calculation Viewport */}
+          <div className="relative w-full max-w-5xl mx-auto min-h-[500px] lg:min-h-[650px] bg-slate-50/50 border border-slate-100 rounded-sm overflow-hidden flex flex-col items-center justify-center p-6 lg:p-12">
             <div className="absolute inset-0 bg-blueprint opacity-[0.02] pointer-events-none" />
             
-            <div className="relative transform perspective-[1000px] rotate-x-[55deg] rotate-z-[-35deg] scale-125">
-              {/* Outer Shell */}
-              <svg viewBox="-150 -150 300 300" className="absolute w-[300px] h-[300px] -translate-x-1/2 -translate-y-1/2 opacity-20">
-                <path d={getVoxelPath(140, 0.05)} fill="rgba(59, 130, 246, 0.1)" stroke="rgba(59, 130, 246, 0.4)" strokeWidth="1" strokeDasharray="4 2" />
-              </svg>
+            {/* 2D/3D Toggle */}
+            <div className="absolute top-6 right-6 z-[60] flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-100 shadow-sm">
+              <Label htmlFor="view-mode" className={cn("text-[10px] font-bold uppercase tracking-wider transition-colors", !is3D ? "text-slate-900" : "text-slate-400")}>2D</Label>
+              <Switch id="view-mode" checked={is3D} onCheckedChange={setIs3D} className="data-[state=checked]:bg-primary" />
+              <Label htmlFor="view-mode" className={cn("text-[10px] font-bold uppercase tracking-wider transition-colors", is3D ? "text-primary font-black" : "text-slate-400")}>3D</Label>
+            </div>
 
-              {/* Middle Shell */}
-              <svg viewBox="-150 -150 300 300" className="absolute w-[200px] h-[200px] -translate-x-1/2 -translate-y-1/2 opacity-30">
-                <path d={getVoxelPath(90, 0.1)} fill="rgba(245, 158, 11, 0.15)" stroke="rgba(245, 158, 11, 0.5)" strokeWidth="2" />
-              </svg>
+            <div className={cn("relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out", is3D ? "perspective-[1000px] rotate-x-[55deg] rotate-z-[-35deg] scale-125" : "scale-90")}>
+              <div className="relative flex items-center justify-center">
+                {/* Outer Shell */}
+                <div className={cn('absolute transition-all duration-500 flex items-center justify-center', !is3D && "rounded-full border border-dashed border-blue-400/40")} style={{ width: shells.outer * 2, height: shells.outer * 2 }}>
+                  <svg viewBox="-150 -150 300 300" className={cn("w-full h-full transition-opacity", activeShell === 'outer' ? "opacity-100" : "opacity-20")}>
+                    <path d={getVoxelPath(140, 0.05)} fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.4)" strokeWidth="2" strokeDasharray="4 2" />
+                  </svg>
+                </div>
 
-              {/* Inner Shell */}
-              <svg viewBox="-150 -150 300 300" className="absolute w-[120px] h-[120px] -translate-x-1/2 -translate-y-1/2 opacity-40">
-                <path d={getVoxelPath(50, 0.15)} fill="rgba(239, 68, 68, 0.25)" stroke="rgba(239, 68, 68, 0.6)" strokeWidth="3" />
-              </svg>
+                {/* Middle Shell */}
+                <div className={cn('absolute transition-all duration-500 flex items-center justify-center', !is3D && "rounded-full border border-amber-400/40")} style={{ width: shells.middle * 2, height: shells.middle * 2 }}>
+                  <svg viewBox="-150 -150 300 300" className={cn("w-full h-full transition-opacity", activeShell === 'middle' ? "opacity-100" : "opacity-30")}>
+                    <path d={getVoxelPath(90, 0.1)} fill="rgba(245, 158, 11, 0.1)" stroke="rgba(245, 158, 11, 0.5)" strokeWidth="3" />
+                  </svg>
+                </div>
 
-              {/* Central Humanoid (Static) */}
-              <div className="absolute -translate-x-1/2 -translate-y-1/2 rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-40px]">
-                <svg viewBox="0 0 40 100" className="h-32 w-16 text-primary drop-shadow-[0_0_15px_rgba(0,102,255,0.4)]">
-                  <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="currentColor" />
-                </svg>
+                {/* Inner Shell */}
+                <div className={cn('absolute transition-all duration-500 flex items-center justify-center', !is3D && "rounded-full border border-red-500/40")} style={{ width: shells.inner * 2, height: shells.inner * 2 }}>
+                  <svg viewBox="-150 -150 300 300" className={cn("w-full h-full transition-opacity", activeShell === 'inner' ? "opacity-100" : "opacity-40")}>
+                    <path d={getVoxelPath(50, 0.15)} fill="rgba(239, 68, 68, 0.2)" stroke="rgba(239, 68, 68, 0.6)" strokeWidth="4" />
+                  </svg>
+                </div>
+
+                {/* Central Humanoid (Robot) */}
+                <div className={cn("relative z-40 transition-all duration-700", is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-50px]" : "")}>
+                  <svg viewBox="0 0 40 100" className="h-24 lg:h-32 w-12 text-primary drop-shadow-[0_0_15px_rgba(0,102,255,0.4)] animate-pulse-glow">
+                    <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="currentColor" />
+                  </svg>
+                </div>
+
+                {/* Worker Asset */}
+                <div className={cn("absolute transition-all duration-500", activeShell === 'inner' ? "z-[100]" : "z-[35]")} style={{ transform: `translateX(${proximity * visualScale}px)` }}>
+                  <div className={cn("flex flex-col items-center gap-1.5 transition-all duration-700", is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-40px]" : "")}>
+                    <svg viewBox="0 0 40 100" className={cn("h-20 lg:h-24 w-10 transition-colors", activeShell === 'inner' ? "text-red-600" : activeShell === 'middle' ? "text-amber-500" : "text-blue-500")}>
+                      <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Labels */}
-            <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
-              <div className="space-y-1">
-                <div className="tech-label text-slate-400">System State</div>
-                <div className="text-xs font-mono font-bold text-primary uppercase">Volume Verification Active</div>
+            {/* Live Sliders Card */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/95 backdrop-blur-md p-6 border border-slate-200 shadow-xl rounded-sm z-[150] mt-8">
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">PROXIMITY (mm)</Label>
+                  <span className="text-[10px] font-mono font-bold text-slate-900">{proximity}</span>
+                </div>
+                <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} min={50} max={500} step={10} className="py-2 cursor-pointer" />
               </div>
-              <div className="text-right space-y-1">
-                <div className="tech-label text-slate-400">Projection Engine</div>
-                <div className="text-[10px] font-mono font-bold text-slate-900">3D VOXEL-MAPPING v4.2</div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">SPEED (mm/s)</Label>
+                  <span className="text-[10px] font-mono font-bold text-slate-900">{speed}</span>
+                </div>
+                <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} min={100} max={1500} step={50} className="py-2 cursor-pointer" />
               </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <Label className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">SENSORS</Label>
+                  <span className="text-[10px] font-mono font-bold text-slate-900">{redundancy}</span>
+                </div>
+                <Slider value={[redundancy]} onValueChange={(v) => setRedundancy(v[0])} min={1} max={5} step={1} className="py-2 cursor-pointer" />
+              </div>
+            </div>
+
+            {/* Status Footer */}
+            <div className="absolute bottom-4 left-8 right-8 flex justify-between items-center pointer-events-none opacity-50">
+               <div className="text-[8px] font-mono font-bold text-slate-400 uppercase tracking-widest">Target ISO Rating: {redundancy >= 4 ? 'PLe / SIL 3' : redundancy >= 2 ? 'PLd / SIL 2' : 'PLc'}</div>
+               <div className="flex items-center gap-2">
+                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                 <span className="text-[8px] font-mono font-bold text-slate-400 uppercase">10ms Deterministic Loop Active</span>
+               </div>
             </div>
           </div>
         </div>

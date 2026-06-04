@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { SafetyVolumes } from "@/components/SafetyVolumes";
-import { HiveInteractive } from "@/components/HiveInteractive";
 import { Configurator } from "@/components/Configurator";
 import { Deployment } from "@/components/Deployment";
 import { FAQ } from "@/components/FAQ";
@@ -15,7 +14,6 @@ export default function Home() {
       
       {/* Primary Technical Logic Sections */}
       <SafetyVolumes />
-      <HiveInteractive />
       
       <Configurator />
       <Deployment />
