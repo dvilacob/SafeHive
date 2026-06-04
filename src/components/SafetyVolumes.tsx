@@ -78,26 +78,16 @@ export function SafetyVolumes() {
   };
 
   const VolumetricEnvelope = ({ radius, color, isActive, noise }: { radius: number, color: string, isActive: boolean, noise: number }) => {
-    const layers = [0, 40, 80, 120, 160]; 
-    const maxZ = 160;
-    
     return (
       <div className="absolute flex items-center justify-center transition-all duration-500" style={{ width: radius * 2, height: radius * 2 }}>
         <svg viewBox="-150 -150 300 300" className={cn("w-full h-full transition-opacity duration-500", isActive ? "opacity-100" : "opacity-15")}>
-          {layers.map((z, idx) => (
-            <path
-              key={idx}
-              d={getVoxelPath(140 * (radius / shells.outer), noise)}
-              fill={idx === 0 ? `${color}10` : 'transparent'}
-              stroke={color}
-              strokeWidth={isActive ? 2 : 1}
-              strokeOpacity={1 - (idx / layers.length * 0.5)}
-              transform={`translate(0, ${-z})`}
-              className="transition-all duration-700"
-            />
-          ))}
-          <line x1="-140" y1="0" x2="-140" y2={-maxZ} stroke={color} strokeWidth="0.5" strokeOpacity="0.2" transform={`scale(${radius / shells.outer})`} />
-          <line x1="140" y1="0" x2="140" y2={-maxZ} stroke={color} strokeWidth="0.5" strokeOpacity="0.2" transform={`scale(${radius / shells.outer})`} />
+          <path
+            d={getVoxelPath(140 * (radius / shells.outer), noise)}
+            fill={`${color}20`}
+            stroke={color}
+            strokeWidth={isActive ? 3 : 1}
+            className="transition-all duration-700"
+          />
         </svg>
       </div>
     );
@@ -118,7 +108,6 @@ export function SafetyVolumes() {
       <div className="container mx-auto px-6 relative">
         <div className="max-w-7xl mx-auto space-y-20">
           
-          {/* Telemetry Grid - Merged directly with section flow */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {telemetry.map((item, idx) => (
               <div key={idx} className="p-8 lg:p-10 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group flex flex-col h-full shadow-sm hover:shadow-xl hover:shadow-primary/5">
@@ -137,7 +126,6 @@ export function SafetyVolumes() {
             ))}
           </div>
 
-          {/* Interactive 3D Simulator */}
           <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm">
             <div className="grid lg:grid-cols-10 h-full">
               <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-8 relative min-h-[500px] lg:min-h-[800px] flex flex-col items-center justify-center overflow-hidden">
@@ -148,7 +136,6 @@ export function SafetyVolumes() {
                     <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} noise={0.1} />
                     <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} noise={0.14} />
 
-                    {/* Grounded Assets */}
                     <div className="relative z-40 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-0">
                        <div className="relative h-28 lg:h-48 w-14 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_25px_rgba(0,102,255,0.4)]">
