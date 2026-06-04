@@ -185,6 +185,7 @@ export function HiveInteractive() {
                     min={50}
                     max={500}
                     step={10}
+                    className="py-4"
                   />
                 </div>
                 <div className="space-y-2 lg:space-y-3">
@@ -199,6 +200,7 @@ export function HiveInteractive() {
                     min={100}
                     max={1500}
                     step={50}
+                    className="py-4"
                   />
                 </div>
                 <div className="space-y-2 lg:space-y-3">
@@ -214,6 +216,7 @@ export function HiveInteractive() {
                     min={1}
                     max={5}
                     step={1}
+                    className="py-4"
                   />
                 </div>
               </div>
