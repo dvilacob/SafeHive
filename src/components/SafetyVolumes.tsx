@@ -73,36 +73,76 @@ export function SafetyVolumes() {
     const rx = radius;
     const ry = radius * 0.6; // Perspective squish
     
+    // Generate technical "ribs" for the cylinder walls
+    const ribs = [0, 45, 90, 135, 180, 225, 270, 315];
+
     return (
-      <g className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
+      <g className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-15")}>
         <defs>
           <linearGradient id={`grad-${color.replace('#', '')}`} x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+            <stop offset="0%" stopColor={color} stopOpacity="0.3" />
             <stop offset="100%" stopColor={color} stopOpacity="0.05" />
           </linearGradient>
         </defs>
         
-        {/* Side Walls */}
+        {/* Side Walls (Base Color Fill) */}
         <path
           d={`M -${rx},0 L -${rx},-${height} A ${rx},${ry} 0 0,1 ${rx},-${height} L ${rx},0 A ${rx},${ry} 0 0,1 -${rx},0`}
           fill={`url(#grad-${color.replace('#', '')})`}
           stroke={color}
-          strokeWidth={isActive ? 1.5 : 0.5}
+          strokeWidth={isActive ? 1 : 0.5}
+          strokeOpacity={isActive ? 0.4 : 0.2}
         />
+
+        {/* Technical Ribs (Vertical Structure) */}
+        {ribs.map((angle) => {
+          const rad = (angle * Math.PI) / 180;
+          const x = Math.cos(rad) * rx;
+          const y = Math.sin(rad) * ry;
+          // Only show "front" ribs clearly
+          const isFront = angle >= 180;
+          return (
+            <line
+              key={angle}
+              x1={x}
+              y1={y}
+              x2={x}
+              y2={y - height}
+              stroke={color}
+              strokeWidth={isActive ? 0.8 : 0.4}
+              strokeOpacity={isActive ? (isFront ? 0.6 : 0.2) : 0.1}
+            />
+          );
+        })}
         
-        {/* Top Cap */}
+        {/* Top Cap (Volumetric Surface) */}
         <ellipse
           cx="0"
           cy={-height}
           rx={rx}
           ry={ry}
           fill={color}
-          fillOpacity="0.2"
+          fillOpacity={isActive ? "0.15" : "0.05"}
           stroke={color}
           strokeWidth={isActive ? 2 : 0.5}
         />
+
+        {/* Top Cap Detail - "Scanner Ring" */}
+        {isActive && (
+          <ellipse
+            cx="0"
+            cy={-height}
+            rx={rx * 0.9}
+            ry={ry * 0.9}
+            fill="none"
+            stroke={color}
+            strokeWidth="0.5"
+            strokeDasharray="4 4"
+            className="animate-pulse"
+          />
+        )}
         
-        {/* Grounded Base */}
+        {/* Grounded Base Rim */}
         <ellipse
           cx="0"
           cy="0"
@@ -110,8 +150,9 @@ export function SafetyVolumes() {
           ry={ry}
           fill="none"
           stroke={color}
-          strokeWidth={isActive ? 1 : 0.5}
-          strokeDasharray="4 2"
+          strokeWidth={isActive ? 1.5 : 0.5}
+          strokeDasharray="2 4"
+          strokeOpacity={isActive ? 0.8 : 0.3}
         />
       </g>
     );
@@ -158,7 +199,7 @@ export function SafetyVolumes() {
                   
                   <div className="relative w-full aspect-square max-w-[500px] flex items-center justify-center">
                     <svg viewBox="-300 -450 600 600" className="w-full h-full drop-shadow-2xl">
-                      {/* Cylinders are all centered at 0,0 and scale diameters only */}
+                      {/* Cylinders are concentric, sharing a grounded base at 0,0 */}
                       <CylinderPath radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <CylinderPath radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <CylinderPath radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
