@@ -17,10 +17,6 @@ export function HiveInteractive() {
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sensors
 
-  // Animation states for telemetry tiles
-  const [pulseProximity, setPulseProximity] = useState(false);
-  const [pulseSpeed, setPulseSpeed] = useState(false);
-
   // Visual scaling factor
   const [visualScale, setVisualScale] = useState(0.48);
 
@@ -64,12 +60,6 @@ export function HiveInteractive() {
     return 'outer';
   }, [proximity, boundaries]);
 
-  const isoRating = useMemo(() => {
-    if (redundancy >= 5) return "🛡️ Target ISO Rating: PLe / SIL 3 Capable";
-    if (redundancy >= 3) return "🛡️ Target ISO Rating: PLd / SIL 2 Capable";
-    return "🛡️ Target ISO Rating: PLc Capable";
-  }, [redundancy]);
-
   useEffect(() => {
     setActiveShell(currentZone);
   }, [currentZone]);
@@ -99,17 +89,11 @@ export function HiveInteractive() {
     return path + "Z";
   };
 
-  const handleProximityChange = (val: number[]) => {
-    setProximity(val[0]);
-    setPulseProximity(true);
-    setTimeout(() => setPulseProximity(false), 400);
-  };
-
-  const handleSpeedChange = (val: number[]) => {
-    setSpeed(val[0]);
-    setPulseSpeed(true);
-    setTimeout(() => setPulseSpeed(false), 400);
-  };
+  const isoRating = useMemo(() => {
+    if (redundancy >= 5) return "🛡️ Target ISO Rating: PLe / SIL 3 Capable";
+    if (redundancy >= 3) return "🛡️ Target ISO Rating: PLd / SIL 2 Capable";
+    return "🛡️ Target ISO Rating: PLc Capable";
+  }, [redundancy]);
 
   return (
     <section id="hive" className="py-12 lg:py-24 bg-[#F8F9FA] border-y border-slate-200 overflow-hidden">
@@ -163,11 +147,11 @@ export function HiveInteractive() {
                     {!is3D && activeShell === 'inner' && <div className="absolute inset-0 bg-red-50/40 border border-red-500/80 rounded-full" />}
                   </div>
 
+                  {/* Robot Asset */}
                   <div className={cn("relative z-40 transition-all duration-700 ease-in-out", is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-50px]" : "")}>
                     {is3D ? (
                       <div className="relative h-24 lg:h-32 w-12 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_15px_rgba(0,102,255,0.5)]">
-                          {/* Robot Silhouette with joints */}
                           <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="currentColor" className="text-primary animate-pulse-glow" />
                           <circle cx="20" cy="10" r="1.5" fill="white" />
                           <path d="M12 22 L28 22" stroke="white" strokeWidth="0.5" opacity="0.3" />
@@ -177,19 +161,18 @@ export function HiveInteractive() {
                         <div className="absolute bottom-0 w-8 h-2 bg-primary/20 blur-sm rounded-full" />
                       </div>
                     ) : (
-                      <div className="relative w-12 h-12 lg:w-16 lg:h-16 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center group">
+                      <div className="relative w-12 h-12 lg:w-16 lg:h-16 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center">
                         <Bot size={28} className="text-slate-900" />
-                        <span className="absolute -top-8 text-[8px] font-mono font-bold text-slate-400 tracking-widest uppercase">Humanoid</span>
                       </div>
                     )}
                   </div>
 
+                  {/* Worker Asset */}
                   <div className={cn("absolute transition-all duration-500", activeShell === 'inner' ? "z-[100]" : "z-[35]")} style={{ transform: `translateX(${proximity * visualScale}px)` }}>
                     <div className={cn("flex flex-col items-center gap-1.5 transition-all duration-700", is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-40px]" : "")}>
                       {is3D ? (
                          <div className="relative h-20 lg:h-24 w-10 flex items-center justify-center">
                             <svg viewBox="0 0 40 100" className={cn("h-full w-full drop-shadow-2xl transition-colors", activeShell === 'inner' ? "text-red-600" : activeShell === 'middle' ? "text-amber-500" : "text-blue-500")}>
-                              {/* Human Silhouette */}
                               <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
                             </svg>
                          </div>
@@ -210,18 +193,15 @@ export function HiveInteractive() {
                 )}
               </div>
 
+              {/* Slider Overlays */}
               <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8 grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 bg-white/95 backdrop-blur-md p-4 lg:p-6 border border-slate-200 shadow-xl rounded-sm z-[150]">
                 <div className="space-y-2 lg:space-y-3">
-                  <div className="flex justify-between items-center">
-                    <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">PROXIMITY</Label>
-                  </div>
-                  <Slider value={[proximity]} onValueChange={handleProximityChange} min={50} max={500} step={10} className="py-4 cursor-pointer" />
+                  <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">PROXIMITY</Label>
+                  <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} min={50} max={500} step={10} className="py-4 cursor-pointer" />
                 </div>
                 <div className="space-y-2 lg:space-y-3">
-                  <div className="flex justify-between items-center">
-                    <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">SPEED</Label>
-                  </div>
-                  <Slider value={[speed]} onValueChange={handleSpeedChange} min={100} max={1500} step={50} className="py-4 cursor-pointer" />
+                  <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">SPEED</Label>
+                  <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} min={100} max={1500} step={50} className="py-4 cursor-pointer" />
                 </div>
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
@@ -233,12 +213,12 @@ export function HiveInteractive() {
               </div>
             </div>
 
-            <div className="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-between bg-white relative">
+            <div className="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-between bg-white">
               <div className="space-y-6 lg:space-y-8">
                 <div className="space-y-3">
                   <h3 className="text-xl font-headline font-bold text-slate-900 uppercase">Dynamic Bubble Calculation</h3>
                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    Calculated in real time by mapping body-part safety thresholds against current machine speed, separation distances, and the number of active sensors or cameras.
+                    Calculated in real time by mapping safety thresholds against machine speed, separation distance, and active tracking redundancy.
                   </p>
                 </div>
 
@@ -249,7 +229,7 @@ export function HiveInteractive() {
                     <TabsTrigger value="inner" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-[9px] lg:text-[11px] font-bold uppercase tracking-[0.2em] transition-all">Inner Shell</TabsTrigger>
                   </TabsList>
 
-                  <div className="min-h-[100px]">
+                  <div className="min-h-[160px]">
                     <TabsContent value="outer" className="mt-0 space-y-4">
                       <div className="flex gap-4 lg:gap-6">
                         <div className="w-1.5 h-16 lg:h-20 bg-blue-400 rounded-full shrink-0" />
@@ -264,7 +244,7 @@ export function HiveInteractive() {
                         <div className="w-1.5 h-16 lg:h-20 bg-amber-400 rounded-full shrink-0" />
                         <div className="space-y-2 lg:space-y-3">
                           <h4 className="text-[10px] lg:text-xs font-bold uppercase tracking-widest text-slate-900">Collaborative State / Speed &lt; 250 mm/s</h4>
-                          <p className="text-xs lg:text-sm text-slate-500 leading-relaxed font-medium">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting collaborative speed restrictions based on localized body segment tolerances.</p>
+                          <p className="text-xs lg:text-sm text-slate-500 leading-relaxed font-medium">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting collaborative speed restrictions based on body segment tolerances.</p>
                         </div>
                       </div>
                     </TabsContent>
@@ -279,55 +259,15 @@ export function HiveInteractive() {
                     </TabsContent>
                   </div>
                 </Tabs>
-
-                <div className="pt-6 border-t border-slate-100">
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    <TelemetryTile 
-                      icon={<Ruler size={14} />} 
-                      label="PROXIMITY" 
-                      status="Dynamic Tracking" 
-                      subtext="Real-time separation dist."
-                      pulse={pulseProximity}
-                    />
-                    <TelemetryTile 
-                      icon={<Gauge size={14} />} 
-                      label="SPEED" 
-                      status="Velocity Scaled" 
-                      subtext="Live vector volumes"
-                      pulse={pulseSpeed}
-                    />
-                    <TelemetryTile 
-                      icon={<ShieldAlert size={14} />} 
-                      label="MORPHOLOGY" 
-                      status="ISO/TS 15066 Active" 
-                      subtext="Body impact segments"
-                    />
-                    <TelemetryTile 
-                      icon={<RefreshCw size={14} />} 
-                      label="HIVE INTEGRITY" 
-                      status={redundancy >= 4 ? "High Confidence" : "Sync Active"} 
-                      subtext="Multi-sensor triangulation"
-                      highlight={redundancy >= 4}
-                    />
-                    <TelemetryTile 
-                      icon={<Ghost size={14} />} 
-                      label="GHOST ASSETS" 
-                      status="Onboard Vision" 
-                      subtext="Native computer vision"
-                    />
-                    <TelemetryTile 
-                      icon={<Zap size={14} />} 
-                      label="LOOP SPEED" 
-                      status="10ms Det." 
-                      subtext="Continuous evaluation"
-                    />
-                  </div>
-                </div>
               </div>
 
-              <div className="pt-8 lg:pt-10 flex flex-wrap items-center gap-4 lg:gap-8 border-t border-slate-50">
+              <div className="pt-8 lg:pt-10 border-t border-slate-50 flex justify-between items-center">
                 <div className="flex items-center gap-2 text-[8px] lg:text-[10px] font-bold text-slate-400 tracking-widest uppercase">
                   {isoRating}
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[8px] font-mono font-bold text-slate-400 uppercase">Hive Sync Active</span>
                 </div>
               </div>
             </div>
@@ -335,24 +275,5 @@ export function HiveInteractive() {
         </div>
       </div>
     </section>
-  );
-}
-
-function TelemetryTile({ icon, label, status, subtext, pulse, highlight }: { icon: any, label: string, status: string, subtext: string, pulse?: boolean, highlight?: boolean }) {
-  return (
-    <div className={cn(
-      "p-3 border border-slate-50 rounded bg-slate-50/30 transition-all",
-      pulse && "animate-pulse border-primary/30 bg-primary/5",
-      highlight && "border-emerald-100 bg-emerald-50/30"
-    )}>
-      <div className="flex items-center gap-2 mb-1.5">
-        <div className={cn("text-slate-400", highlight ? "text-emerald-500" : "")}>{icon}</div>
-        <span className="text-[7px] font-bold text-slate-400 uppercase tracking-widest">{label}</span>
-      </div>
-      <div className="space-y-0.5">
-        <div className={cn("text-[9px] font-bold text-slate-900 truncate", highlight ? "text-emerald-600" : "")}>{status}</div>
-        <p className="text-[7px] text-slate-400 font-medium truncate">{subtext}</p>
-      </div>
-    </div>
   );
 }
