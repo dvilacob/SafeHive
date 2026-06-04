@@ -3,8 +3,14 @@
     {
       "id": "hardware-hub",
       "description": "SafeHive Control Hub Industrial Enclosure with Jetson AI module and safety-rated PLC components",
-      "imageUrl": "https://picsum.photos/seed/safehive-hub-8/800/450",
-      "imageHint": "industrial enclosure"
+      "imageUrl": "https://picsum.photos/seed/safehive-hardware-v2/1200/800",
+      "imageHint": "industrial control"
+    },
+    {
+      "id": "spatial-viz",
+      "description": "3D spatial grid visualization with safety volumes and industrial robots",
+      "imageUrl": "https://picsum.photos/seed/safehive-spatial-grid-v1/1600/900",
+      "imageHint": "robotics safety"
     }
   ]
 }

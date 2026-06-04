@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -58,20 +59,21 @@ export function Configurator() {
                         <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 backdrop-blur border border-slate-200 shadow-sm">
                           <span className="text-[8px] font-mono font-bold tracking-[0.2em] text-primary">UNIT SPEC: SH-CONTROL-HUB-v2</span>
                         </div>
-                        <Image 
-                          src={hardwareImg.imageUrl} 
-                          alt={hardwareImg.description} 
-                          width={800} 
-                          height={450} 
-                          className="w-full h-auto opacity-70 group-hover:opacity-100 transition-all duration-700 grayscale hover:grayscale-0"
-                          data-ai-hint={hardwareImg.imageHint}
-                        />
+                        <div className="relative aspect-[16/9] w-full">
+                          <Image 
+                            src={hardwareImg.imageUrl} 
+                            alt={hardwareImg.description} 
+                            fill
+                            className="object-cover opacity-70 group-hover:opacity-100 transition-all duration-700 grayscale hover:grayscale-0"
+                            data-ai-hint={hardwareImg.imageHint}
+                          />
+                        </div>
                         <div className="absolute bottom-4 right-4 z-20 flex gap-2">
                            <span className="px-2 py-0.5 bg-slate-900 text-white text-[7px] font-bold uppercase tracking-widest">Jetson AI Edge</span>
                            <span className="px-2 py-0.5 bg-primary text-white text-[7px] font-bold uppercase tracking-widest">Safety PLC Node</span>
                         </div>
                       </div>
-                      <p className="tech-label mt-4 text-slate-400">Fig 1.2: Deterministic SafeHive Processing Enclosure (Open Configuration View)</p>
+                      <p className="tech-label mt-4 text-slate-400">Fig 1.2: Deterministic SafeHive Processing Enclosure (Standard NEMA Interface)</p>
                     </div>
                   )}
 
@@ -83,8 +85,7 @@ export function Configurator() {
 
               <div className="p-6 lg:p-12 border border-slate-200 flex flex-col sm:flex-row gap-6 lg:gap-8 items-start bg-slate-50">
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-primary/10 rounded-sm flex items-center justify-center text-primary shrink-0 shadow-sm border border-primary/10">
-                  <ListCheck size={20} className="lg:hidden" />
-                  <ListCheck size={24} className="hidden lg:block" />
+                  <ListCheck size={24} />
                 </div>
                 <div className="space-y-2">
                   <h4 className="text-lg lg:text-xl font-headline font-bold uppercase tracking-widest">Core Coverage Verified</h4>
