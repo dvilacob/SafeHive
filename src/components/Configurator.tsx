@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from 'react';
@@ -6,7 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, ListCheck, Monitor } from "lucide-react";
+import { ArrowRight, Monitor } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -48,44 +47,6 @@ export function Configurator() {
                     <span className="text-2xl lg:text-4xl font-headline font-bold text-primary italic">{area} m²</span>
                   </div>
                   <Slider value={[area]} onValueChange={(v) => setArea(v[0])} max={10000} min={100} step={100} className="py-4" />
-                  
-                  <div className="pt-8 p-8 border border-slate-200 bg-slate-50/50 rounded-sm">
-                    <h5 className="tech-label text-slate-900 mb-4">Core Infrastructure Spec</h5>
-                    <ul className="space-y-3 font-mono text-[11px] text-slate-600">
-                      <li className="flex items-center gap-2">
-                        <div className="w-1 h-1 bg-primary rounded-full" />
-                        CENTRAL DETERMINISTIC HUB (SH-CONTROL-v2)
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1 h-1 bg-primary rounded-full" />
-                        NVIDIA JETSON AI EDGE COMPUTE ENGINE
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1 h-1 bg-primary rounded-full" />
-                        SAFETY PLC - BLACK CHANNEL INTEGRITY GUARD
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <div className="w-1 h-1 bg-primary rounded-full" />
-                        PROFINET / ROS2 DETERMINISTIC BRIDGE
-                      </li>
-                    </ul>
-                  </div>
-
-                  <p className="text-xs lg:text-sm text-slate-400 font-medium leading-relaxed max-w-lg">
-                    The spatial grid utilizes high-frequency anchors to establish the deterministic heartbeat. Phase 1 deployment focuses on establishing maximum coverage density for native spatial agents.
-                  </p>
-                </div>
-              </div>
-
-              <div className="p-6 lg:p-12 border border-slate-200 flex flex-col sm:flex-row gap-6 lg:gap-8 items-start bg-slate-50">
-                <div className="w-10 h-10 lg:w-12 lg:h-12 bg-primary/10 rounded-sm flex items-center justify-center text-primary shrink-0 shadow-sm border border-primary/10">
-                  <ListCheck size={24} />
-                </div>
-                <div className="space-y-2">
-                  <h4 className="text-lg lg:text-xl font-headline font-bold uppercase tracking-widest">Core Coverage Verified</h4>
-                  <p className="text-xs lg:text-sm text-slate-500 leading-relaxed max-w-lg">
-                    Your facility requires {apCount} Perimeter Access Points (APs) to maintain a safety-rated spatial mesh. This configuration provides the deterministic backbone required for Phase 1 humanoid orchestration.
-                  </p>
                 </div>
               </div>
             </div>
