@@ -104,8 +104,8 @@ export function SafetyVolumes() {
   };
 
   const telemetry = [
-    { icon: <Ruler className="w-16 h-16" />, value: 'Proximity Tracking', subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
-    { icon: <Gauge className="w-16 h-16" />, value: 'Speed Scaled', subtext: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
+    { icon: <Ruler className="w-16 h-16" />, value: 'Proximity', subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
+    { icon: <Gauge className="w-16 h-16" />, value: 'Speed Calibration', subtext: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
     { icon: <ShieldAlert className="w-16 h-16" />, value: 'Component Sensitivity', subtext: 'Enforces ISO/TS 15066 force limits for human skin while dynamically shielding fragile, high-value machine sensors from impact.' },
     { icon: <RefreshCw className="w-16 h-16" />, value: 'Hive Redundancy', subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.' },
     { icon: <Ghost className="w-16 h-16" />, value: 'Un-networked Hardware', subtext: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
@@ -235,7 +235,7 @@ export function SafetyVolumes() {
                           <div className="w-1.5 h-20 bg-red-500 rounded-full shrink-0" />
                           <div className="space-y-3">
                             <h4 className="text-xl font-bold uppercase tracking-tight text-slate-900">E-Stop</h4>
-                            <p className="text-sm text-slate-500 leading-relaxed font-medium">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
+                            <p className="text-sm text-slate-500 leading-relaxed font-medium">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms to the surrounding affected agents.</p>
                           </div>
                         </div>
                       </TabsContent>
