@@ -63,26 +63,17 @@ export function SafetyVolumes() {
     else if (val === 'outer') setProximity((boundaries.rawMiddle + boundaries.rawOuter) / 2);
   };
 
-  const getVoxelPath = (radius: number, noise: number = 0.08) => {
-    const points = 16;
-    let path = "";
-    for (let i = 0; i <= points; i++) {
-      const angle = (i / points) * Math.PI * 2;
-      const n = (Math.sin(angle * 4) + Math.cos(angle * 3)) * noise * radius;
-      const r = radius + n;
-      const x = Math.cos(angle) * r;
-      const y = Math.sin(angle) * r;
-      path += `${i === 0 ? 'M' : 'L'} ${x} ${y} `;
-    }
-    return path;
+  // Simplified geometric path (Clean circle) to avoid "weird" shape
+  const getCleanPath = (radius: number) => {
+    return `M -${radius}, 0 a ${radius},${radius} 0 1,0 ${radius * 2},0 a ${radius},${radius} 0 1,0 -${radius * 2},0`;
   };
 
-  const VolumetricEnvelope = ({ radius, color, isActive, noise }: { radius: number, color: string, isActive: boolean, noise: number }) => {
+  const VolumetricEnvelope = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
     return (
       <div className="absolute flex items-center justify-center transition-all duration-500" style={{ width: radius * 2, height: radius * 2 }}>
         <svg viewBox="-150 -150 300 300" className={cn("w-full h-full transition-opacity duration-500", isActive ? "opacity-100" : "opacity-15")}>
           <path
-            d={getVoxelPath(140 * (radius / shells.outer), noise)}
+            d={getCleanPath(140 * (radius / shells.outer))}
             fill={`${color}20`}
             stroke={color}
             strokeWidth={isActive ? 3 : 1}
@@ -132,9 +123,9 @@ export function SafetyVolumes() {
                 <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1500px] rotate-x-[60deg] rotate-z-[-45deg] scale-100 lg:scale-110">
                   <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
                   <div className="relative flex items-center justify-center">
-                    <VolumetricEnvelope radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} noise={0.06} />
-                    <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} noise={0.1} />
-                    <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} noise={0.14} />
+                    <VolumetricEnvelope radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
+                    <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
+                    <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
 
                     <div className="relative z-40 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-0">
                        <div className="relative h-28 lg:h-48 w-14 flex items-center justify-center">
@@ -178,7 +169,7 @@ export function SafetyVolumes() {
                       <Label className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">HIVE SENSORS</Label>
                       <span className="text-[10px] font-mono font-bold text-slate-900">{redundancy}</span>
                     </div>
-                    <Slider value={[redundancy]} onValueChange={(v) => setRedundancy(v[0])} min={1} max={5} step={1} className="py-2 cursor-pointer" />
+                    <Slider value={[redundancy]} onValueChange={(v) => setRedundancy(v[0])} min={1} max={5} step={1} className="py-4 cursor-pointer" />
                   </div>
                 </div>
               </div>
@@ -186,22 +177,22 @@ export function SafetyVolumes() {
               <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white">
                 <div className="space-y-10">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="w-full h-auto p-1 bg-slate-50 border border-slate-100 rounded-lg mb-8 flex justify-between gap-1">
+                    <TabsList className="w-full h-auto p-1 bg-slate-100 border border-slate-200 rounded-lg mb-8 flex justify-between gap-1 shadow-inner">
                       <TabsTrigger 
                         value="outer" 
-                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-white data-[state=active]:shadow-sm hover:bg-slate-100/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-white data-[state=active]:shadow-md hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
                       >
                         Outer
                       </TabsTrigger>
                       <TabsTrigger 
                         value="middle" 
-                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-white data-[state=active]:shadow-sm hover:bg-slate-100/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-white data-[state=active]:shadow-md hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
                       >
                         Middle
                       </TabsTrigger>
                       <TabsTrigger 
                         value="inner" 
-                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-white data-[state=active]:shadow-sm hover:bg-slate-100/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-white data-[state=active]:shadow-md hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
                       >
                         Inner
                       </TabsTrigger>
