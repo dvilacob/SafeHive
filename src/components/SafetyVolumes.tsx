@@ -105,7 +105,7 @@ export function SafetyVolumes() {
     {
       icon: <Zap className="w-4 h-4" />,
       label: 'LOOP SPEED',
-      value: 'Real-Time Dynamics',
+      value: '10ms Deterministic',
       subtext: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.',
     },
   ];
@@ -130,17 +130,16 @@ export function SafetyVolumes() {
       <div className="container mx-auto px-6 relative">
         <div className="max-w-7xl mx-auto space-y-16">
           {/* Header Section */}
-          <div className="space-y-6">
-            <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tight text-slate-900 leading-tight">
-              DYNAMIC BUBBLE <br />
-              <span className="text-primary italic">CALCULATION.</span>
+          <div className="space-y-4">
+            <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tight text-slate-900 leading-none whitespace-nowrap">
+              DYNAMIC BUBBLE CALCULATION<span className="text-primary">.</span>
             </h2>
             <p className="text-slate-500 text-lg lg:text-xl leading-relaxed font-medium max-w-4xl">
               SafeHive continuously resizes each protective shield based on the proximity and velocity of every machine and person in the factory, tracked by different sensors and the humanoid's own vision systems in a deterministic way.
             </p>
           </div>
 
-          {/* Telemetry Row */}
+          {/* Telemetry Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {telemetry.map((item, idx) => (
               <div key={idx} className="p-6 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group">
@@ -201,7 +200,7 @@ export function SafetyVolumes() {
                       </svg>
                     </div>
 
-                    {/* Robot Humanoid Digital Twin */}
+                    {/* Robot Humanoid Digital Twin (3D Shape) */}
                     <div className={cn("relative z-40 transition-all duration-700", is3D ? "rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-60px]" : "")}>
                        <div className="relative h-28 lg:h-36 w-14 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_20px_rgba(0,102,255,0.4)]">
@@ -209,12 +208,15 @@ export function SafetyVolumes() {
                           <rect x="18" y="24" width="4" height="12" fill="white" opacity="0.4" />
                           <circle cx="15" cy="10" r="1" fill="white" />
                           <circle cx="25" cy="10" r="1" fill="white" />
+                          {/* Robot Distinction: Mechanical Joints */}
+                          <circle cx="10" cy="22" r="1.5" fill="#06b6d4" />
+                          <circle cx="30" cy="22" r="1.5" fill="#06b6d4" />
                         </svg>
                         <div className="absolute bottom-0 w-10 h-2 bg-primary/20 blur-md rounded-full" />
                       </div>
                     </div>
 
-                    {/* Human Worker Asset */}
+                    {/* Human Worker Asset (3D Silhouette) */}
                     <div 
                       className={cn("absolute transition-all duration-500 ease-out", activeShell === 'inner' ? "z-[100]" : "z-[35]")} 
                       style={{ transform: `translateX(${proximity * visualScale}px)` }}
