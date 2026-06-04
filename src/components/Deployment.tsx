@@ -36,8 +36,8 @@ export function Deployment() {
     <section id="deployment" className="py-20 lg:py-40 bg-slate-50 border-y border-slate-100">
       <div className="container mx-auto px-6">
         <div className="max-w-4xl mb-12 lg:mb-24 space-y-4">
-          <h2 className="text-3xl lg:text-5xl font-headline font-bold text-slate-900 tracking-tight">Activate Your Spatial Safety Grid.</h2>
-          <p className="text-slate-500 text-base lg:text-lg">Five steps to activate your spatial Safety grid</p>
+          <h2 className="text-3xl lg:text-5xl font-headline font-bold text-slate-900 tracking-tight">Activate your SafeHive</h2>
+          <p className="text-slate-500 text-base lg:text-lg">Five steps to activate your intelligent safety bubble.</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-1 shadow-2xl shadow-slate-200">
