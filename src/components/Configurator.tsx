@@ -53,7 +53,7 @@ export function Configurator() {
                   Hive Configurator<span className="text-primary">.</span>
                 </h2>
                 <p className="text-slate-500 text-lg lg:text-xl max-w-xl font-medium">
-                  Define facility constraints to generate a deterministic Phase 1 site specification.
+                  Define facility constraints to generate your order.
                 </p>
               </div>
 
