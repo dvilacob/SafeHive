@@ -36,8 +36,8 @@ const faqs = [
   },
   {
     tag: "ROS",
-    question: "How does the Telemetry & Reporting Topic use \"object redundancy\" to prevent false alarms?",
-    answer: "The Telemetry & Reporting Topic is an input stream that allows humanoids to broadcast their current velocity, onboard vision-detected obstacles, and system health flags. By combining and cross-referencing this velocity and positional data with visual reports from multiple robots and plant sensors simultaneously, the Hub creates object redundancy. If multiple agents report consistent position and velocity data for a shared observation, the Hub instantly verifies if the entity is a known asset—such as a registered coworker or another machine—or an actual obstacle. This prevents the system from triggering unnecessary emergency stops for \"unidentified objects,\" keeping your production line moving smoothly."
+    question: "How does the Object Tracking topic use \"object redundancy\" to prevent false alarms?",
+    answer: "The Object Tracking topic is an input stream that allows humanoids to broadcast their current velocity, onboard vision-detected obstacles, and system health flags. By combining and cross-referencing this velocity and positional data with visual reports from multiple robots and plant sensors simultaneously, the Hub creates object redundancy. If multiple agents report consistent position and velocity data for a shared observation, the Hub instantly verifies if the entity is a known asset—such as a registered coworker or another machine—or an actual obstacle. This prevents the system from triggering unnecessary emergency stops for \"unidentified objects,\" keeping your production line moving smoothly."
   },
   {
     tag: "ROS",
@@ -56,27 +56,23 @@ const faqs = [
   },
   {
     tag: "ISO",
-    question: "How exactly does the real-time safety bubble calculate its physical size?",
-    answer: "The system generates a 3D Safety Volume by projecting a dynamic expansion buffer (S) around the physical morphology of an asset.\n\nFirst, the engine calculates the separation distance: S = Σ [ (Vh * Tr) + (Vr * Tb) + (a_zone * C) ], accounting for human/asset speeds, system latency, and tracking confidence (C).\n\nSecond, it applies this distance as a dynamic 3D envelope over the asset's specific shape. As confidence (C) increases, the buffer shrinks, allowing for maximum throughput while maintaining ISO-compliant protection."
-  },
-  {
-    tag: "ISO",
     question: "What happens if the wireless network connection is lost?",
     answer: "The system employs a local, hardware-based \"watchdog\" mechanism. The robot continuously expects a \"heartbeat\" signal from the controller; if the connection is interrupted for more than a defined threshold, the onboard safety module—independent of the network—immediately de-energizes the safety relays to lock the brakes and stop the machine. This ensures the robot reverts to a safe state without requiring a successful command transmission."
   },
   {
     tag: "ISO",
-    question: "How does the system guarantee a safe state if a total network drop occurs?",
-    answer: "Safety happens at the machine level. The system uses a built-in hardware fail-safe that treats the wireless network as an unreliable \"Black Channel.\"\n\nIf the wireless signal drops for even 100 milliseconds, the onboard module instantly drops its safety relays. This cuts power and locks the mechanical brakes directly on the machine—completely independent of your main network or plant infrastructure."
+    question: "How exactly does the real-time safety bubble calculate its physical size?",
+    answer: "The system generates a 3D Safety Volume by projecting a dynamic expansion buffer (S) around the physical morphology of an asset.\n\nFirst, the engine calculates the separation distance: S = Σ [ (Vh * Tr) + (Vr * Tb) + (a_zone * C) ], accounting for human/asset speeds, system latency, and tracking confidence (C).\n\nSecond, it applies this distance as a dynamic 3D envelope over the asset's specific shape. As confidence (C) increases, the buffer shrinks, allowing for maximum throughput while maintaining ISO-compliant protection."
   }
 ];
 
 export function FAQ() {
   return (
-    <section id="faq" className="py-32 bg-white border-t border-slate-100">
+    <section id="faq" className="py-20 lg:py-32 bg-white border-t border-slate-100">
       <div className="container mx-auto px-6 max-w-4xl">
-        <div className="space-y-4 mb-16">
-          <h2 className="text-4xl font-headline font-bold text-slate-900">FAQs</h2>
+        <div className="space-y-4 mb-12 lg:mb-16 text-center lg:text-left">
+          <h2 className="text-3xl lg:text-4xl font-headline font-bold text-slate-900 tracking-tight">Technical Documentation</h2>
+          <p className="text-slate-500 text-sm lg:text-base">Deep dive into the SafeHive spatial safety architecture.</p>
         </div>
 
         <Accordion type="single" collapsible className="w-full space-y-4">
@@ -84,20 +80,20 @@ export function FAQ() {
             <AccordionItem 
               key={index} 
               value={`item-${index}`}
-              className="border border-slate-100 px-6 rounded-sm bg-slate-50/50 hover:bg-white hover:shadow-lg hover:shadow-primary/5 transition-all group"
+              className="border border-slate-100 px-4 lg:px-6 rounded-sm bg-slate-50/50 hover:bg-white hover:shadow-lg hover:shadow-primary/5 transition-all group"
             >
-              <AccordionTrigger className="hover:no-underline py-6">
-                <div className="flex flex-col items-start gap-3 text-left">
-                  <Badge variant="outline" className="text-[9px] uppercase tracking-widest font-bold border-primary/20 text-primary px-2">
+              <AccordionTrigger className="hover:no-underline py-5 lg:py-6">
+                <div className="flex flex-col items-start gap-2 lg:gap-3 text-left">
+                  <Badge variant="outline" className="text-[8px] lg:text-[9px] uppercase tracking-widest font-bold border-primary/20 text-primary px-2 py-0">
                     {faq.tag}
                   </Badge>
-                  <span className="text-lg font-headline font-bold text-slate-900 group-hover:text-primary transition-colors">
+                  <span className="text-base lg:text-lg font-headline font-bold text-slate-900 group-hover:text-primary transition-colors">
                     {faq.question}
                   </span>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="pb-8 pt-2">
-                <div className="pl-0 text-slate-500 leading-relaxed text-sm font-medium border-l-2 border-primary/20 pl-6 whitespace-pre-line">
+              <AccordionContent className="pb-6 lg:pb-8 pt-2">
+                <div className="pl-4 lg:pl-6 text-slate-500 leading-relaxed text-sm font-medium border-l-2 border-primary/20 whitespace-pre-line">
                   {faq.answer}
                 </div>
               </AccordionContent>
