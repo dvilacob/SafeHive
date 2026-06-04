@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Bot, User, ShieldCheck } from 'lucide-react';
+import { Bot, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
@@ -31,20 +31,8 @@ export function HiveInteractive() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Dynamic Shell Calculations (Visual Radii in px)
-  const shells = useMemo(() => {
-    const baseScale = speed / 10;
-    const confidenceBuffer = (6 - redundancy) * 15;
-
-    const inner = (50 + baseScale) * visualScale;
-    const middle = inner + (60 + confidenceBuffer) * visualScale;
-    const outer = middle + (80 + confidenceBuffer) * visualScale;
-
-    return { inner, middle, outer };
-  }, [speed, redundancy, visualScale]);
-
-  // Determine active state based on proximity vs shells (Logic in mm)
-  const currentZone = useMemo(() => {
+  // Shared boundary logic (in mm)
+  const boundaries = useMemo(() => {
     const baseScale = speed / 10;
     const confidenceBuffer = (6 - redundancy) * 15;
 
@@ -52,10 +40,24 @@ export function HiveInteractive() {
     const rawMiddle = rawInner + 60 + confidenceBuffer;
     const rawOuter = rawMiddle + 80 + confidenceBuffer;
 
-    if (proximity <= rawInner) return 'inner';
-    if (proximity <= rawMiddle) return 'middle';
+    return { rawInner, rawMiddle, rawOuter };
+  }, [speed, redundancy]);
+
+  // Dynamic Shell Calculations (Visual Radii in px)
+  const shells = useMemo(() => {
+    const inner = boundaries.rawInner * visualScale;
+    const middle = (boundaries.rawInner + 60 + (6 - redundancy) * 15) * visualScale;
+    const outer = (boundaries.rawInner + 140 + (6 - redundancy) * 30) * visualScale;
+
+    return { inner, middle, outer };
+  }, [boundaries, visualScale, redundancy]);
+
+  // Determine active state based on proximity vs shells (Logic in mm)
+  const currentZone = useMemo(() => {
+    if (proximity <= boundaries.rawInner) return 'inner';
+    if (proximity <= boundaries.rawMiddle) return 'middle';
     return 'outer';
-  }, [proximity, speed, redundancy]);
+  }, [proximity, boundaries]);
 
   // Dynamic ISO Rating calculation based on sensor redundancy
   const isoRating = useMemo(() => {
@@ -64,10 +66,22 @@ export function HiveInteractive() {
     return "🛡️ Target ISO Rating: PLc Capable";
   }, [redundancy]);
 
-  // Sync active tab with the physical zone of the worker
+  // Sync active tab with the physical zone of the worker when proximity changes
   useEffect(() => {
     setActiveShell(currentZone);
   }, [currentZone]);
+
+  // Handle Tab clicks to set proximity
+  const handleTabChange = (val: string) => {
+    setActiveShell(val);
+    if (val === 'inner') {
+      setProximity(Math.max(50, boundaries.rawInner - 20));
+    } else if (val === 'middle') {
+      setProximity((boundaries.rawInner + boundaries.rawMiddle) / 2);
+    } else if (val === 'outer') {
+      setProximity(Math.min(500, boundaries.rawMiddle + 40));
+    }
+  };
 
   return (
     <section id="hive" className="py-12 lg:py-24 bg-[#F8F9FA] border-y border-slate-200 overflow-hidden">
@@ -217,7 +231,7 @@ export function HiveInteractive() {
                   </p>
                 </div>
 
-                <Tabs value={activeShell} onValueChange={setActiveShell} className="w-full">
+                <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
                   <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-4 lg:gap-6 overflow-x-auto flex-nowrap justify-start scrollbar-hide">
                     <TabsTrigger
                       value="outer"
