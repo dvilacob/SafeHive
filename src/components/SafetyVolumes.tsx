@@ -4,7 +4,6 @@ import { useState, useMemo, useEffect } from 'react';
 import { Ruler, Gauge, ShieldAlert, RefreshCw, Bot, User, Zap, Ghost, ShieldCheck } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 
@@ -13,9 +12,11 @@ export function SafetyVolumes() {
   const [proximity, setProximity] = useState(400); // mm
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sensors
-  const [is3D, setIs3D] = useState(true);
   const [activeShell, setActiveShell] = useState('outer');
   const [visualScale, setVisualScale] = useState(0.48);
+
+  // 3D is now forced as per specification
+  const is3D = true;
 
   useEffect(() => {
     const handleResize = () => {
@@ -128,13 +129,13 @@ export function SafetyVolumes() {
     <section id="volumes" className="py-24 bg-white border-b border-slate-100 relative overflow-hidden">
       <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
       <div className="container mx-auto px-6 relative">
-        <div className="max-w-7xl mx-auto space-y-16">
+        <div className="max-w-7xl mx-auto space-y-12">
           {/* Header Section */}
           <div className="space-y-4">
-            <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tight text-slate-900 leading-none whitespace-nowrap">
+            <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tight text-slate-900 leading-none">
               DYNAMIC BUBBLE CALCULATION<span className="text-primary">.</span>
             </h2>
-            <p className="text-slate-500 text-lg lg:text-xl leading-relaxed font-medium max-w-4xl">
+            <p className="text-slate-500 text-base lg:text-lg leading-relaxed font-medium max-w-5xl">
               SafeHive continuously resizes each protective shield based on the proximity and velocity of every machine and person in the factory, tracked by different sensors and the humanoid's own vision systems in a deterministic way.
             </p>
           </div>
@@ -162,21 +163,14 @@ export function SafetyVolumes() {
           </div>
 
           {/* Interactive Simulation Dashboard */}
-          <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm mt-20">
+          <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm mt-12">
             <div className="grid lg:grid-cols-10 h-full">
               
-              <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-12 relative min-h-[500px] lg:min-h-[700px] flex flex-col items-center justify-center overflow-hidden">
+              <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-8 relative min-h-[500px] lg:min-h-[600px] flex flex-col items-center justify-center overflow-hidden">
                 
-                {/* 2D/3D Toggle */}
-                <div className="absolute top-6 right-6 z-[60] flex items-center gap-2 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full border border-slate-100 shadow-sm">
-                  <Label htmlFor="view-mode" className={cn("text-[10px] font-bold uppercase tracking-wider transition-colors", !is3D ? "text-slate-900" : "text-slate-400")}>2D</Label>
-                  <Switch id="view-mode" checked={is3D} onCheckedChange={setIs3D} className="data-[state=checked]:bg-primary" />
-                  <Label htmlFor="view-mode" className={cn("text-[10px] font-bold uppercase tracking-wider transition-colors", is3D ? "text-primary font-black" : "text-slate-400")}>3D</Label>
-                </div>
-
                 {/* Simulation Canvas */}
-                <div className={cn("relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out", is3D ? "perspective-[1200px] rotate-x-[60deg] rotate-z-[-45deg] scale-110" : "scale-100")}>
-                  {is3D && <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />}
+                <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1200px] rotate-x-[60deg] rotate-z-[-45deg] scale-110">
+                  <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
 
                   <div className="relative flex items-center justify-center">
                     {/* Outer Shell */}
@@ -200,15 +194,14 @@ export function SafetyVolumes() {
                       </svg>
                     </div>
 
-                    {/* Robot Humanoid Digital Twin (3D Shape) */}
-                    <div className={cn("relative z-40 transition-all duration-700", is3D ? "rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-60px]" : "")}>
+                    {/* Robot Humanoid Digital Twin */}
+                    <div className="relative z-40 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-60px]">
                        <div className="relative h-28 lg:h-36 w-14 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_20px_rgba(0,102,255,0.4)]">
                           <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM10 18H30V48H26V95H14V48H10V18ZM16 22V44H24V22H16Z" fill="currentColor" className="text-primary animate-pulse-glow" />
                           <rect x="18" y="24" width="4" height="12" fill="white" opacity="0.4" />
                           <circle cx="15" cy="10" r="1" fill="white" />
                           <circle cx="25" cy="10" r="1" fill="white" />
-                          {/* Robot Distinction: Mechanical Joints */}
                           <circle cx="10" cy="22" r="1.5" fill="#06b6d4" />
                           <circle cx="30" cy="22" r="1.5" fill="#06b6d4" />
                         </svg>
@@ -216,18 +209,18 @@ export function SafetyVolumes() {
                       </div>
                     </div>
 
-                    {/* Human Worker Asset (3D Silhouette) */}
+                    {/* Human Worker Asset */}
                     <div 
                       className={cn("absolute transition-all duration-500 ease-out", activeShell === 'inner' ? "z-[100]" : "z-[35]")} 
                       style={{ transform: `translateX(${proximity * visualScale}px)` }}
                     >
-                      <div className={cn("flex flex-col items-center gap-2 transition-all duration-700", is3D ? "rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-50px]" : "")}>
+                      <div className="flex flex-col items-center gap-2 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-50px]">
                         <div className="relative h-24 lg:h-30 w-12 flex items-center justify-center">
                             <svg viewBox="0 0 40 100" className={cn("h-full w-full drop-shadow-2xl transition-colors duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
                               <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46H12V94H28V46H32V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
                             </svg>
                          </div>
-                        <span className={cn("text-[10px] font-mono font-bold uppercase tracking-tighter whitespace-nowrap px-2 py-0.5 rounded backdrop-blur-md", is3D ? "text-white bg-slate-900/80" : "text-slate-900 bg-white/80 border border-slate-100")}>
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-tighter whitespace-nowrap px-2 py-0.5 rounded backdrop-blur-md text-white bg-slate-900/80">
                           Worker
                         </span>
                       </div>
@@ -236,7 +229,7 @@ export function SafetyVolumes() {
                 </div>
 
                 {/* Interactive Sliders Overlay */}
-                <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/95 backdrop-blur-md p-6 border border-slate-200 shadow-xl rounded-sm z-[150] mt-8">
+                <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/95 backdrop-blur-md p-6 border border-slate-200 shadow-xl rounded-sm z-[150] mt-4">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
                       <Label className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">PROXIMITY (mm)</Label>
@@ -261,39 +254,39 @@ export function SafetyVolumes() {
                 </div>
               </div>
 
-              <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white">
-                <div className="space-y-12">
+              <div className="lg:col-span-4 p-6 lg:p-8 flex flex-col justify-between bg-white">
+                <div className="space-y-8">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-6 flex justify-start overflow-x-auto scrollbar-hide">
-                      <TabsTrigger value="outer" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-[10px] font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
-                      <TabsTrigger value="middle" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-[10px] font-bold uppercase tracking-widest transition-all">Middle Shell</TabsTrigger>
-                      <TabsTrigger value="inner" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-[10px] font-bold uppercase tracking-widest transition-all">Inner Shell</TabsTrigger>
+                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-6 gap-4 flex justify-start overflow-x-auto scrollbar-hide">
+                      <TabsTrigger value="outer" className="px-0 py-2 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-xs font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
+                      <TabsTrigger value="middle" className="px-0 py-2 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-xs font-bold uppercase tracking-widest transition-all">Middle Shell</TabsTrigger>
+                      <TabsTrigger value="inner" className="px-0 py-2 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-xs font-bold uppercase tracking-widest transition-all">Inner Shell</TabsTrigger>
                     </TabsList>
 
-                    <div className="min-h-[180px]">
-                      <TabsContent value="outer" className="mt-0 space-y-4">
+                    <div className="min-h-[140px]">
+                      <TabsContent value="outer" className="mt-0 space-y-3">
                         <div className="flex gap-4">
                           <div className="w-1.5 h-16 bg-blue-400 rounded-full shrink-0" />
-                          <div className="space-y-2">
-                            <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-900">Nominal Speed Monitoring</h4>
+                          <div className="space-y-1">
+                            <h4 className="text-sm font-bold uppercase tracking-tight text-slate-900">Nominal Speed Monitoring</h4>
                             <p className="text-xs text-slate-500 leading-relaxed font-medium">The machine maintains full production speed while scaling the outer perimeter to match required stopping distances.</p>
                           </div>
                         </div>
                       </TabsContent>
-                      <TabsContent value="middle" className="mt-0 space-y-4">
+                      <TabsContent value="middle" className="mt-0 space-y-3">
                         <div className="flex gap-4">
                           <div className="w-1.5 h-16 bg-amber-400 rounded-full shrink-0" />
-                          <div className="space-y-2">
-                            <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-900">Collaborative State</h4>
+                          <div className="space-y-1">
+                            <h4 className="text-sm font-bold uppercase tracking-tight text-slate-900">Collaborative State</h4>
                             <p className="text-xs text-slate-500 leading-relaxed font-medium">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting speed based on body segment tolerances.</p>
                           </div>
                         </div>
                       </TabsContent>
-                      <TabsContent value="inner" className="mt-0 space-y-4">
+                      <TabsContent value="inner" className="mt-0 space-y-3">
                         <div className="flex gap-4">
                           <div className="w-1.5 h-16 bg-red-500 rounded-full shrink-0" />
-                          <div className="space-y-2">
-                            <h4 className="text-[11px] font-bold uppercase tracking-widest text-slate-900">Immediate Safety Stop</h4>
+                          <div className="space-y-1">
+                            <h4 className="text-sm font-bold uppercase tracking-tight text-slate-900">Immediate Safety Stop</h4>
                             <p className="text-xs text-slate-500 leading-relaxed font-medium">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
                           </div>
                         </div>
@@ -302,19 +295,19 @@ export function SafetyVolumes() {
                   </Tabs>
                 </div>
 
-                <div className="pt-8 border-t border-slate-50 flex flex-col gap-4">
+                <div className="pt-6 border-t border-slate-50 flex flex-col gap-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest">Target ISO Rating</span>
+                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Target ISO Rating</span>
                     <div className="flex items-center gap-2">
-                      <ShieldCheck className="w-3 h-3 text-emerald-500" />
-                      <span className="text-[11px] font-bold text-slate-900">
+                      <ShieldCheck className="w-4 h-4 text-emerald-500" />
+                      <span className="text-sm font-bold text-slate-900">
                         {redundancy >= 4 ? 'PLe / SIL 3' : redundancy >= 2 ? 'PLd / SIL 2' : 'PLc'}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[9px] font-mono font-bold text-slate-400 uppercase">10ms Deterministic Loop Active</span>
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">10ms Deterministic Loop Active</span>
                   </div>
                 </div>
               </div>
