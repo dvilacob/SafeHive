@@ -63,7 +63,7 @@ export function SafetyVolumes() {
     else if (val === 'outer') setProximity((boundaries.rawMiddle + boundaries.rawOuter) / 2);
   };
 
-  const VolumetricCylinder = ({ radius, color, isActive, height = 120 }: { radius: number, color: string, isActive: boolean, height?: number }) => {
+  const VolumetricCylinder = ({ radius, color, isActive, height = 160 }: { radius: number, color: string, isActive: boolean, height?: number }) => {
     const rx = radius;
     const ry = radius * 0.6; // Perspective squish
     
@@ -156,9 +156,10 @@ export function SafetyVolumes() {
                   <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
                   
                   <div className="relative flex items-center justify-center">
+                    {/* All cylinders set to the same height (160) */}
                     <VolumetricCylinder radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} height={160} />
-                    <VolumetricCylinder radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} height={130} />
-                    <VolumetricCylinder radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} height={100} />
+                    <VolumetricCylinder radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} height={160} />
+                    <VolumetricCylinder radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} height={160} />
 
                     {/* Grounded Humanoid Asset */}
                     <div className="relative z-40 transition-all duration-700 rotate-z-[15deg] rotate-x-[-30deg] translate-y-0">
