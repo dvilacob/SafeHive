@@ -1,3 +1,4 @@
+
 "use client"
 
 export function Hero() {
@@ -21,7 +22,7 @@ export function Hero() {
             </p>
             
             <p className="text-xs lg:text-sm text-slate-400 font-semibold leading-relaxed max-w-2xl mx-auto border-t border-slate-100 pt-8 lg:pt-10">
-              Designed for modern ISO standards: Achieving deterministic safety via &lt; 10⁻⁷ probability thresholds over black-channel safety-rated networks—completely bypassing the need for traditional dual-channel hardware.
+              Optimized for modern ISO standards: Achieving deterministic safety via &lt; 10⁻⁷ probability thresholds over black-channel safety-rated networks—completely bypassing the need for traditional dual-channel hardware.
             </p>
           </div>
         </div>
