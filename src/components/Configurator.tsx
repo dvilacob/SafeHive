@@ -1,7 +1,6 @@
-
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,6 +18,11 @@ import {
 
 export function Configurator() {
   const [area, setArea] = useState(1000);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Phase 1 Hardware Costs
   const HUB_COST = 12500;
@@ -27,6 +31,11 @@ export function Configurator() {
   // Calculation logic for perimeter coverage
   const apCount = Math.ceil(area / 500);
   const totalCost = HUB_COST + (apCount * AP_COST);
+
+  const formatPrice = (price: number) => {
+    if (!mounted) return price.toString();
+    return price.toLocaleString();
+  };
 
   return (
     <section id="configurator" className="py-20 lg:py-40 bg-white">
@@ -68,9 +77,9 @@ export function Configurator() {
                       <div key={i} className="flex justify-between items-center text-xs">
                         <div className="flex flex-col gap-0.5">
                           <span className="font-bold text-slate-900">{item.label}</span>
-                          <span className="text-[9px] text-slate-400 font-mono">({item.qty} × ${item.unit.toLocaleString()})</span>
+                          <span className="text-[9px] text-slate-400 font-mono">({item.qty} × ${formatPrice(item.unit)})</span>
                         </div>
-                        <span className="font-mono font-bold text-slate-900">${(item.qty * item.unit).toLocaleString()}</span>
+                        <span className="font-mono font-bold text-slate-900">${formatPrice(item.qty * item.unit)}</span>
                       </div>
                     ))}
                   </div>
@@ -78,7 +87,7 @@ export function Configurator() {
                   <div className="pt-8 border-t border-slate-100 space-y-6">
                     <div className="flex justify-between items-end">
                       <span className="tech-label text-slate-400">Total</span>
-                      <div className="text-3xl lg:text-5xl font-headline font-bold text-slate-900 tracking-tighter">${totalCost.toLocaleString()}</div>
+                      <div className="text-3xl lg:text-5xl font-headline font-bold text-slate-900 tracking-tighter">${formatPrice(totalCost)}</div>
                     </div>
                     
                     <Dialog>
