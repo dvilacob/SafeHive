@@ -1,4 +1,3 @@
-
 "use client"
 
 export function Hero() {
@@ -11,11 +10,6 @@ export function Hero() {
       
       <div className="container mx-auto px-6">
         <div className="max-w-5xl mx-auto text-center flex flex-col items-center space-y-8 lg:space-y-12">
-          <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20">
-            <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">System Architecture v2.4.0</span>
-          </div>
-
           <h1 className="text-4xl sm:text-6xl lg:text-[8.5rem] font-headline font-bold tracking-tighter leading-[1] lg:leading-[0.85] text-slate-900">
             Spatial Safety for <br />
             <span className="text-primary italic">Spatial Agents.</span>
