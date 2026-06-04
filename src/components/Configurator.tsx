@@ -1,11 +1,12 @@
 "use client"
 
 import { useState, useEffect } from 'react';
-import { Slider } from "@/components/ui/slider";
+import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, Monitor } from "lucide-react";
+import { ArrowRight, Monitor, Target } from "lucide-react";
+import { cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -38,83 +39,122 @@ export function Configurator() {
   };
 
   return (
-    <section id="configurator" className="py-20 lg:py-40 bg-white">
-      <div className="container mx-auto px-6">
+    <section id="configurator" className="py-24 lg:py-48 bg-[#F8FAFC] relative overflow-hidden">
+      {/* Dot Grid Background */}
+      <div className="absolute inset-0 bg-dot-grid opacity-60 pointer-events-none" />
+      
+      <div className="container mx-auto px-6 relative">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
             
-            <div className="lg:col-span-7 space-y-10 lg:space-y-16">
-              <div className="space-y-4">
-                <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tighter">Hive Configurator.</h2>
-                <p className="text-slate-500 text-lg lg:text-xl max-w-2xl">Define facility constraints to generate your order</p>
+            <div className="lg:col-span-7 space-y-12 lg:space-y-20">
+              <div className="space-y-6">
+                <h2 className="text-5xl lg:text-7xl font-headline font-bold tracking-tighter text-slate-900">
+                  Hive Configurator<span className="text-primary">.</span>
+                </h2>
+                <p className="text-slate-500 text-lg lg:text-xl max-w-xl font-medium">
+                  Define facility constraints to generate a deterministic Phase 1 site specification.
+                </p>
               </div>
 
-              <div className="space-y-8 lg:space-y-12">
-                <div className="space-y-6 lg:space-y-8">
-                  <div className="flex justify-between items-end">
-                    <Label className="text-slate-900 text-base lg:text-lg font-bold uppercase tracking-widest">Total Work Area (m²)</Label>
-                    <span className="text-2xl lg:text-4xl font-headline font-bold text-primary italic">{area} m²</span>
+              <div className="space-y-12 lg:space-y-16">
+                <div className="space-y-8">
+                  <div className="flex justify-between items-baseline">
+                    <Label className="text-slate-400 text-xs font-mono font-bold uppercase tracking-[0.3em]">TOTAL WORK AREA (m²)</Label>
+                    <div className="text-4xl lg:text-5xl font-mono font-bold text-primary drop-shadow-[0_0_15px_rgba(0,102,255,0.15)]">
+                      {area}
+                      <span className="text-sm ml-2 text-slate-300 font-mono tracking-normal">M²</span>
+                    </div>
                   </div>
-                  <Slider value={[area]} onValueChange={(v) => setArea(v[0])} max={10000} min={100} step={100} className="py-4" />
+                  
+                  {/* Custom Industrial Slider */}
+                  <SliderPrimitive.Root
+                    value={[area]}
+                    onValueChange={(v) => setArea(v[0])}
+                    max={10000}
+                    min={100}
+                    step={100}
+                    className="relative flex w-full touch-none select-none items-center py-6"
+                  >
+                    <SliderPrimitive.Track className="relative h-4 w-full grow overflow-hidden bg-slate-200/50 border border-slate-200 inner-shadow-recessed">
+                      <SliderPrimitive.Range className="absolute h-full bg-primary/10" />
+                    </SliderPrimitive.Track>
+                    <SliderPrimitive.Thumb className="group relative block h-10 w-10 outline-none cursor-pointer">
+                      <div className="absolute inset-0 flex items-center justify-center transition-transform duration-200 group-hover:scale-125 group-active:scale-95">
+                        <Target className="text-primary fill-primary/10 w-full h-full drop-shadow-[0_0_10px_rgba(0,102,255,0.4)]" />
+                      </div>
+                    </SliderPrimitive.Thumb>
+                  </SliderPrimitive.Root>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-5 w-full">
-              <div className="sticky top-32 glass-panel p-0 overflow-hidden space-y-0 border-slate-200 shadow-2xl rounded-sm">
+              <div className="bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative">
+                {/* Panel Corner Accent */}
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary/20 -translate-x-4 translate-y-4" />
                 
-                <div className="p-8 lg:p-10 space-y-8">
-                  <div className="flex justify-between items-center border-b border-slate-100 pb-6">
-                    <h3 className="tech-label text-slate-900 uppercase">Bill of materials</h3>
-                    <Monitor className="text-primary" size={16} />
+                <div className="p-10 lg:p-12 space-y-10">
+                  <div className="flex justify-between items-center border-b border-slate-100 pb-8">
+                    <h3 className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-slate-400">Bill of materials</h3>
+                    <Monitor className="text-primary/40" size={16} />
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {[
                       { label: 'SafeHive Control Hub', qty: 1, unit: HUB_COST },
-                      { label: 'Perimeter Access Points (APs)', qty: apCount, unit: AP_COST }
+                      { label: 'Perimeter Access Points', qty: apCount, unit: AP_COST }
                     ].map((item, i) => (
-                      <div key={i} className="flex justify-between items-center text-xs">
-                        <div className="flex flex-col gap-0.5">
-                          <span className="font-bold text-slate-900">{item.label}</span>
-                          <span className="text-[9px] text-slate-400 font-mono">({item.qty} × ${formatPrice(item.unit)})</span>
+                      <div key={i} className="flex justify-between items-start text-xs">
+                        <div className="flex flex-col gap-1">
+                          <span className="font-bold text-slate-900 tracking-tight">{item.label}</span>
+                          <span className="text-[9px] text-slate-400 font-mono uppercase">QTY: {item.qty} × ${formatPrice(item.unit)}</span>
                         </div>
-                        <span className="font-mono font-bold text-slate-900">${formatPrice(item.qty * item.unit)}</span>
+                        <span className="font-mono font-bold text-slate-900 tabular-nums text-sm">${formatPrice(item.qty * item.unit)}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="pt-8 border-t border-slate-100 space-y-6">
+                  <div className="pt-10 border-t border-slate-100 space-y-8">
                     <div className="flex justify-between items-end">
-                      <span className="tech-label text-slate-400">Total</span>
-                      <div className="text-3xl lg:text-5xl font-headline font-bold text-slate-900 tracking-tighter">${formatPrice(totalCost)}</div>
+                      <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Total cost</span>
+                      <div className="text-4xl lg:text-5xl font-mono font-bold text-slate-900 tracking-tighter tabular-nums">
+                        ${formatPrice(totalCost)}
+                      </div>
                     </div>
                     
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button className="w-full h-16 text-base font-bold rounded-none bg-primary hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 gap-3 flex items-center justify-center uppercase tracking-widest">
-                          Order
-                          <ArrowRight size={18} />
-                        </Button>
+                        <button className="group relative w-full h-20 bg-primary hover:bg-[#06b6d4] transition-colors duration-300 chamfered-button overflow-hidden">
+                          <div className="relative z-10 flex items-center justify-center gap-4 text-white text-xs font-mono font-bold uppercase tracking-[0.3em]">
+                            Order
+                            <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-2" />
+                          </div>
+                          <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </button>
                       </DialogTrigger>
-                      <DialogContent className="rounded-none border-4 border-slate-900 w-[95vw] max-w-lg">
-                        <DialogHeader>
-                          <DialogTitle className="text-2xl font-headline">Order Phase 1 Site Spec</DialogTitle>
-                          <DialogDescription>Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
-                        </DialogHeader>
-                        <div className="space-y-6 py-8">
-                          <div className="space-y-2">
-                            <Label className="tech-label">Lead Integration Engineer</Label>
-                            <Input placeholder="Full Name" className="h-14 rounded-none border-2" />
+                      <DialogContent className="rounded-none border-2 border-slate-900 w-[95vw] max-w-lg p-0 overflow-hidden">
+                        <div className="p-8 space-y-6">
+                          <DialogHeader>
+                            <DialogTitle className="text-2xl font-headline font-bold uppercase tracking-tight">Order Phase 1 Site Spec</DialogTitle>
+                            <DialogDescription className="font-medium text-slate-500">Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-6 py-4">
+                            <div className="space-y-2">
+                              <Label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Lead Integration Engineer</Label>
+                              <Input placeholder="FULL NAME" className="h-14 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-sm font-mono" />
+                            </div>
+                            <div className="space-y-2">
+                              <Label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Corporate Email Address</Label>
+                              <Input placeholder="EMAIL@COMPANY.COM" className="h-14 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-sm font-mono" />
+                            </div>
                           </div>
-                          <div className="space-y-2">
-                            <Label className="tech-label">Corporate Email Address</Label>
-                            <Input placeholder="email@company.com" className="h-14 rounded-none border-2" />
-                          </div>
+                          <DialogFooter>
+                            <button className="w-full h-16 bg-primary text-white font-mono font-bold uppercase tracking-[0.2em] chamfered-button hover:bg-[#06b6d4] transition-colors">
+                              Submit Order
+                            </button>
+                          </DialogFooter>
                         </div>
-                        <DialogFooter>
-                          <Button className="w-full h-16 rounded-none bg-primary font-bold text-lg">Order</Button>
-                        </DialogFooter>
                       </DialogContent>
                     </Dialog>
                   </div>
