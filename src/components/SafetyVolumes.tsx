@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -81,7 +82,7 @@ export function SafetyVolumes() {
     },
     {
       icon: <Gauge className="w-4 h-4" />,
-      label: 'SPEED',
+      label: 'SPEED CALIBRATION',
       value: 'Velocity Scaled',
       subtext: 'Automatically shrinks or expands protective volumes based on the live velocity vectors of different equipment.',
     },
@@ -105,7 +106,7 @@ export function SafetyVolumes() {
     },
     {
       icon: <Zap className="w-4 h-4" />,
-      label: 'REAL-TIME DYNAMICS',
+      label: 'LOOP SPEED',
       value: '10ms Deterministic',
       subtext: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.',
     },
@@ -257,7 +258,7 @@ export function SafetyVolumes() {
               <div className="lg:col-span-4 p-6 lg:p-10 flex flex-col justify-between bg-white">
                 <div className="space-y-10">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-6 flex justify-start overflow-x-auto scrollbar-hide">
+                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-6 flex justify-start">
                       <TabsTrigger value="outer" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
                       <TabsTrigger value="middle" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Middle Shell</TabsTrigger>
                       <TabsTrigger value="inner" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Inner Shell</TabsTrigger>
