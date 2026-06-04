@@ -195,7 +195,7 @@ export function HiveInteractive() {
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       SOURCES
                     </Label>
-                    <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{redundancy} Sensors</span>
+                    <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{redundancy}</span>
                   </div>
                   <Slider
                     value={[redundancy]}
