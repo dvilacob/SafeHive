@@ -117,15 +117,8 @@ export function SafetyVolumes() {
       <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
       <div className="container mx-auto px-6 relative">
         <div className="max-w-7xl mx-auto space-y-20">
-          <div className="space-y-6 text-center max-w-4xl mx-auto">
-            <h2 className="text-4xl lg:text-[7rem] font-headline font-bold tracking-tighter text-slate-900 leading-none">
-              DYNAMIC BUBBLE CALCULATION<span className="text-primary">.</span>
-            </h2>
-            <p className="text-slate-500 text-base lg:text-xl leading-relaxed font-medium px-4 max-w-3xl mx-auto">
-              SafeHive continuously resizes each protective shield based on the proximity and velocity of every machine and person in the factory, tracked by different sensors and the humanoid's own vision systems in a deterministic way.
-            </p>
-          </div>
-
+          
+          {/* Telemetry Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {telemetry.map((item, idx) => (
               <div key={idx} className="p-8 lg:p-10 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group flex flex-col h-full shadow-sm hover:shadow-xl hover:shadow-primary/5">
@@ -144,7 +137,8 @@ export function SafetyVolumes() {
             ))}
           </div>
 
-          <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm mt-12">
+          {/* Interactive 3D Simulator */}
+          <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm">
             <div className="grid lg:grid-cols-10 h-full">
               <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-8 relative min-h-[500px] lg:min-h-[800px] flex flex-col items-center justify-center overflow-hidden">
                 <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1500px] rotate-x-[60deg] rotate-z-[-45deg] scale-100 lg:scale-110">
