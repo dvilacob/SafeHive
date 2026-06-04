@@ -56,18 +56,13 @@ const faqs = [
   },
   {
     tag: "ISO",
-    question: "How does SafeHive help me certify a Performance Level (PL) according to ISO 13849-1?",
-    answer: "SafeHive delivers the secure, deterministic data pipeline (the Black Channel) and the open integration framework (the Distributed Perception Topic). This gives your team the exact mathematical and architectural foundation needed to satisfy safety auditors and achieve your target Category 3/4, PL d/e rating by proving high diagnostic coverage and common cause failure resistance."
-  },
-  {
-    tag: "ISO",
     question: "How exactly does the real-time safety bubble calculate its physical size?",
     answer: "The system generates a 3D Safety Volume by projecting a dynamic expansion buffer (S) around the physical morphology of an asset.\n\nFirst, the engine calculates the separation distance: S = Σ [ (Vh * Tr) + (Vr * Tb) + (a_zone * C) ], accounting for human/asset speeds, system latency, and tracking confidence (C).\n\nSecond, it applies this distance as a dynamic 3D envelope over the asset's specific shape. As confidence (C) increases, the buffer shrinks, allowing for maximum throughput while maintaining ISO-compliant protection."
   },
   {
     tag: "ISO",
-    question: "What happens to the safety bubble and the asset if a wireless network packet drops?",
-    answer: "When a packet drops or visibility decreases, system certainty plummets. To maintain strict ISO compliance without abruptly shutting down production, SafeHive triggers an autonomous Dual-Action Fallback: 1. The Confidence Buffer (C) instantly increases, expanding the safety bubble into a wider, more cautious footprint. 2. Simultaneously, the asset's velocity (Vr) throttles down to a regulated safe collaborative crawl (<250mm/s) until the connection re-establishes."
+    question: "What happens if the wireless network connection is lost?",
+    answer: "The system employs a local, hardware-based \"watchdog\" mechanism. The robot continuously expects a \"heartbeat\" signal from the controller; if the connection is interrupted for more than a defined threshold, the onboard safety module—independent of the network—immediately de-energizes the safety relays to lock the brakes and stop the machine. This ensures the robot reverts to a safe state without requiring a successful command transmission."
   },
   {
     tag: "ISO",
