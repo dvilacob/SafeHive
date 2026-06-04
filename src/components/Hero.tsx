@@ -17,7 +17,7 @@ export function Hero() {
 
           <div className="max-w-3xl space-y-8 lg:space-y-10">
             <p className="text-lg lg:text-2xl text-slate-500 font-medium leading-relaxed">
-              SafeHive replaces physical fences with an invisible safety bubble. It slows machines when someone is near, and speeds them up the moment they leave to keep your production moving.
+              SafeHive replaces physical fences with an invisible safety bubble. It slows humanoids and machines when someone is near, and speeds them up the moment they leave to keep your production moving.
             </p>
             
             <p className="text-xs lg:text-sm text-slate-400 font-semibold leading-relaxed max-w-2xl mx-auto border-t border-slate-100 pt-8 lg:pt-10">
