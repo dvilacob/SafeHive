@@ -161,7 +161,7 @@ export function SafetyVolumes() {
   const telemetry = [
     { icon: <Ruler className="w-16 h-16" />, value: 'Proximity', subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
     { icon: <Gauge className="w-16 h-16" />, value: 'Speed Calibration', subtext: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
-    { icon: <ShieldAlert className="w-16 h-16" />, value: 'Component Sensitivity', subtext: 'Enforces ISO/TS 15066 force limits for human skin while dynamically shielding fragile, high-value machine sensors from impact.' },
+    { icon: <ShieldAlert className="w-16 h-16" />, value: 'ADAPTIVE SAFETY SHIELDING', subtext: 'Helps you align with ISO standards by enforcing safe interaction limits, protecting sensitive equipment, and achieving the required PFH_D thresholds for modern safety architectures.' },
     { icon: <RefreshCw className="w-16 h-16" />, value: 'Hive Redundancy', subtext: "SafeHive blends factory sensor data with the robot's own eyes to lock a protective safety bubble around every machine, humanoid, and person on the floor." },
     { icon: <Ghost className="w-16 h-16" />, value: 'Un-networked Hardware', subtext: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
     { icon: <Zap className="w-16 h-16" />, value: 'Loop Speed', subtext: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.' },
