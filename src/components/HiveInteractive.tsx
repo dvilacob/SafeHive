@@ -135,7 +135,7 @@ export function HiveInteractive() {
 
                 {/* Worker Asset */}
                 <div
-                  className="absolute transition-all duration-300"
+                  className="absolute transition-all duration-300 z-20"
                   style={{ transform: `translateX(${proximity * visualScale}px)` }}
                 >
                   <div className="flex flex-col items-center gap-1.5">
