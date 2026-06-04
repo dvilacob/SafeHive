@@ -75,39 +75,33 @@ export function SafetyVolumes() {
 
   const telemetry = [
     {
-      icon: <Ruler className="w-4 h-4" />,
-      label: 'PROXIMITY',
-      value: 'Dynamic Tracking',
+      icon: <Ruler className="w-6 h-6" />,
+      value: 'PROXIMITY TRACKING',
       subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.',
     },
     {
-      icon: <Gauge className="w-4 h-4" />,
-      label: 'SPEED CALIBRATION',
-      value: 'Velocity Scaled',
+      icon: <Gauge className="w-6 h-6" />,
+      value: 'SPEED SCALED',
       subtext: 'Automatically shrinks or expands protective volumes based on the live velocity vectors of different equipment.',
     },
     {
-      icon: <ShieldAlert className="w-4 h-4" />,
-      label: 'COMPONENT SENSITIVITY',
-      value: 'ISO/TS 15066 Active',
+      icon: <ShieldAlert className="w-6 h-6" />,
+      value: 'COMPONENT SENSITIVITY',
       subtext: 'Enforces ISO/TS 15066 force limits for human skin while dynamically shielding fragile, high-value machine sensors from impact.',
     },
     {
-      icon: <RefreshCw className="w-4 h-4" />,
-      label: 'HIVE REDUNDANCY',
-      value: 'Fused Spatial Mapping',
+      icon: <RefreshCw className="w-6 h-6" />,
+      value: 'HIVE REDUNDANCY',
       subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.',
     },
     {
-      icon: <Ghost className="w-4 h-4" />,
-      label: 'UN-NETWORKED HARDWARE',
-      value: 'Onboard Vision Scan',
+      icon: <Ghost className="w-6 h-6" />,
+      value: 'UN-NETWORKED HARDWARE',
       subtext: "Uses the humanoid's native computer vision to detect and project safety hulls over untracked moving machinery.",
     },
     {
-      icon: <Zap className="w-4 h-4" />,
-      label: 'LOOP SPEED',
-      value: '10ms Deterministic',
+      icon: <Zap className="w-6 h-6" />,
+      value: 'LOOP SPEED',
       subtext: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.',
     },
   ];
@@ -144,18 +138,17 @@ export function SafetyVolumes() {
           {/* Telemetry Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {telemetry.map((item, idx) => (
-              <div key={idx} className="p-6 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="text-primary/40 group-hover:text-primary transition-colors">
+              <div key={idx} className="p-8 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group flex flex-col h-full">
+                <div className="mb-6">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
                     {item.icon}
                   </div>
-                  <span className="tech-label text-[10px] text-slate-400 font-bold tracking-widest uppercase">{item.label}</span>
                 </div>
-                <div className="space-y-2">
-                  <div className="text-sm font-bold text-slate-900 uppercase tracking-tight">
+                <div className="space-y-3 flex-1">
+                  <div className="text-xl lg:text-2xl font-headline font-bold text-slate-900 uppercase tracking-tight leading-none">
                     {item.value}
                   </div>
-                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                  <p className="text-sm text-slate-500 font-medium leading-relaxed">
                     {item.subtext}
                   </p>
                 </div>
