@@ -1,4 +1,3 @@
-
 "use client"
 
 export function Hero() {
@@ -18,7 +17,7 @@ export function Hero() {
 
           <div className="max-w-3xl space-y-8 lg:space-y-10">
             <p className="text-lg lg:text-2xl text-slate-500 font-medium leading-relaxed">
-              Dynamic safety volumes that adapt to your factory floor. Actively orchestrate and throttle asset speeds in real-time to maintain true spatial safety awareness.
+              SafeHive replaces physical fences with an invisible safety bubble. It slows machines when someone is near, and speeds them up the moment they leave to keep your production moving.
             </p>
             
             <p className="text-xs lg:text-sm text-slate-400 font-semibold leading-relaxed max-w-2xl mx-auto border-t border-slate-100 pt-8 lg:pt-10">
