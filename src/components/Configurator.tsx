@@ -37,7 +37,7 @@ export function Configurator() {
               <div className="space-y-4">
                 <span className="tech-label text-primary">Infrastructure Planning</span>
                 <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tighter">Architecture Configurator.</h2>
-                <p className="text-slate-500 text-lg lg:text-xl max-w-2xl">Define facility constraints to generate a Phase 1 certified hardware specification for core spatial grid coverage.</p>
+                <p className="text-slate-500 text-lg lg:text-xl max-w-2xl">Define facility constraints to generate your configuration</p>
               </div>
 
               <div className="space-y-8 lg:space-y-12">
