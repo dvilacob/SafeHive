@@ -75,7 +75,7 @@ export function Configurator() {
 
                 <div className="pt-8 lg:pt-10 border-t border-slate-100 space-y-6 lg:space-y-8">
                   <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2">
-                    <span className="tech-label text-slate-400">Phase 1 Hardware Estimate</span>
+                    <span className="tech-label text-slate-400">Total</span>
                     <div className="text-3xl lg:text-5xl font-headline font-bold text-slate-900 tracking-tighter whitespace-nowrap">${totalCost.toLocaleString('en-US')}</div>
                   </div>
                   
