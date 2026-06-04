@@ -21,7 +21,14 @@ export function SafetyVolumes() {
 
   useEffect(() => {
     const handleResize = () => {
-      setVisualScale(window.innerWidth < 640 ? 0.35 : 0.55);
+      // More granular scale for mobile vs desktop
+      if (window.innerWidth < 480) {
+        setVisualScale(0.28);
+      } else if (window.innerWidth < 768) {
+        setVisualScale(0.35);
+      } else {
+        setVisualScale(0.55);
+      }
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -75,32 +82,32 @@ export function SafetyVolumes() {
 
   const telemetry = [
     {
-      icon: <Ruler className="w-6 h-6" />,
-      value: 'PROXIMITY TRACKING',
+      icon: <Ruler className="w-8 h-8" />,
+      value: 'PROXIMITY',
       subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.',
     },
     {
-      icon: <Gauge className="w-6 h-6" />,
-      value: 'SPEED SCALED',
+      icon: <Gauge className="w-8 h-8" />,
+      value: 'SPEED CALIBRATION',
       subtext: 'Automatically shrinks or expands protective volumes based on the live velocity vectors of different equipment.',
     },
     {
-      icon: <ShieldAlert className="w-6 h-6" />,
+      icon: <ShieldAlert className="w-8 h-8" />,
       value: 'COMPONENT SENSITIVITY',
       subtext: 'Enforces ISO/TS 15066 force limits for human skin while dynamically shielding fragile, high-value machine sensors from impact.',
     },
     {
-      icon: <RefreshCw className="w-6 h-6" />,
+      icon: <RefreshCw className="w-8 h-8" />,
       value: 'HIVE REDUNDANCY',
       subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.',
     },
     {
-      icon: <Ghost className="w-6 h-6" />,
+      icon: <Ghost className="w-8 h-8" />,
       value: 'UN-NETWORKED HARDWARE',
-      subtext: "Uses the humanoid's native computer vision to detect and project safety hulls over untracked moving machinery.",
+      subtext: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace.",
     },
     {
-      icon: <Zap className="w-6 h-6" />,
+      icon: <Zap className="w-8 h-8" />,
       value: 'LOOP SPEED',
       subtext: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.',
     },
@@ -140,12 +147,12 @@ export function SafetyVolumes() {
             {telemetry.map((item, idx) => (
               <div key={idx} className="p-8 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group flex flex-col h-full">
                 <div className="mb-6">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-primary group-hover:scale-110 transition-transform duration-300">
                     {item.icon}
                   </div>
                 </div>
                 <div className="space-y-3 flex-1">
-                  <div className="text-xl lg:text-2xl font-headline font-bold text-slate-900 uppercase tracking-tight leading-none">
+                  <div className="text-2xl lg:text-3xl font-headline font-bold text-slate-900 uppercase tracking-tight leading-none">
                     {item.value}
                   </div>
                   <p className="text-sm text-slate-500 font-medium leading-relaxed">
@@ -160,10 +167,10 @@ export function SafetyVolumes() {
           <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm mt-12">
             <div className="grid lg:grid-cols-10 h-full">
               
-              <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-8 relative min-h-[500px] lg:min-h-[600px] flex flex-col items-center justify-center overflow-hidden">
+              <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-8 relative min-h-[450px] md:min-h-[500px] lg:min-h-[600px] flex flex-col items-center justify-center overflow-hidden">
                 
                 {/* Simulation Canvas */}
-                <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1200px] rotate-x-[60deg] rotate-z-[-45deg] scale-110">
+                <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1200px] rotate-x-[60deg] rotate-z-[-45deg] scale-100 lg:scale-110">
                   <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
 
                   <div className="relative flex items-center justify-center">
@@ -189,17 +196,12 @@ export function SafetyVolumes() {
                     </div>
 
                     {/* Robot Humanoid Digital Twin */}
-                    <div className="relative z-40 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-60px]">
-                       <div className="relative h-28 lg:h-36 w-14 flex items-center justify-center">
+                    <div className="relative z-40 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-40px] md:translate-y-[-60px]">
+                       <div className="relative h-20 md:h-28 lg:h-36 w-10 md:w-14 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_20px_rgba(0,102,255,0.4)]">
                           <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM10 18H30V48H26V95H14V48H10V18ZM16 22V44H24V22H16Z" fill="currentColor" className="text-primary animate-pulse-glow" />
-                          <rect x="18" y="24" width="4" height="12" fill="white" opacity="0.4" />
-                          <circle cx="15" cy="10" r="1" fill="white" />
-                          <circle cx="25" cy="10" r="1" fill="white" />
-                          <circle cx="10" cy="22" r="1.5" fill="#06b6d4" />
-                          <circle cx="30" cy="22" r="1.5" fill="#06b6d4" />
                         </svg>
-                        <div className="absolute bottom-0 w-10 h-2 bg-primary/20 blur-md rounded-full" />
+                        <div className="absolute bottom-0 w-8 md:w-10 h-2 bg-primary/20 blur-md rounded-full" />
                       </div>
                     </div>
 
@@ -208,13 +210,13 @@ export function SafetyVolumes() {
                       className={cn("absolute transition-all duration-500 ease-out", activeShell === 'inner' ? "z-[100]" : "z-[35]")} 
                       style={{ transform: `translateX(${proximity * visualScale}px)` }}
                     >
-                      <div className="flex flex-col items-center gap-2 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-50px]">
-                        <div className="relative h-24 lg:h-30 w-12 flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-2 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-30px] md:translate-y-[-50px]">
+                        <div className="relative h-16 md:h-24 lg:h-30 w-8 md:w-12 flex items-center justify-center">
                             <svg viewBox="0 0 40 100" className={cn("h-full w-full drop-shadow-2xl transition-colors duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
                               <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46H12V94H28V46H32V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
                             </svg>
                          </div>
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-tighter whitespace-nowrap px-2 py-0.5 rounded backdrop-blur-md text-white bg-slate-900/80">
+                        <span className="text-[8px] md:text-[10px] font-mono font-bold uppercase tracking-tighter whitespace-nowrap px-2 py-0.5 rounded backdrop-blur-md text-white bg-slate-900/80">
                           Worker
                         </span>
                       </div>
@@ -222,26 +224,26 @@ export function SafetyVolumes() {
                   </div>
                 </div>
 
-                {/* Interactive Sliders Overlay */}
-                <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 bg-white/95 backdrop-blur-md p-6 border border-slate-200 shadow-xl rounded-sm z-[150] mt-4">
-                  <div className="space-y-3">
+                {/* Interactive Sliders Overlay - Optimized for Mobile */}
+                <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 bg-white/95 backdrop-blur-md p-4 md:p-6 border border-slate-200 shadow-xl rounded-sm z-[150] mt-2">
+                  <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <Label className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">PROXIMITY (mm)</Label>
-                      <span className="text-[10px] font-mono font-bold text-slate-900">{proximity}</span>
+                      <Label className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">PROXIMITY</Label>
+                      <span className="text-[9px] md:text-[10px] font-mono font-bold text-slate-900">{proximity}mm</span>
                     </div>
                     <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} min={50} max={boundaries.rawOuter} step={5} className="py-2 cursor-pointer" />
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <Label className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">SPEED (mm/s)</Label>
-                      <span className="text-[10px] font-mono font-bold text-slate-900">{speed}</span>
+                      <Label className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">SPEED</Label>
+                      <span className="text-[9px] md:text-[10px] font-mono font-bold text-slate-900">{speed}mm/s</span>
                     </div>
                     <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} min={100} max={1500} step={50} className="py-2 cursor-pointer" />
                   </div>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <Label className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">SENSORS</Label>
-                      <span className="text-[10px] font-mono font-bold text-slate-900">{redundancy}</span>
+                      <Label className="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">SENSORS</Label>
+                      <span className="text-[9px] md:text-[10px] font-mono font-bold text-slate-900">{redundancy}</span>
                     </div>
                     <Slider value={[redundancy]} onValueChange={(v) => setRedundancy(v[0])} min={1} max={5} step={1} className="py-2 cursor-pointer" />
                   </div>
@@ -249,39 +251,39 @@ export function SafetyVolumes() {
               </div>
 
               <div className="lg:col-span-4 p-6 lg:p-10 flex flex-col justify-between bg-white">
-                <div className="space-y-10">
+                <div className="space-y-8">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-4 flex justify-between overflow-visible">
-                      <TabsTrigger value="outer" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
-                      <TabsTrigger value="middle" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Middle Shell</TabsTrigger>
-                      <TabsTrigger value="inner" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Inner Shell</TabsTrigger>
+                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-6 gap-2 md:gap-4 flex justify-between overflow-visible">
+                      <TabsTrigger value="outer" className="flex-1 px-0 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-[9px] md:text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Outer</TabsTrigger>
+                      <TabsTrigger value="middle" className="flex-1 px-0 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-[9px] md:text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Middle</TabsTrigger>
+                      <TabsTrigger value="inner" className="flex-1 px-0 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-[9px] md:text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Inner</TabsTrigger>
                     </TabsList>
 
-                    <div className="min-h-[160px]">
+                    <div className="min-h-[140px] md:min-h-[160px]">
                       <TabsContent value="outer" className="mt-0 space-y-4">
                         <div className="flex gap-4">
-                          <div className="w-1.5 h-20 bg-blue-400 rounded-full shrink-0" />
+                          <div className="w-1.5 h-16 md:h-20 bg-blue-400 rounded-full shrink-0" />
                           <div className="space-y-2">
-                            <h4 className="text-lg font-bold uppercase tracking-tight text-slate-900">Nominal Speed Monitoring</h4>
-                            <p className="text-sm text-slate-500 leading-relaxed font-medium">The machine maintains full production speed while scaling the outer perimeter to match required stopping distances.</p>
+                            <h4 className="text-base md:text-lg font-bold uppercase tracking-tight text-slate-900">Nominal Speed</h4>
+                            <p className="text-xs md:text-sm text-slate-500 leading-relaxed font-medium">The machine maintains full production speed while scaling the outer perimeter to match required stopping distances.</p>
                           </div>
                         </div>
                       </TabsContent>
                       <TabsContent value="middle" className="mt-0 space-y-4">
                         <div className="flex gap-4">
-                          <div className="w-1.5 h-20 bg-amber-400 rounded-full shrink-0" />
+                          <div className="w-1.5 h-16 md:h-20 bg-amber-400 rounded-full shrink-0" />
                           <div className="space-y-2">
-                            <h4 className="text-lg font-bold uppercase tracking-tight text-slate-900">Collaborative State</h4>
-                            <p className="text-sm text-slate-500 leading-relaxed font-medium">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting speed based on body segment tolerances.</p>
+                            <h4 className="text-base md:text-lg font-bold uppercase tracking-tight text-slate-900">Collaborative</h4>
+                            <p className="text-xs md:text-sm text-slate-500 leading-relaxed font-medium">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting speed based on body segment tolerances.</p>
                           </div>
                         </div>
                       </TabsContent>
                       <TabsContent value="inner" className="mt-0 space-y-4">
                         <div className="flex gap-4">
-                          <div className="w-1.5 h-20 bg-red-500 rounded-full shrink-0" />
+                          <div className="w-1.5 h-16 md:h-20 bg-red-500 rounded-full shrink-0" />
                           <div className="space-y-2">
-                            <h4 className="text-lg font-bold uppercase tracking-tight text-slate-900">Immediate Safety Stop</h4>
-                            <p className="text-sm text-slate-500 leading-relaxed font-medium">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
+                            <h4 className="text-base md:text-lg font-bold uppercase tracking-tight text-slate-900">E-Stop</h4>
+                            <p className="text-xs md:text-sm text-slate-500 leading-relaxed font-medium">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
                           </div>
                         </div>
                       </TabsContent>
@@ -289,19 +291,19 @@ export function SafetyVolumes() {
                   </Tabs>
                 </div>
 
-                <div className="pt-8 border-t border-slate-50 flex flex-col gap-6">
+                <div className="pt-6 md:pt-8 border-t border-slate-50 flex flex-col gap-4 md:gap-6">
                   <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Target ISO Rating</span>
-                    <div className="flex items-center gap-3">
-                      <ShieldCheck className="w-6 h-6 text-emerald-500" />
-                      <span className="text-lg font-bold text-slate-900">
+                    <span className="text-[9px] md:text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">ISO RATING</span>
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 text-emerald-500" />
+                      <span className="text-base md:text-lg font-bold text-slate-900">
                         {redundancy >= 4 ? 'PLe / SIL 3' : redundancy >= 2 ? 'PLd / SIL 2' : 'PLc'}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">10ms Deterministic Loop Active</span>
+                    <div className="w-2 md:w-2.5 h-2 md:h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-[9px] md:text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider">10ms Loop Active</span>
                   </div>
                 </div>
               </div>
