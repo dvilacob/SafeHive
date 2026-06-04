@@ -88,12 +88,12 @@ export function SafetyVolumes() {
     {
       icon: <ShieldAlert className="w-4 h-4" />,
       label: 'MORPHOLOGY',
-      value: 'Asset Sensitivity',
+      value: 'ISO/TS 15066 Active',
       subtext: 'Tailors protective bubble zones to human body segments and localized impact thresholds.',
     },
     {
       icon: <RefreshCw className="w-4 h-4" />,
-      label: 'HIVE INTEGRITY',
+      label: 'HIVE REDUNDANCY',
       value: 'Fused Spatial Mapping',
       subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.',
     },
@@ -132,7 +132,7 @@ export function SafetyVolumes() {
         <div className="max-w-7xl mx-auto space-y-12">
           {/* Header Section */}
           <div className="space-y-4">
-            <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tight text-slate-900 leading-none">
+            <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tight text-slate-900 leading-none whitespace-nowrap">
               DYNAMIC BUBBLE CALCULATION<span className="text-primary">.</span>
             </h2>
             <p className="text-slate-500 text-base lg:text-lg leading-relaxed font-medium max-w-5xl">
@@ -254,40 +254,40 @@ export function SafetyVolumes() {
                 </div>
               </div>
 
-              <div className="lg:col-span-4 p-6 lg:p-8 flex flex-col justify-between bg-white">
-                <div className="space-y-8">
+              <div className="lg:col-span-4 p-6 lg:p-10 flex flex-col justify-between bg-white">
+                <div className="space-y-10">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-6 gap-4 flex justify-start overflow-x-auto scrollbar-hide">
-                      <TabsTrigger value="outer" className="px-0 py-2 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-xs font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
-                      <TabsTrigger value="middle" className="px-0 py-2 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-xs font-bold uppercase tracking-widest transition-all">Middle Shell</TabsTrigger>
-                      <TabsTrigger value="inner" className="px-0 py-2 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-xs font-bold uppercase tracking-widest transition-all">Inner Shell</TabsTrigger>
+                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-6 flex justify-start overflow-x-auto scrollbar-hide">
+                      <TabsTrigger value="outer" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
+                      <TabsTrigger value="middle" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Middle Shell</TabsTrigger>
+                      <TabsTrigger value="inner" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Inner Shell</TabsTrigger>
                     </TabsList>
 
-                    <div className="min-h-[140px]">
-                      <TabsContent value="outer" className="mt-0 space-y-3">
+                    <div className="min-h-[160px]">
+                      <TabsContent value="outer" className="mt-0 space-y-4">
                         <div className="flex gap-4">
                           <div className="w-1.5 h-16 bg-blue-400 rounded-full shrink-0" />
                           <div className="space-y-1">
-                            <h4 className="text-sm font-bold uppercase tracking-tight text-slate-900">Nominal Speed Monitoring</h4>
-                            <p className="text-xs text-slate-500 leading-relaxed font-medium">The machine maintains full production speed while scaling the outer perimeter to match required stopping distances.</p>
+                            <h4 className="text-base font-bold uppercase tracking-tight text-slate-900">Nominal Speed Monitoring</h4>
+                            <p className="text-sm text-slate-500 leading-relaxed font-medium">The machine maintains full production speed while scaling the outer perimeter to match required stopping distances.</p>
                           </div>
                         </div>
                       </TabsContent>
-                      <TabsContent value="middle" className="mt-0 space-y-3">
+                      <TabsContent value="middle" className="mt-0 space-y-4">
                         <div className="flex gap-4">
                           <div className="w-1.5 h-16 bg-amber-400 rounded-full shrink-0" />
                           <div className="space-y-1">
-                            <h4 className="text-sm font-bold uppercase tracking-tight text-slate-900">Collaborative State</h4>
-                            <p className="text-xs text-slate-500 leading-relaxed font-medium">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting speed based on body segment tolerances.</p>
+                            <h4 className="text-base font-bold uppercase tracking-tight text-slate-900">Collaborative State</h4>
+                            <p className="text-sm text-slate-500 leading-relaxed font-medium">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting speed based on body segment tolerances.</p>
                           </div>
                         </div>
                       </TabsContent>
-                      <TabsContent value="inner" className="mt-0 space-y-3">
+                      <TabsContent value="inner" className="mt-0 space-y-4">
                         <div className="flex gap-4">
                           <div className="w-1.5 h-16 bg-red-500 rounded-full shrink-0" />
                           <div className="space-y-1">
-                            <h4 className="text-sm font-bold uppercase tracking-tight text-slate-900">Immediate Safety Stop</h4>
-                            <p className="text-xs text-slate-500 leading-relaxed font-medium">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
+                            <h4 className="text-base font-bold uppercase tracking-tight text-slate-900">Immediate Safety Stop</h4>
+                            <p className="text-sm text-slate-500 leading-relaxed font-medium">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
                           </div>
                         </div>
                       </TabsContent>
@@ -295,19 +295,19 @@ export function SafetyVolumes() {
                   </Tabs>
                 </div>
 
-                <div className="pt-6 border-t border-slate-50 flex flex-col gap-4">
+                <div className="pt-8 border-t border-slate-50 flex flex-col gap-6">
                   <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Target ISO Rating</span>
-                    <div className="flex items-center gap-2">
-                      <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                      <span className="text-sm font-bold text-slate-900">
+                    <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">Target ISO Rating</span>
+                    <div className="flex items-center gap-3">
+                      <ShieldCheck className="w-5 h-5 text-emerald-500" />
+                      <span className="text-base font-bold text-slate-900">
                         {redundancy >= 4 ? 'PLe / SIL 3' : redundancy >= 2 ? 'PLd / SIL 2' : 'PLc'}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">10ms Deterministic Loop Active</span>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">10ms Deterministic Loop Active</span>
                   </div>
                 </div>
               </div>
