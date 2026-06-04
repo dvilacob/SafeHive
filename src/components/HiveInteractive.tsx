@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef } from 'react';
-import { Bot, User, Box, Layers, Ruler, Gauge, ShieldCheck, Activity, Ghost, Zap } from 'lucide-react';
+import { useState, useMemo, useEffect } from 'react';
+import { Bot, User, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
@@ -16,10 +16,6 @@ export function HiveInteractive() {
   const [proximity, setProximity] = useState(400); // mm
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sensors
-
-  // Pulse States for Telemetry
-  const [proxPulse, setProxPulse] = useState(false);
-  const [speedPulse, setSpeedPulse] = useState(false);
 
   // Visual scaling factor
   const [visualScale, setVisualScale] = useState(0.48);
@@ -73,18 +69,6 @@ export function HiveInteractive() {
   useEffect(() => {
     setActiveShell(currentZone);
   }, [currentZone]);
-
-  const handleProximityChange = (v: number[]) => {
-    setProximity(v[0]);
-    setProxPulse(true);
-    setTimeout(() => setProxPulse(false), 400);
-  };
-
-  const handleSpeedChange = (v: number[]) => {
-    setSpeed(v[0]);
-    setSpeedPulse(true);
-    setTimeout(() => setSpeedPulse(false), 400);
-  };
 
   const handleTabChange = (val: string) => {
     setActiveShell(val);
@@ -183,7 +167,7 @@ export function HiveInteractive() {
                     )}
                   </div>
 
-                  <div className="absolute transition-all duration-500 z-[100]" style={{ transform: `translateX(${proximity * visualScale}px)` }}>
+                  <div className={cn("absolute transition-all duration-500", activeShell === 'inner' ? "z-[100]" : "z-[35]")} style={{ transform: `translateX(${proximity * visualScale}px)` }}>
                     <div className={cn("flex flex-col items-center gap-1.5 transition-all duration-700", is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-40px]" : "")}>
                       {is3D ? (
                          <div className="relative h-20 lg:h-24 w-10 flex items-center justify-center">
@@ -213,13 +197,13 @@ export function HiveInteractive() {
                   <div className="flex justify-between items-center">
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">PROXIMITY</Label>
                   </div>
-                  <Slider value={[proximity]} onValueChange={handleProximityChange} min={50} max={500} step={10} className="py-4 cursor-pointer" />
+                  <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} min={50} max={500} step={10} className="py-4 cursor-pointer" />
                 </div>
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">SPEED</Label>
                   </div>
-                  <Slider value={[speed]} onValueChange={handleSpeedChange} min={100} max={1500} step={50} className="py-4 cursor-pointer" />
+                  <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} min={100} max={1500} step={50} className="py-4 cursor-pointer" />
                 </div>
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
@@ -277,32 +261,6 @@ export function HiveInteractive() {
                     </TabsContent>
                   </div>
                 </Tabs>
-
-                {/* Live Safety Variables Telemetry Grid */}
-                <div className="grid grid-cols-3 gap-3 border-t border-slate-100 pt-8">
-                  {[
-                    { icon: <Ruler size={14} />, label: "PROXIMITY", status: "Dynamic Tracking", desc: "Calculates real-time separation distance between humanoid and assets.", pulse: proxPulse },
-                    { icon: <Gauge size={14} />, label: "SPEED CALIBRATION", status: "Velocity Scaled", desc: "Automatically adjusts volumes based on live equipment velocity.", pulse: speedPulse },
-                    { icon: <ShieldCheck size={14} />, label: "MORPHOLOGY", status: "ISO/TS 15066 Active", desc: "Tailors protective zones to human body segments and thresholds.", pulse: false },
-                    { icon: <Activity size={14} />, label: "HIVE INTEGRITY", status: redundancy > 2 ? "High Confidence" : "Sync Required", desc: "Cross-checks cameras and sensors to prevent tracking drops.", highlight: redundancy > 2 ? "text-emerald-500" : "text-amber-500" },
-                    { icon: <Ghost size={14} />, label: "UN-NETWORKED", status: "Vision Scan", desc: "Uses native AI vision to project safety hulls over untracked machinery.", pulse: false },
-                    { icon: <Zap size={14} />, label: "LOOP SPEED", status: "10ms Deterministic", desc: "Continuously refreshes spatial parameters across the workspace.", pulse: false },
-                  ].map((tile, i) => (
-                    <div key={i} className={cn(
-                      "p-3 bg-slate-50/50 space-y-2 border border-slate-100/50 rounded-sm transition-all duration-300",
-                      tile.pulse && "animate-pulse border-primary/20 bg-primary/5"
-                    )}>
-                      <div className="flex items-center gap-1.5 text-slate-400">
-                        <div className={cn(tile.pulse ? "text-primary" : "text-slate-300")}>{tile.icon}</div>
-                        <span className="text-[8px] font-bold tracking-widest uppercase truncate">{tile.label}</span>
-                      </div>
-                      <div className="space-y-1">
-                        <div className={cn("text-[10px] font-bold truncate", tile.highlight || "text-slate-900")}>{tile.status}</div>
-                        <p className="text-[8px] leading-relaxed text-slate-400 line-clamp-2">{tile.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
               </div>
 
               <div className="pt-8 lg:pt-10 flex flex-wrap items-center gap-4 lg:gap-8 border-t border-slate-50">
