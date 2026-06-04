@@ -139,7 +139,7 @@ export function Configurator() {
                     </DialogTrigger>
                     <DialogContent className="rounded-none border-4 border-slate-900 w-[95vw] max-w-lg">
                       <DialogHeader>
-                        <DialogTitle className="text-2xl lg:text-3xl font-headline">Request Site Specification</DialogTitle>
+                        <DialogTitle className="text-2xl lg:text-3xl font-headline">Order Phase 1 Site Spec</DialogTitle>
                         <DialogDescription>Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
                       </DialogHeader>
                       <div className="space-y-4 lg:space-y-6 py-6 lg:py-8">
@@ -153,7 +153,7 @@ export function Configurator() {
                         </div>
                       </div>
                       <DialogFooter>
-                        <Button className="w-full h-14 lg:h-16 rounded-none bg-primary font-bold text-base lg:text-lg">Generate Phase 1 Site Spec</Button>
+                        <Button className="w-full h-14 lg:h-16 rounded-none bg-primary font-bold text-base lg:text-lg">Order</Button>
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>

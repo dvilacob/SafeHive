@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hardware-hub",
-      "description": "SafeHive Control Hub featuring a stainless steel NEMA enclosure. Visible components: NVIDIA Jetson AI Edge module, Safety PLC with Black Channel Guard, Profinet Field Gateway, and industrial wiring with high-integrity cable glands.",
+      "description": "SafeHive Control Hub featuring a brushed stainless steel NEMA-rated enclosure with a transparent front panel. Inside, industrial DIN rails mount an NVIDIA Jetson AI Edge compute module, a Safety PLC for Black Channel guard protocols, a PROFINET field gateway, and a ROS2 edge bridge. The bottom features multiple high-integrity cable glands with neatly routed industrial wiring.",
       "imageUrl": "https://picsum.photos/seed/safehive-control-v4/1200/800",
-      "imageHint": "industrial safety control hub"
+      "imageHint": "industrial safety control hub stainless steel enclosure"
     },
     {
       "id": "spatial-viz",
