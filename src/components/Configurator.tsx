@@ -71,11 +71,11 @@ export function Configurator() {
                         <div className="absolute bottom-4 right-4 z-20 flex gap-2">
                            <span className="px-2 py-1 bg-slate-900 text-white text-[7px] font-bold uppercase tracking-widest flex items-center gap-1.5">
                              <Cpu size={10} />
-                             NVIDIA Jetson AI Edge
+                             NVIDIA JETSON AI EDGE
                            </span>
                            <span className="px-2 py-1 bg-primary text-white text-[7px] font-bold uppercase tracking-widest flex items-center gap-1.5">
                              <ShieldCheck size={10} />
-                             Safety PLC Node
+                             SAFETY PLC - BLACK CHANNEL GUARD
                            </span>
                         </div>
                       </div>
