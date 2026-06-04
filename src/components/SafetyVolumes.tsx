@@ -81,7 +81,7 @@ export function SafetyVolumes() {
     },
     {
       icon: <Gauge className="w-4 h-4" />,
-      label: 'SPEED CALIBRATION',
+      label: 'SPEED',
       value: 'Velocity Scaled',
       subtext: 'Automatically shrinks or expands protective volumes based on the live velocity vectors of different equipment.',
     },
@@ -100,12 +100,12 @@ export function SafetyVolumes() {
     {
       icon: <Ghost className="w-4 h-4" />,
       label: 'UN-NETWORKED HARDWARE',
-      value: 'Ghost Assets',
+      value: 'Onboard Vision Scan',
       subtext: "Uses the humanoid's native computer vision to detect and project safety hulls over untracked moving machinery.",
     },
     {
       icon: <Zap className="w-4 h-4" />,
-      label: 'LOOP SPEED',
+      label: 'REAL-TIME DYNAMICS',
       value: '10ms Deterministic',
       subtext: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.',
     },
@@ -129,13 +129,13 @@ export function SafetyVolumes() {
     <section id="volumes" className="py-24 bg-white border-b border-slate-100 relative overflow-hidden">
       <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
       <div className="container mx-auto px-6 relative">
-        <div className="max-w-7xl mx-auto space-y-12">
-          {/* Header Section */}
-          <div className="space-y-4">
+        <div className="max-w-7xl mx-auto space-y-16">
+          {/* Centered Header Section */}
+          <div className="space-y-6 text-center max-w-4xl mx-auto">
             <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tight text-slate-900 leading-none">
               DYNAMIC BUBBLE CALCULATION<span className="text-primary">.</span>
             </h2>
-            <p className="text-slate-500 text-base lg:text-lg leading-relaxed font-medium max-w-5xl">
+            <p className="text-slate-500 text-base lg:text-lg leading-relaxed font-medium">
               SafeHive continuously resizes each protective shield based on the proximity and velocity of every machine and person in the factory, tracked by different sensors and the humanoid's own vision systems in a deterministic way.
             </p>
           </div>

@@ -1,4 +1,3 @@
-
 "use client"
 
 import Link from 'next/link';
@@ -9,8 +8,7 @@ import { useState } from 'react';
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const links = [
-    { href: "#volumes", label: "Volumes" },
-    { href: "#hive", label: "The Engine" },
+    { href: "#volumes", label: "The Engine" },
     { href: "#configurator", label: "Configurator" },
     { href: "#deployment", label: "Deployment" },
     { href: "#faq", label: "FAQs" },
