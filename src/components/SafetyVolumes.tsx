@@ -107,7 +107,7 @@ export function SafetyVolumes() {
     { icon: <Ruler className="w-16 h-16" />, value: 'Proximity', subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
     { icon: <Gauge className="w-16 h-16" />, value: 'Speed Calibration', subtext: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
     { icon: <ShieldAlert className="w-16 h-16" />, value: 'Component Sensitivity', subtext: 'Enforces ISO/TS 15066 force limits for human skin while dynamically shielding fragile, high-value machine sensors from impact.' },
-    { icon: <RefreshCw className="w-16 h-16" />, value: 'Hive Redundancy', subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.' },
+    { icon: <RefreshCw className="w-16 h-16" />, value: 'Hive Redundancy', subtext: "SafeHive blends factory sensor data with the robot's own eyes to lock a protective safety bubble around every machine, humanoid, and person on the floor." },
     { icon: <Ghost className="w-16 h-16" />, value: 'Un-networked Hardware', subtext: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
     { icon: <Zap className="w-16 h-16" />, value: 'Loop Speed', subtext: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.' },
   ];
@@ -118,7 +118,7 @@ export function SafetyVolumes() {
       <div className="container mx-auto px-6 relative">
         <div className="max-w-7xl mx-auto space-y-20">
           
-          {/* Telemetry Grid */}
+          {/* Telemetry Grid - Merged directly with section flow */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {telemetry.map((item, idx) => (
               <div key={idx} className="p-8 lg:p-10 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group flex flex-col h-full shadow-sm hover:shadow-xl hover:shadow-primary/5">
