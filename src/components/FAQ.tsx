@@ -6,36 +6,29 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
 
 const faqs = [
   {
-    tag: "SSM CALC",
     question: "How exactly does the real-time safety bubble calculate its physical size?",
     answer: "The system generates a 3D Safety Volume by projecting a dynamic expansion buffer (S) around the physical morphology of an asset.\n\nFirst, the engine calculates the separation distance: S = Σ [ (Vh * Tr) + (Vr * Tb) + (a_zone * C) ], accounting for human/asset speeds, system latency, and tracking confidence (C).\n\nSecond, it applies this distance as a dynamic 3D envelope over the asset's specific shape. As confidence (C) increases, the buffer shrinks, allowing for maximum throughput while maintaining ISO-compliant protection."
   },
   {
-    tag: "DETERMINISM",
     question: "What happens to the safety bubble and the asset if a wireless network packet drops?",
     answer: "When a packet drops or visibility decreases, system certainty plummets. To maintain strict ISO compliance without abruptly shutting down production, SafeHive triggers an autonomous Dual-Action Fallback: 1. The Confidence Buffer (C) instantly increases, expanding the safety bubble into a wider, more cautious footprint to protect the human's uncertain position. 2. Simultaneously, the asset's velocity (Vr) throttles down to a regulated safe collaborative crawl (<250mm/s) until the connection re-establishes and the bubble can snap tight again."
   },
   {
-    tag: "FAIL-SAFE",
     question: "How does the system guarantee a safe state if a total network drop or critical perception failure occurs?",
     answer: "No, because safety happens right at the machine level. The system uses a built-in hardware fail-safe that treats the wireless network as an unreliable \"Black Channel.\"\n\nIf the wireless signal drops for even 100 milliseconds, the onboard module instantly drops its safety relays. This cuts power and locks the mechanical brakes directly on the machine—completely independent of your main network or plant infrastructure. If communication fails, the asset instantly stops itself in its safest state."
   },
   {
-    tag: "INTEGRATION",
     question: "Does SafeHive need the plant PLC to be modified?",
     answer: "No. SafeHive operates as a 100% independent, decentralized safety mesh. The safety loop closes entirely at the edge module level mounted directly on each mobile asset. You can deploy SafeHive as a modular overlay without touching, rewiring, or reprogramming a single line of the factory's legacy central safety PLC code."
   },
   {
-    tag: "SCALABILITY",
     question: "How can an engineer expand system confidence adding sources ?",
     answer: "SafeHive is sensor-agnostic. You can connect any external source of truth—from traditional SICK laser scanners to AI vision algorithms. You simply link your source to a ROS/ROS2 topic; our bridge nodes ingest the data and integrate it into the Hive’s spatial logic grid. More sources = higher triangulation certainty = smaller safety bubbles."
   },
   {
-    tag: "ROS/OPS",
     question: "Can the SafeHive control hub send active operational commands back to the humanoids?",
     answer: "Yes. SafeHive features a dedicated section specifically designed to command humanoid behaviors. While local safety loops remain strictly autonomous at the edge, SafeHive exposes standard, asynchronous ROS Action Topics."
   }
@@ -58,9 +51,6 @@ export function FAQ() {
             >
               <AccordionTrigger className="hover:no-underline py-6">
                 <div className="flex flex-col items-start gap-3 text-left">
-                  <Badge variant="outline" className="font-mono text-[9px] tracking-widest text-primary border-primary/20 bg-primary/5 px-2 py-0">
-                    {faq.tag}
-                  </Badge>
                   <span className="text-lg font-headline font-bold text-slate-900 group-hover:text-primary transition-colors">
                     {faq.question}
                   </span>
