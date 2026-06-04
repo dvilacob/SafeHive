@@ -13,7 +13,7 @@ export function HiveInteractive() {
   // Interactive States
   const [proximity, setProximity] = useState(400); // mm
   const [speed, setSpeed] = useState(500); // mm/s
-  const [redundancy, setRedundancy] = useState(3); // 1-5 sources
+  const [redundancy, setRedundancy] = useState(3); // 1-5 sensors
 
   // Visual scaling factor - Adjusted for mobile responsiveness
   const [visualScale, setVisualScale] = useState(0.48);
@@ -56,6 +56,13 @@ export function HiveInteractive() {
     if (proximity <= rawMiddle) return 'middle';
     return 'outer';
   }, [proximity, speed, redundancy]);
+
+  // Dynamic ISO Rating calculation based on sensor redundancy
+  const isoRating = useMemo(() => {
+    if (redundancy >= 5) return "🛡️ Target ISO Rating: PLe / SIL 3 Capable";
+    if (redundancy >= 3) return "🛡️ Target ISO Rating: PLd / SIL 2 Capable";
+    return "🛡️ Target ISO Rating: PLc Capable";
+  }, [redundancy]);
 
   // Sync active tab with the physical zone of the worker
   useEffect(() => {
@@ -147,16 +154,6 @@ export function HiveInteractive() {
                     strokeWidth="1"
                     strokeDasharray="4 4"
                   />
-                  <text
-                    x={`calc(50% + ${(proximity * visualScale) / 2}px)`}
-                    y="48%"
-                    textAnchor="middle"
-                    fill="#94a3b8"
-                    fontSize="10"
-                    className="font-mono font-bold lg:text-[12px]"
-                  >
-                    {proximity} mm
-                  </text>
                 </svg>
               </div>
 
@@ -262,7 +259,7 @@ export function HiveInteractive() {
                         <div className="w-1.5 h-16 lg:h-20 bg-amber-400 rounded-full shrink-0" />
                         <div className="space-y-2 lg:space-y-3">
                           <h4 className="text-[10px] lg:text-xs font-bold uppercase tracking-widest text-slate-900">
-                            Collaborative State / Speed &lt;250 mm/s
+                            Collaborative State / Speed {'<'} 250 mm/s
                           </h4>
                           <p className="text-xs lg:text-sm text-slate-500 leading-relaxed font-medium">
                             Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting collaborative speed restrictions based on localized body segment tolerances.
@@ -291,8 +288,7 @@ export function HiveInteractive() {
               {/* Engineering Micro-Badges (Bottom Status Bar) */}
               <div className="pt-8 lg:pt-10 flex flex-wrap items-center gap-4 lg:gap-8 border-t border-slate-50">
                 <div className="flex items-center gap-2 text-[8px] lg:text-[10px] font-bold text-slate-400 tracking-widest uppercase">
-                  <span className="text-primary"><ShieldCheck size={12} /></span>
-                  DETERMINISM: SIL 3 / PLD
+                  {isoRating}
                 </div>
               </div>
             </div>
