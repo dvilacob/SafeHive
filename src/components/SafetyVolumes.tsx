@@ -42,10 +42,10 @@ export function SafetyVolumes() {
         <div className="max-w-4xl mb-24">
           <span className="tech-label text-primary">Spatial Logic</span>
           <h2 className="text-5xl font-headline font-bold leading-tight mt-4">
-            Dynamic Spatial Awareness.
+            Continuous Volume Calibration.
           </h2>
           <p className="text-slate-500 text-lg mt-6">
-            SafeHive calculates protective bubbles for every asset every 10ms, ensuring deterministic safety without physical fences.
+            SafeHive continuously resizes each protective shield by cross-referencing live operational data.
           </p>
         </div>
 
