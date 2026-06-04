@@ -1,11 +1,13 @@
 "use client"
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, ListCheck, Monitor } from "lucide-react";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 import {
   Dialog,
   DialogContent,
@@ -27,6 +29,8 @@ export function Configurator() {
   const apCount = Math.ceil(area / 500);
   const totalCost = HUB_COST + (apCount * AP_COST);
 
+  const hardwareImg = PlaceHolderImages.find(img => img.id === 'hardware-hub');
+
   return (
     <section id="configurator" className="py-20 lg:py-40 bg-white">
       <div className="container mx-auto px-6">
@@ -47,6 +51,30 @@ export function Configurator() {
                     <span className="text-2xl lg:text-4xl font-headline font-bold text-primary italic">{area} m²</span>
                   </div>
                   <Slider value={[area]} onValueChange={(v) => setArea(v[0])} max={10000} min={100} step={100} className="py-4" />
+                  
+                  {hardwareImg && (
+                    <div className="pt-8 group">
+                      <div className="relative border border-slate-200 rounded-sm overflow-hidden bg-slate-50 shadow-inner group-hover:shadow-lg transition-all duration-500">
+                        <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 backdrop-blur border border-slate-200 shadow-sm">
+                          <span className="text-[8px] font-mono font-bold tracking-[0.2em] text-primary">UNIT SPEC: SH-CONTROL-HUB-v2</span>
+                        </div>
+                        <Image 
+                          src={hardwareImg.imageUrl} 
+                          alt={hardwareImg.description} 
+                          width={800} 
+                          height={450} 
+                          className="w-full h-auto opacity-70 group-hover:opacity-100 transition-all duration-700 grayscale hover:grayscale-0"
+                          data-ai-hint={hardwareImg.imageHint}
+                        />
+                        <div className="absolute bottom-4 right-4 z-20 flex gap-2">
+                           <span className="px-2 py-0.5 bg-slate-900 text-white text-[7px] font-bold uppercase tracking-widest">Jetson AI Edge</span>
+                           <span className="px-2 py-0.5 bg-primary text-white text-[7px] font-bold uppercase tracking-widest">Safety PLC Node</span>
+                        </div>
+                      </div>
+                      <p className="tech-label mt-4 text-slate-400">Fig 1.2: Deterministic SafeHive Processing Enclosure (Open Configuration View)</p>
+                    </div>
+                  )}
+
                   <p className="text-xs lg:text-sm text-slate-400 font-medium leading-relaxed max-w-lg">
                     The spatial grid utilizes high-frequency anchors to establish the deterministic heartbeat. Phase 1 deployment focuses on establishing maximum coverage density for native spatial agents.
                   </p>
