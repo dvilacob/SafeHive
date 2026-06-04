@@ -7,7 +7,7 @@ import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, ListCheck, Monitor } from "lucide-react";
+import { ArrowRight, ListCheck, Monitor, Cpu, ShieldCheck } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import {
   Dialog,
@@ -69,8 +69,14 @@ export function Configurator() {
                           />
                         </div>
                         <div className="absolute bottom-4 right-4 z-20 flex gap-2">
-                           <span className="px-2 py-0.5 bg-slate-900 text-white text-[7px] font-bold uppercase tracking-widest">Jetson AI Edge</span>
-                           <span className="px-2 py-0.5 bg-primary text-white text-[7px] font-bold uppercase tracking-widest">Safety PLC Node</span>
+                           <span className="px-2 py-1 bg-slate-900 text-white text-[7px] font-bold uppercase tracking-widest flex items-center gap-1.5">
+                             <Cpu size={10} />
+                             NVIDIA Jetson AI Edge
+                           </span>
+                           <span className="px-2 py-1 bg-primary text-white text-[7px] font-bold uppercase tracking-widest flex items-center gap-1.5">
+                             <ShieldCheck size={10} />
+                             Safety PLC Node
+                           </span>
                         </div>
                       </div>
                       <p className="tech-label mt-4 text-slate-400">Fig 1.2: Deterministic SafeHive Processing Enclosure (Standard NEMA Interface)</p>
