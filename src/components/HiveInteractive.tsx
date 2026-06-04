@@ -105,8 +105,8 @@ export function HiveInteractive() {
             {/* 1. Interactive Canvas (Left Column) */}
             <div className="lg:col-span-5 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-12 relative min-h-[450px] lg:min-h-[600px] flex flex-col items-center justify-center overflow-hidden">
               
-              {/* 2D/3D Toggle Placement: Upper right quadrant (75%, 5%) */}
-              <div className="absolute top-[5%] right-[5%] z-50 flex items-center gap-2 bg-white/80 backdrop-blur-sm p-2 rounded-full border border-slate-100 shadow-sm">
+              {/* 2D/3D Toggle Placement */}
+              <div className="absolute top-[5%] right-[5%] z-[60] flex items-center gap-2 bg-white/80 backdrop-blur-sm p-2 rounded-full border border-slate-100 shadow-sm">
                 <Label htmlFor="view-mode" className={cn("text-[10px] font-bold uppercase tracking-wider transition-colors", !is3D ? "text-slate-900" : "text-slate-400")}>2D</Label>
                 <Switch 
                   id="view-mode" 
@@ -132,12 +132,12 @@ export function HiveInteractive() {
                 is3D ? "perspective-[1000px] rotate-x-[55deg] rotate-z-[-35deg] scale-110" : "perspective-none rotate-0 scale-90 lg:scale-100"
               )}>
                 
-                {/* 3D Floor Grid (Only visible in 3D) */}
+                {/* 3D Floor Grid */}
                 {is3D && (
                   <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
                 )}
 
-                {/* Concentric Shells (Voxelated in 3D, Circles in 2D) */}
+                {/* Concentric Shells */}
                 <div className="relative flex items-center justify-center">
                   
                   {/* Outer Shell */}
@@ -216,27 +216,31 @@ export function HiveInteractive() {
                     {!is3D && activeShell === 'inner' && <div className="absolute inset-0 bg-red-50/40 border border-red-500/80 rounded-full" />}
                   </div>
 
-                  {/* Humanoid Anchor */}
+                  {/* Humanoid Anchor (3D Digital Twin) */}
                   <div className={cn(
                     "relative z-40 transition-all duration-700 ease-in-out",
-                    is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-30px]" : ""
+                    is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-50px]" : ""
                   )}>
-                    <div className="relative w-12 h-12 lg:w-16 lg:h-16 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center group overflow-hidden">
-                      {is3D ? (
-                        <div className="relative animate-pulse">
-                          <Bot size={28} className="text-primary" />
-                          <div className="absolute inset-0 bg-primary/10 blur-xl rounded-full" />
-                        </div>
-                      ) : (
+                    {is3D ? (
+                      <div className="relative h-24 lg:h-32 w-12 flex items-center justify-center">
+                        <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_15px_rgba(0,102,255,0.5)]">
+                          {/* Stylized Humanoid Digital Twin Silhouette */}
+                          <path 
+                            d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" 
+                            fill="currentColor" 
+                            className="text-primary animate-pulse-glow"
+                          />
+                        </svg>
+                        <div className="absolute bottom-0 w-8 h-2 bg-primary/20 blur-sm rounded-full" />
+                      </div>
+                    ) : (
+                      <div className="relative w-12 h-12 lg:w-16 lg:h-16 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center group">
                         <Bot size={28} className="text-slate-900" />
-                      )}
-                      <span className={cn(
-                        "absolute -top-8 text-[8px] font-mono font-bold text-slate-400 tracking-widest uppercase transition-opacity",
-                        is3D ? "opacity-0" : "opacity-100"
-                      )}>
-                        Humanoid
-                      </span>
-                    </div>
+                        <span className="absolute -top-8 text-[8px] font-mono font-bold text-slate-400 tracking-widest uppercase">
+                          Humanoid
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Worker Asset */}
@@ -244,11 +248,14 @@ export function HiveInteractive() {
                     className="absolute transition-all duration-500 z-50"
                     style={{ 
                       transform: is3D 
-                        ? `translateX(${proximity * visualScale}px) rotateX(-90deg) rotateY(-45deg) translateY(-20px)` 
+                        ? `translateX(${proximity * visualScale}px)` 
                         : `translateX(${proximity * visualScale}px)`
                     }}
                   >
-                    <div className="flex flex-col items-center gap-1.5">
+                    <div className={cn(
+                      "flex flex-col items-center gap-1.5 transition-all duration-700",
+                      is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-30px]" : ""
+                    )}>
                       <div
                         className={cn(
                           'w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white shadow-2xl transition-colors border-2 border-white',
@@ -262,8 +269,8 @@ export function HiveInteractive() {
                         <User size={18} />
                       </div>
                       <span className={cn(
-                        "text-[8px] lg:text-[10px] font-mono font-bold text-slate-900 uppercase tracking-tighter whitespace-nowrap",
-                        is3D && "text-white bg-slate-900/80 px-1 rounded"
+                        "text-[8px] lg:text-[10px] font-mono font-bold uppercase tracking-tighter whitespace-nowrap",
+                        is3D ? "text-white bg-slate-900/80 px-1.5 py-0.5 rounded backdrop-blur-sm" : "text-slate-900"
                       )}>
                         Worker
                       </span>
@@ -392,7 +399,7 @@ export function HiveInteractive() {
                         <div className="w-1.5 h-16 lg:h-20 bg-amber-400 rounded-full shrink-0" />
                         <div className="space-y-2 lg:space-y-3">
                           <h4 className="text-[10px] lg:text-xs font-bold uppercase tracking-widest text-slate-900">
-                            Collaborative State / Speed {'<'} 250 mm/s
+                            Collaborative State / Speed &lt; 250 mm/s
                           </h4>
                           <p className="text-xs lg:text-sm text-slate-500 leading-relaxed font-medium">
                             Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting collaborative speed restrictions based on localized body segment tolerances.
@@ -417,7 +424,7 @@ export function HiveInteractive() {
                 </Tabs>
               </div>
 
-              {/* Engineering Micro-Badges (Bottom Status Bar) */}
+              {/* Engineering Micro-Badges */}
               <div className="pt-8 lg:pt-10 flex flex-wrap items-center gap-4 lg:gap-8 border-t border-slate-50">
                 <div className="flex items-center gap-2 text-[8px] lg:text-[10px] font-bold text-slate-400 tracking-widest uppercase">
                   {isoRating}
