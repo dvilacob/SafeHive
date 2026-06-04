@@ -193,7 +193,7 @@ export function HiveInteractive() {
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      SOURCES
+                      SENSORS
                     </Label>
                     <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{redundancy}</span>
                   </div>
@@ -216,7 +216,7 @@ export function HiveInteractive() {
                     Dynamic Bubble Calculation
                   </h3>
                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    Calculated in real time by mapping body-part safety thresholds against current machine speed and separation distances.
+                    Calculated in real time by mapping body-part safety thresholds against current machine speed, separation distances, and the number of active sensors or cameras.
                   </p>
                 </div>
 
