@@ -1,4 +1,3 @@
-
 "use client"
 
 import {
@@ -48,7 +47,7 @@ export function FAQ() {
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="space-y-4 mb-16">
           <span className="tech-label text-primary">Technical Documentation</span>
-          <h2 className="text-4xl font-headline font-bold text-slate-900">System Architecture & Operational FAQs</h2>
+          <h2 className="text-4xl font-headline font-bold text-slate-900">FAQs</h2>
         </div>
 
         <Accordion type="single" collapsible className="w-full space-y-4">
