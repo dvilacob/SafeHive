@@ -11,8 +11,8 @@ export function Hero() {
       <div className="container mx-auto px-6">
         <div className="max-w-5xl mx-auto text-center flex flex-col items-center space-y-8 lg:space-y-12">
           <h1 className="text-4xl sm:text-6xl lg:text-[8.5rem] font-headline font-bold tracking-tighter leading-[1] lg:leading-[0.85] text-slate-900">
-            Spatial Safety for <br />
-            <span className="text-primary italic">Spatial Agents.</span>
+            Dynamic <br />
+            <span className="text-primary italic">spatial awareness.</span>
           </h1>
 
           <div className="max-w-3xl space-y-8 lg:space-y-10">
