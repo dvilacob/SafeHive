@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Ruler, Gauge, Activity, ShieldAlert, Ghost, Zap } from 'lucide-react';
@@ -8,32 +7,32 @@ export function SafetyVolumes() {
     {
       icon: <Ruler className="w-8 h-8" />,
       title: '1. Proximity',
-      text: 'The closer an object gets, the more the system restricts movement. Safety volumes dynamically scale based on real-time distance—expanding into a larger protective buffer as objects approach each other.',
+      text: 'The closer an object gets, the more the system restricts movement, expanding the protective bubble in real time as assets approach each other.',
     },
     {
       icon: <Gauge className="w-8 h-8" />,
       title: '2. Speed',
-      text: 'Safety volume is a function of velocity. The faster a machine moves, the larger the protective bubble required to guarantee a safe stop. This ensures a safe separation distance for all parties involved.',
+      text: 'Safety bubbles scale with velocity. Faster machines get larger protective buffers to ensure a safe, calculated separation distance.',
     },
     {
       icon: <ShieldAlert className="w-8 h-8" />,
-      title: '3. Body Volumes Sensitivity',
-      text: 'Safety volumes are tailored to the specific morphology and mechanical weakness of each asset. For humans, the system automatically enforces ISO/TS 15066 thresholds, ensuring protection is highest where the body is most vulnerable',
+      title: '3. Asset Sensitivity',
+      text: 'Bubbles are tailored to the specific morphology of each asset. For humans, the system is optimized for ISO/TS 15066 safety thresholds.',
     },
     {
       icon: <Activity className="w-8 h-8" />,
       title: '4. Hive Redundancy',
-      text: 'The more the system sees, the closer the robot can safely get. Combining the humanoid’s vision with your other data sources creates an accurate map. More sources = higher confidence = smaller safety volumes that keep your workflow moving.',
+      text: 'Combining humanoid vision with existing data sources creates a high-confidence spatial map, minimizing safety zones to keep work moving.',
     },
     {
       icon: <Ghost className="w-8 h-8" />,
       title: '5. Ghost Assets',
-      text: "Track moving machines that aren't broadcasting data. By processing humanoid hive vision, the system identifies untracked moving machines and projects dynamic safety volumes over them. More sources = more data = better ghost asset identification",
+      text: "Tracks moving machines that aren't broadcasting data. Using humanoid vision, the system projects safety bubbles over untracked equipment automatically.",
     },
     {
       icon: <Zap className="w-8 h-8" />,
-      title: '6. Real-Time Safety Dynamics',
-      text: 'Safety volumes that adapt to movement. Once the system identifies assets and sets up safety zones, it assigns a specific behavior profile to each volume. As objects move or conditions change, the system sends real-time commands to the equipment to throttle speeds or adjust safety parameters dynamically. This ensures the workspace stays safe without needing constant manual resets.',
+      title: '6. Real-Time Dynamics',
+      text: 'As conditions change, the system adjusts safety parameters dynamically, keeping the workspace secure without requiring manual resets.',
     },
   ];
 
@@ -43,11 +42,10 @@ export function SafetyVolumes() {
         <div className="max-w-4xl mb-24">
           <span className="tech-label text-primary">Spatial Logic</span>
           <h2 className="text-5xl font-headline font-bold leading-tight mt-4">
-            Real-Time Safety Dynamic Volumes.
+            Dynamic Spatial Awareness.
           </h2>
           <p className="text-slate-500 text-lg mt-6">
-            The spatial grid calculates safety shells for every asset every 10ms, ensuring deterministic
-            protection without the constraints of physical barriers.
+            SafeHive calculates protective bubbles for every asset every 10ms, ensuring deterministic safety without physical fences.
           </p>
         </div>
 
