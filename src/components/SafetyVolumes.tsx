@@ -5,65 +5,103 @@ import { Ruler, Gauge, Activity, ShieldAlert, Ghost, Zap } from 'lucide-react';
 export function SafetyVolumes() {
   const features = [
     {
-      icon: <Ruler className="w-8 h-8" />,
-      title: '1. Proximity',
-      text: 'The closer an object gets, the more the system restricts movement, expanding the protective bubble in real time as assets approach each other.',
+      icon: <Ruler className="w-5 h-5" />,
+      title: 'Proximity',
+      text: 'Dynamic expansion buffer (S) based on separation distance.',
     },
     {
-      icon: <Gauge className="w-8 h-8" />,
-      title: '2. Speed',
-      text: 'Safety bubbles scale with velocity. Faster machines get larger protective buffers to ensure a safe, calculated separation distance.',
+      icon: <Gauge className="w-5 h-5" />,
+      title: 'Speed',
+      text: 'Scales safety volumes proportional to asset velocity vectors.',
     },
     {
-      icon: <ShieldAlert className="w-8 h-8" />,
-      title: '3. Asset Sensitivity',
-      text: 'Bubbles are tailored to the specific morphology of each asset. For humans, the system is optimized for ISO/TS 15066 safety thresholds.',
+      icon: <ShieldAlert className="w-5 h-5" />,
+      title: 'Sensitivity',
+      text: 'ISO/TS 15066 compliant thresholds for human interaction.',
     },
     {
-      icon: <Activity className="w-8 h-8" />,
-      title: '4. Hive Redundancy',
-      text: 'Combining humanoid vision with existing data sources creates a high-confidence spatial map, minimizing safety zones to keep work moving.',
+      icon: <Activity className="w-5 h-5" />,
+      title: 'Redundancy',
+      text: 'Multi-sensor triangulation for high-confidence spatial maps.',
     },
     {
-      icon: <Ghost className="w-8 h-8" />,
-      title: '5. Ghost Assets',
-      text: "Tracks moving machines that aren't broadcasting data. Using humanoid vision, the system projects safety bubbles over untracked equipment automatically.",
+      icon: <Ghost className="w-5 h-5" />,
+      title: 'Ghost Assets',
+      text: 'Automated projection over un-networked hardware via AI vision.',
     },
     {
-      icon: <Zap className="w-8 h-8" />,
-      title: '6. Real-Time Dynamics',
-      text: 'As conditions change, the system adjusts safety parameters dynamically, keeping the workspace secure without requiring manual resets.',
+      icon: <Zap className="w-5 h-5" />,
+      title: 'Real-Time',
+      text: '10ms loop speed for deterministic environment refreshing.',
     },
   ];
 
   return (
-    <section id="volumes" className="py-40 bg-white">
-      <div className="container mx-auto px-6">
-        <div className="max-w-4xl mb-24">
-          <span className="tech-label text-primary">Spatial Logic</span>
-          <h2 className="text-5xl font-headline font-bold leading-tight mt-4">
-            Continuous Volume Calibration.
-          </h2>
-          <p className="text-slate-500 text-lg mt-6">
-            SafeHive continuously resizes each protective shield by cross-referencing live operational data.
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, idx) => (
-            <div
-              key={idx}
-              className="bg-slate-50 p-10 space-y-8 group transition-all border border-slate-100 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 hover:-translate-y-1"
-            >
-              <div className="text-primary p-4 bg-primary/5 inline-block rounded-sm transition-transform group-hover:scale-110 shadow-sm border border-primary/10">
-                {feature.icon}
-              </div>
+    <section id="volumes" className="py-24 lg:py-32 bg-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-blueprint-fine opacity-20" />
+      
+      <div className="container mx-auto px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-center">
+            
+            {/* Left: Technical Schematic */}
+            <div className="lg:col-span-5 space-y-12">
               <div className="space-y-4">
-                <h3 className="text-xl font-headline font-bold">{feature.title}</h3>
-                <p className="text-slate-500 leading-relaxed text-xs font-medium">{feature.text}</p>
+                <span className="tech-label text-primary">Spatial Engine v4.2</span>
+                <h2 className="text-4xl lg:text-5xl font-headline font-bold leading-tight">
+                  Continuous Volume <br />Calibration.
+                </h2>
+                <p className="text-slate-500 text-lg leading-relaxed">
+                  SafeHive continuously resizes each protective shield by cross-referencing live operational data.
+                </p>
+              </div>
+
+              <div className="relative p-12 bg-slate-50 border border-slate-100 rounded-sm overflow-hidden group">
+                <div className="absolute inset-0 bg-blueprint opacity-10" />
+                
+                {/* Visualizer Mockup */}
+                <div className="relative h-64 flex items-center justify-center">
+                  <div className="absolute w-48 h-48 border border-dashed border-primary/20 rounded-full animate-spin-slow" />
+                  <div className="absolute w-32 h-32 border border-primary/40 rounded-full animate-pulse-glow" />
+                  <div className="absolute w-16 h-16 bg-primary/10 border border-primary/60 rounded-full flex items-center justify-center">
+                    <Zap className="text-primary w-6 h-6" />
+                  </div>
+                  
+                  {/* Dynamic Labels */}
+                  <div className="absolute top-0 right-0 flex flex-col items-end gap-1">
+                    <span className="text-[8px] font-mono text-slate-400">CALC_LATENCY</span>
+                    <span className="text-xs font-mono font-bold text-primary italic">8.2ms</span>
+                  </div>
+                  <div className="absolute bottom-0 left-0 flex flex-col items-start gap-1">
+                    <span className="text-[8px] font-mono text-slate-400">SIGMA_CONFIDENCE</span>
+                    <span className="text-xs font-mono font-bold text-emerald-500 italic">99.98%</span>
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
+
+            {/* Right: Lean Parameters Grid */}
+            <div className="lg:col-span-7">
+              <div className="grid sm:grid-cols-2 gap-x-12 gap-y-10 lg:gap-y-14">
+                {features.map((feature, idx) => (
+                  <div key={idx} className="flex items-start gap-5 group">
+                    <div className="shrink-0 w-10 h-10 bg-white border border-slate-200 rounded-sm flex items-center justify-center text-primary shadow-sm group-hover:border-primary/30 group-hover:bg-primary/5 transition-all">
+                      {feature.icon}
+                    </div>
+                    <div className="space-y-1.5">
+                      <h3 className="text-sm font-headline font-bold uppercase tracking-widest text-slate-900 group-hover:text-primary transition-colors">
+                        {feature.title}
+                      </h3>
+                      <p className="text-[11px] lg:text-xs text-slate-500 leading-relaxed font-medium">
+                        {feature.text}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
