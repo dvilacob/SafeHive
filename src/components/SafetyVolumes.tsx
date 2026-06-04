@@ -25,8 +25,8 @@ export function SafetyVolumes() {
     {
       icon: <RefreshCw className="w-4 h-4" />,
       label: 'INTEGRITY',
-      value: 'Multi-Sensor Sync',
-      subtext: 'Cross-checks external cameras to prevent blind spots.',
+      value: 'Fused Spatial Mapping',
+      subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.',
     },
   ];
 
