@@ -1,21 +1,23 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Bot, User } from 'lucide-react';
+import { Bot, User, Box, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 
 export function HiveInteractive() {
   const [activeShell, setActiveShell] = useState('outer');
+  const [is3D, setIs3D] = useState(false);
 
   // Interactive States
   const [proximity, setProximity] = useState(400); // mm
   const [speed, setSpeed] = useState(500); // mm/s
   const [redundancy, setRedundancy] = useState(3); // 1-5 sensors
 
-  // Visual scaling factor - Adjusted for mobile responsiveness
+  // Visual scaling factor
   const [visualScale, setVisualScale] = useState(0.48);
 
   useEffect(() => {
@@ -52,26 +54,22 @@ export function HiveInteractive() {
     return { inner, middle, outer };
   }, [boundaries, visualScale, redundancy]);
 
-  // Determine active state based on proximity vs shells (Logic in mm)
   const currentZone = useMemo(() => {
     if (proximity <= boundaries.rawInner) return 'inner';
     if (proximity <= boundaries.rawMiddle) return 'middle';
     return 'outer';
   }, [proximity, boundaries]);
 
-  // Dynamic ISO Rating calculation based on sensor redundancy
   const isoRating = useMemo(() => {
     if (redundancy >= 5) return "🛡️ Target ISO Rating: PLe / SIL 3 Capable";
     if (redundancy >= 3) return "🛡️ Target ISO Rating: PLd / SIL 2 Capable";
     return "🛡️ Target ISO Rating: PLc Capable";
   }, [redundancy]);
 
-  // Sync active tab with the physical zone of the worker when proximity changes
   useEffect(() => {
     setActiveShell(currentZone);
   }, [currentZone]);
 
-  // Handle Tab clicks to set proximity
   const handleTabChange = (val: string) => {
     setActiveShell(val);
     if (val === 'inner') {
@@ -83,13 +81,42 @@ export function HiveInteractive() {
     }
   };
 
+  // Helper for 3D "Voxelated" Organic Shell Paths
+  const getVoxelPath = (radius: number, noise: number = 0.1) => {
+    const points = 12;
+    let path = "";
+    for (let i = 0; i < points; i++) {
+      const angle = (i / points) * Math.PI * 2;
+      const n = (Math.sin(angle * 3) + Math.cos(angle * 2)) * noise * radius;
+      const r = radius + n;
+      const x = Math.cos(angle) * r;
+      const y = Math.sin(angle) * r;
+      path += `${i === 0 ? 'M' : 'L'} ${x} ${y} `;
+    }
+    return path + "Z";
+  };
+
   return (
     <section id="hive" className="py-12 lg:py-24 bg-[#F8F9FA] border-y border-slate-200 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm">
           <div className="grid lg:grid-cols-10 h-full">
-            {/* 1. Minimalist Blueprint Canvas (Left Column) */}
+            
+            {/* 1. Interactive Canvas (Left Column) */}
             <div className="lg:col-span-5 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-12 relative min-h-[450px] lg:min-h-[600px] flex flex-col items-center justify-center overflow-hidden">
+              
+              {/* 2D/3D Toggle Placement: Upper right quadrant (75%, 5%) */}
+              <div className="absolute top-[5%] right-[5%] z-50 flex items-center gap-2 bg-white/80 backdrop-blur-sm p-2 rounded-full border border-slate-100 shadow-sm">
+                <Label htmlFor="view-mode" className={cn("text-[10px] font-bold uppercase tracking-wider transition-colors", !is3D ? "text-slate-900" : "text-slate-400")}>2D</Label>
+                <Switch 
+                  id="view-mode" 
+                  checked={is3D} 
+                  onCheckedChange={setIs3D}
+                  className="data-[state=checked]:bg-primary"
+                />
+                <Label htmlFor="view-mode" className={cn("text-[10px] font-bold uppercase tracking-wider transition-colors", is3D ? "text-primary font-black" : "text-slate-400")}>3D</Label>
+              </div>
+
               {/* Technical Grid Background */}
               <div
                 className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -100,82 +127,172 @@ export function HiveInteractive() {
                 }}
               />
 
-              <div className="relative w-full h-full flex items-center justify-center scale-90 lg:scale-100">
-                {/* Concentric Shells (Visualized as Circles) */}
-                <div
-                  className={cn(
-                    'absolute rounded-full border border-dashed border-blue-400/40 transition-all duration-300',
-                    activeShell === 'outer' && 'bg-blue-50/40 border-blue-400/80'
-                  )}
-                  style={{ width: shells.outer * 2, height: shells.outer * 2 }}
-                />
-                <div
-                  className={cn(
-                    'absolute rounded-full border border-amber-400/40 transition-all duration-300',
-                    activeShell === 'middle' && 'bg-amber-50/40 border-amber-400/80'
-                  )}
-                  style={{ width: shells.middle * 2, height: shells.middle * 2 }}
-                />
-                <div
-                  className={cn(
-                    'absolute rounded-full border border-red-500/40 transition-all duration-300',
-                    activeShell === 'inner' && 'bg-red-50/40 border-red-500/80'
-                  )}
-                  style={{ width: shells.inner * 2, height: shells.inner * 2 }}
-                />
+              <div className={cn(
+                "relative w-full h-full flex items-center justify-center transition-all duration-700 ease-in-out",
+                is3D ? "perspective-[1000px] rotate-x-[55deg] rotate-z-[-35deg] scale-110" : "perspective-none rotate-0 scale-90 lg:scale-100"
+              )}>
+                
+                {/* 3D Floor Grid (Only visible in 3D) */}
+                {is3D && (
+                  <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
+                )}
 
-                {/* Humanoid Anchor */}
-                <div className="relative z-10 w-12 h-12 lg:w-16 lg:h-16 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center">
-                  <Bot size={24} className="text-slate-900 lg:hidden" />
-                  <Bot size={28} className="text-slate-900 hidden lg:block" />
-                  <span className="absolute -top-6 lg:-top-8 text-[8px] lg:text-[10px] font-mono font-bold text-slate-400 tracking-widest uppercase">
-                    Humanoid
-                  </span>
-                </div>
-
-                {/* Worker Asset */}
-                <div
-                  className="absolute transition-all duration-300 z-20"
-                  style={{ transform: `translateX(${proximity * visualScale}px)` }}
-                >
-                  <div className="flex flex-col items-center gap-1.5">
-                    <div
-                      className={cn(
-                        'w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white shadow-xl transition-colors',
-                        activeShell === 'inner'
-                          ? 'bg-red-600'
-                          : activeShell === 'middle'
-                            ? 'bg-amber-500'
-                            : 'bg-blue-500'
-                      )}
-                    >
-                      <User size={18} />
-                    </div>
-                    <span className="text-[8px] lg:text-[10px] font-mono font-bold text-slate-900 uppercase tracking-tighter">
-                      Worker
-                    </span>
+                {/* Concentric Shells (Voxelated in 3D, Circles in 2D) */}
+                <div className="relative flex items-center justify-center">
+                  
+                  {/* Outer Shell */}
+                  <div
+                    className={cn(
+                      'absolute transition-all duration-500 flex items-center justify-center',
+                      is3D ? "z-0" : "rounded-full border border-dashed border-blue-400/40"
+                    )}
+                    style={{ 
+                      width: shells.outer * 2, 
+                      height: shells.outer * 2,
+                      transform: is3D ? 'translateZ(0px)' : 'none'
+                    }}
+                  >
+                    {is3D && (
+                      <svg viewBox="-150 -150 300 300" className={cn("w-full h-full drop-shadow-2xl transition-opacity", activeShell === 'outer' ? "opacity-100" : "opacity-20")}>
+                        <path 
+                          d={getVoxelPath(140, 0.05)} 
+                          fill="rgba(59, 130, 246, 0.08)" 
+                          stroke="rgba(59, 130, 246, 0.4)" 
+                          strokeWidth="2"
+                          strokeDasharray="4 2"
+                        />
+                      </svg>
+                    )}
+                    {!is3D && activeShell === 'outer' && <div className="absolute inset-0 bg-blue-50/40 border border-blue-400/80 rounded-full" />}
                   </div>
+
+                  {/* Middle Shell */}
+                  <div
+                    className={cn(
+                      'absolute transition-all duration-500 flex items-center justify-center',
+                      is3D ? "z-10" : "rounded-full border border-amber-400/40"
+                    )}
+                    style={{ 
+                      width: shells.middle * 2, 
+                      height: shells.middle * 2,
+                      transform: is3D ? 'translateZ(20px)' : 'none'
+                    }}
+                  >
+                    {is3D && (
+                      <svg viewBox="-150 -150 300 300" className={cn("w-full h-full drop-shadow-xl transition-opacity", activeShell === 'middle' ? "opacity-100" : "opacity-30")}>
+                        <path 
+                          d={getVoxelPath(90, 0.1)} 
+                          fill="rgba(245, 158, 11, 0.1)" 
+                          stroke="rgba(245, 158, 11, 0.5)" 
+                          strokeWidth="3"
+                        />
+                      </svg>
+                    )}
+                    {!is3D && activeShell === 'middle' && <div className="absolute inset-0 bg-amber-50/40 border border-amber-400/80 rounded-full" />}
+                  </div>
+
+                  {/* Inner Shell */}
+                  <div
+                    className={cn(
+                      'absolute transition-all duration-500 flex items-center justify-center',
+                      is3D ? "z-20" : "rounded-full border border-red-500/40"
+                    )}
+                    style={{ 
+                      width: shells.inner * 2, 
+                      height: shells.inner * 2,
+                      transform: is3D ? 'translateZ(40px)' : 'none'
+                    }}
+                  >
+                    {is3D && (
+                      <svg viewBox="-150 -150 300 300" className={cn("w-full h-full drop-shadow-lg transition-opacity", activeShell === 'inner' ? "opacity-100" : "opacity-40")}>
+                        <path 
+                          d={getVoxelPath(50, 0.15)} 
+                          fill="rgba(239, 68, 68, 0.2)" 
+                          stroke="rgba(239, 68, 68, 0.6)" 
+                          strokeWidth="4"
+                        />
+                      </svg>
+                    )}
+                    {!is3D && activeShell === 'inner' && <div className="absolute inset-0 bg-red-50/40 border border-red-500/80 rounded-full" />}
+                  </div>
+
+                  {/* Humanoid Anchor */}
+                  <div className={cn(
+                    "relative z-40 transition-all duration-700 ease-in-out",
+                    is3D ? "rotate-x-[-90deg] rotate-y-[-45deg] translate-y-[-30px]" : ""
+                  )}>
+                    <div className="relative w-12 h-12 lg:w-16 lg:h-16 bg-white border border-slate-200 rounded shadow-md flex items-center justify-center group overflow-hidden">
+                      {is3D ? (
+                        <div className="relative animate-pulse">
+                          <Bot size={28} className="text-primary" />
+                          <div className="absolute inset-0 bg-primary/10 blur-xl rounded-full" />
+                        </div>
+                      ) : (
+                        <Bot size={28} className="text-slate-900" />
+                      )}
+                      <span className={cn(
+                        "absolute -top-8 text-[8px] font-mono font-bold text-slate-400 tracking-widest uppercase transition-opacity",
+                        is3D ? "opacity-0" : "opacity-100"
+                      )}>
+                        Humanoid
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Worker Asset */}
+                  <div
+                    className="absolute transition-all duration-500 z-50"
+                    style={{ 
+                      transform: is3D 
+                        ? `translateX(${proximity * visualScale}px) rotateX(-90deg) rotateY(-45deg) translateY(-20px)` 
+                        : `translateX(${proximity * visualScale}px)`
+                    }}
+                  >
+                    <div className="flex flex-col items-center gap-1.5">
+                      <div
+                        className={cn(
+                          'w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center text-white shadow-2xl transition-colors border-2 border-white',
+                          activeShell === 'inner'
+                            ? 'bg-red-600'
+                            : activeShell === 'middle'
+                              ? 'bg-amber-500'
+                              : 'bg-blue-500'
+                        )}
+                      >
+                        <User size={18} />
+                      </div>
+                      <span className={cn(
+                        "text-[8px] lg:text-[10px] font-mono font-bold text-slate-900 uppercase tracking-tighter whitespace-nowrap",
+                        is3D && "text-white bg-slate-900/80 px-1 rounded"
+                      )}>
+                        Worker
+                      </span>
+                    </div>
+                  </div>
+
                 </div>
 
-                {/* Distance Indicator */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none">
-                  <line
-                    x1="50%"
-                    y1="50%"
-                    x2={`calc(50% + ${proximity * visualScale}px)`}
-                    y2="50%"
-                    stroke="#cbd5e1"
-                    strokeWidth="1"
-                    strokeDasharray="4 4"
-                  />
-                </svg>
+                {/* Distance Indicator (2D only) */}
+                {!is3D && (
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none">
+                    <line
+                      x1="50%"
+                      y1="50%"
+                      x2={`calc(50% + ${proximity * visualScale}px)`}
+                      y2="50%"
+                      stroke="#cbd5e1"
+                      strokeWidth="1"
+                      strokeDasharray="4 4"
+                    />
+                  </svg>
+                )}
               </div>
 
               {/* Slider Controls Overlay */}
-              <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8 grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 bg-white/95 backdrop-blur-md p-4 lg:p-6 border border-slate-200 shadow-lg">
+              <div className="absolute bottom-4 left-4 right-4 lg:bottom-8 lg:left-8 lg:right-8 grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 bg-white/95 backdrop-blur-md p-4 lg:p-6 border border-slate-200 shadow-xl rounded-sm z-[100]">
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
-                    <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       PROXIMITY
                     </Label>
                   </div>
@@ -185,12 +302,12 @@ export function HiveInteractive() {
                     min={50}
                     max={500}
                     step={10}
-                    className="py-4"
+                    className="py-4 cursor-pointer"
                   />
                 </div>
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
-                    <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       SPEED
                     </Label>
                   </div>
@@ -200,12 +317,12 @@ export function HiveInteractive() {
                     min={100}
                     max={1500}
                     step={50}
-                    className="py-4"
+                    className="py-4 cursor-pointer"
                   />
                 </div>
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
-                    <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
                       SENSORS
                     </Label>
                     <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{redundancy}</span>
@@ -216,7 +333,7 @@ export function HiveInteractive() {
                     min={1}
                     max={5}
                     step={1}
-                    className="py-4"
+                    className="py-4 cursor-pointer"
                   />
                 </div>
               </div>
