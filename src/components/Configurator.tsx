@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from 'react';
@@ -6,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, Monitor } from "lucide-react";
+import Image from "next/image";
+import { PlaceHolderImages } from "@/lib/placeholder-images";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +21,7 @@ import {
 
 export function Configurator() {
   const [area, setArea] = useState(1000);
+  const hubImage = PlaceHolderImages.find((img) => img.id === 'hardware-hub');
 
   // Phase 1 Hardware Costs
   const HUB_COST = 12500;
@@ -52,7 +56,28 @@ export function Configurator() {
 
             <div className="lg:col-span-5 w-full">
               <div className="sticky top-32 glass-panel p-6 lg:p-12 space-y-8 lg:space-y-10 border-slate-200 shadow-2xl">
-                <div className="flex justify-between items-center border-b border-slate-100 pb-6 lg:pb-8">
+                
+                {hubImage && (
+                  <div className="space-y-4">
+                    <div className="relative aspect-[16/9] w-full overflow-hidden border border-slate-200 shadow-inner group">
+                      <Image
+                        src={hubImage.imageUrl}
+                        alt={hubImage.description}
+                        width={600}
+                        height={337}
+                        className="object-cover w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"
+                        data-ai-hint={hubImage.imageHint}
+                      />
+                      <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors" />
+                    </div>
+                    <div className="flex justify-between items-center text-[10px] font-mono text-slate-400 font-bold uppercase tracking-widest px-1">
+                      <span>SH-CONTROL-v2</span>
+                      <span className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Verified Hardware</span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center border-b border-slate-100 pb-6 lg:pb-8 pt-4">
                   <h3 className="tech-label text-slate-900 uppercase">Bill of materials</h3>
                   <Monitor className="text-primary" size={18} />
                 </div>
