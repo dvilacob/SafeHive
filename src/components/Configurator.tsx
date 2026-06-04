@@ -56,46 +56,47 @@ export function Configurator() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
             
-            <div className="lg:col-span-7 space-y-12 lg:space-y-20">
+            <div className="lg:col-span-7 space-y-10 lg:space-y-16">
               <div className="space-y-6">
-                <div className="tech-label text-primary">System Planner v4.1</div>
-                <h2 className="text-5xl lg:text-7xl font-headline font-bold tracking-tighter text-slate-900">
+                <h2 className="text-4xl lg:text-7xl font-headline font-bold tracking-tighter text-slate-900 leading-tight">
                   Hive Configurator<span className="text-primary">.</span>
                 </h2>
-                <p className="text-slate-500 text-lg lg:text-xl max-w-xl font-medium">
-                  Define facility constraints to generate a safety-rated infrastructure order.
+                <p className="text-slate-500 text-base lg:text-xl max-w-2xl font-medium leading-relaxed">
+                  Define your facility constraints to provide you with the infrastructure and the hub in order to orchestrate your humanoid fleet and machines safely.
                 </p>
               </div>
 
-              <div className="space-y-12 lg:space-y-16">
-                <div className="space-y-8">
-                  <div className="flex justify-between items-baseline">
-                    <Label className="text-slate-400 text-xs font-mono font-bold uppercase tracking-[0.3em]">TOTAL WORK AREA (m²)</Label>
-                    <div className="text-4xl lg:text-5xl font-mono font-bold text-primary drop-shadow-[0_0_15px_rgba(0,102,255,0.15)]">
+              <div className="space-y-10">
+                <div className="space-y-6">
+                  <div className="flex justify-between items-baseline gap-4">
+                    <Label className="text-slate-400 text-[10px] lg:text-xs font-mono font-bold uppercase tracking-[0.3em]">TOTAL WORK AREA (m²)</Label>
+                    <div className="text-3xl lg:text-5xl font-mono font-bold text-primary tabular-nums shrink-0">
                       {area}
-                      <span className="text-sm ml-2 text-slate-300 font-mono tracking-normal">M²</span>
+                      <span className="text-xs lg:text-sm ml-1 lg:text-slate-300 font-mono tracking-normal">M²</span>
                     </div>
                   </div>
                   
-                  <SliderPrimitive.Root
-                    value={[area]}
-                    onValueChange={(v) => setArea(v[0])}
-                    max={10000}
-                    min={100}
-                    step={100}
-                    className="relative flex w-full touch-none select-none items-center py-6"
-                  >
-                    <SliderPrimitive.Track className="relative h-4 w-full grow overflow-hidden bg-slate-200/50 border border-slate-200 inner-shadow-recessed">
-                      <SliderPrimitive.Range className="absolute h-full bg-primary/10" />
-                    </SliderPrimitive.Track>
-                    <SliderPrimitive.Thumb className="group relative block h-10 w-10 outline-none cursor-pointer">
-                      <div className="absolute inset-0 flex items-center justify-center transition-transform duration-200 group-hover:scale-125 group-active:scale-95">
-                        <Target className="text-primary fill-primary/10 w-full h-full drop-shadow-[0_0_10px_rgba(0,102,255,0.4)]" />
-                      </div>
-                    </SliderPrimitive.Thumb>
-                  </SliderPrimitive.Root>
+                  <div className="relative py-8">
+                    <SliderPrimitive.Root
+                      value={[area]}
+                      onValueChange={(v) => setArea(v[0])}
+                      max={10000}
+                      min={100}
+                      step={100}
+                      className="relative flex w-full touch-none select-none items-center"
+                    >
+                      <SliderPrimitive.Track className="relative h-3 lg:h-4 w-full grow overflow-hidden bg-slate-200/50 border border-slate-200 rounded-full inner-shadow-recessed">
+                        <SliderPrimitive.Range className="absolute h-full bg-primary/20" />
+                      </SliderPrimitive.Track>
+                      <SliderPrimitive.Thumb className="group relative block h-8 w-8 lg:h-10 lg:w-10 outline-none cursor-pointer focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-full">
+                        <div className="absolute inset-0 flex items-center justify-center transition-transform duration-200 group-hover:scale-110 group-active:scale-90">
+                          <Target className="text-primary fill-white w-full h-full drop-shadow-[0_4px_12px_rgba(0,102,255,0.3)]" />
+                        </div>
+                      </SliderPrimitive.Thumb>
+                    </SliderPrimitive.Root>
+                  </div>
 
-                  <div className="p-6 bg-white border border-slate-100 rounded-sm space-y-2">
+                  <div className="p-5 lg:p-6 bg-white border border-slate-100 rounded-sm space-y-2 shadow-sm">
                     <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                       <Monitor size={12} className="text-primary" />
                       Asset Configuration
@@ -107,21 +108,21 @@ export function Configurator() {
             </div>
 
             <div className="lg:col-span-5 w-full">
-              <div className="bg-white border border-slate-200 shadow-[0_20px_50px_rgba(0,0,0,0.05)] relative">
+              <div className="bg-white border border-slate-200 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] relative">
                 {/* Panel Corner Accent */}
-                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary/20 -translate-x-4 translate-y-4" />
+                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary/20 -translate-x-4 translate-y-4 hidden lg:block" />
                 
-                <div className="p-10 lg:p-12 space-y-10">
+                <div className="p-8 lg:p-12 space-y-8 lg:space-y-10">
                   <TooltipProvider>
-                    <div className="space-y-10">
+                    <div className="space-y-8 lg:space-y-10">
                       {/* Section A: Initial Investment */}
-                      <div className="space-y-6">
+                      <div className="space-y-5">
                         <div className="flex justify-between items-center border-b border-slate-100 pb-4">
                           <h3 className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-primary">Initial Investment (CAPEX)</h3>
                         </div>
 
                         <div className="space-y-4">
-                          <div className="flex justify-between items-start text-xs">
+                          <div className="flex justify-between items-start text-xs lg:text-sm">
                             <div className="flex flex-col gap-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-bold text-slate-900 tracking-tight">SafeHive Control Hub</span>
@@ -136,18 +137,18 @@ export function Configurator() {
                               </div>
                               <span className="text-[9px] text-slate-400 font-mono uppercase">QTY: {hubCount} × ${formatPrice(HUB_UNIT_COST)}</span>
                             </div>
-                            <span className="font-mono font-bold text-slate-900 tabular-nums text-sm">${formatPrice(hubCount * HUB_UNIT_COST)}</span>
+                            <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(hubCount * HUB_UNIT_COST)}</span>
                           </div>
 
-                          <div className="flex justify-between items-start text-xs">
+                          <div className="flex justify-between items-start text-xs lg:text-sm">
                             <div className="flex flex-col gap-1">
                               <span className="font-bold text-slate-900 tracking-tight">Perimeter Access Points</span>
                               <span className="text-[9px] text-slate-400 font-mono uppercase">QTY: {apCount} × ${formatPrice(AP_UNIT_COST)}</span>
                             </div>
-                            <span className="font-mono font-bold text-slate-900 tabular-nums text-sm">${formatPrice(apCount * AP_UNIT_COST)}</span>
+                            <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(apCount * AP_UNIT_COST)}</span>
                           </div>
 
-                          <div className="flex justify-between items-start text-xs">
+                          <div className="flex justify-between items-start text-xs lg:text-sm">
                             <div className="flex flex-col gap-1">
                               <div className="flex items-center gap-2">
                                 <span className="font-bold text-slate-900 tracking-tight">Onboarding & API Support</span>
@@ -162,18 +163,18 @@ export function Configurator() {
                               </div>
                               <span className="text-[9px] text-slate-400 font-mono uppercase">QTY: 1 × ${formatPrice(ONBOARDING_COST)}</span>
                             </div>
-                            <span className="font-mono font-bold text-slate-900 tabular-nums text-sm">${formatPrice(ONBOARDING_COST)}</span>
+                            <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(ONBOARDING_COST)}</span>
                           </div>
                         </div>
                       </div>
 
                       {/* Section B: Recurring Cost */}
-                      <div className="space-y-6">
+                      <div className="space-y-5">
                         <div className="flex justify-between items-center border-b border-slate-100 pb-4">
                           <h3 className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-amber-500">Annual Subscription (OPEX)</h3>
                         </div>
 
-                        <div className="flex justify-between items-start text-xs">
+                        <div className="flex justify-between items-start text-xs lg:text-sm">
                           <div className="flex flex-col gap-1">
                             <div className="flex items-center gap-2">
                               <span className="font-bold text-slate-900 tracking-tight">SafeHive Platform License</span>
@@ -188,23 +189,23 @@ export function Configurator() {
                             </div>
                             <span className="text-[9px] text-slate-400 font-mono uppercase">Annual Recurring</span>
                           </div>
-                          <span className="font-mono font-bold text-slate-900 tabular-nums text-sm">${formatPrice(recurringTotal)}/yr</span>
+                          <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(recurringTotal)}/yr</span>
                         </div>
                       </div>
                     </div>
                   </TooltipProvider>
 
-                  <div className="pt-10 border-t border-slate-100 space-y-6">
-                    <div className="space-y-4">
+                  <div className="pt-8 lg:pt-10 border-t border-slate-100 space-y-6">
+                    <div className="space-y-5">
                       <div className="flex justify-between items-end">
-                        <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Due Now</span>
+                        <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Due Now</span>
                         <div className="text-3xl lg:text-4xl font-mono font-bold text-slate-900 tracking-tighter tabular-nums">
                           ${formatPrice(dueNowTotal)}
                         </div>
                       </div>
                       <div className="flex justify-between items-end border-t border-slate-50 pt-4">
-                        <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Yearly Subscription</span>
-                        <div className="text-xl font-mono font-bold text-amber-600 tabular-nums">
+                        <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Yearly Subscription</span>
+                        <div className="text-lg lg:text-xl font-mono font-bold text-amber-600 tabular-nums">
                           ${formatPrice(recurringTotal)}/yr
                         </div>
                       </div>
@@ -212,32 +213,31 @@ export function Configurator() {
                     
                     <Dialog>
                       <DialogTrigger asChild>
-                        <button className="group relative w-full h-20 bg-primary hover:bg-[#06b6d4] transition-colors duration-300 chamfered-button overflow-hidden">
-                          <div className="relative z-10 flex items-center justify-center gap-4 text-white text-xs font-mono font-bold uppercase tracking-[0.3em]">
+                        <button className="group relative w-full h-16 lg:h-20 bg-primary hover:bg-[#06b6d4] transition-colors duration-300 rounded-sm overflow-hidden shadow-lg shadow-primary/20">
+                          <div className="relative z-10 flex items-center justify-center gap-4 text-white text-[11px] lg:text-xs font-mono font-bold uppercase tracking-[0.3em]">
                             Generate Quote
                             <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-2" />
                           </div>
-                          <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                         </button>
                       </DialogTrigger>
                       <DialogContent className="rounded-none border-2 border-slate-900 w-[95vw] max-w-lg p-0 overflow-hidden">
-                        <div className="p-8 space-y-6">
+                        <div className="p-6 lg:p-10 space-y-6">
                           <DialogHeader>
-                            <DialogTitle className="text-2xl font-headline font-bold uppercase tracking-tight">Order Site Spec</DialogTitle>
+                            <DialogTitle className="text-xl lg:text-2xl font-headline font-bold uppercase tracking-tight">Order Site Spec</DialogTitle>
                             <DialogDescription className="font-medium text-slate-500">Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
                           </DialogHeader>
-                          <div className="space-y-6 py-4">
+                          <div className="space-y-5 py-4">
                             <div className="space-y-2">
                               <Label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Lead Integration Engineer</Label>
-                              <Input placeholder="FULL NAME" className="h-14 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-sm font-mono" />
+                              <Input placeholder="FULL NAME" className="h-12 lg:h-14 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-sm font-mono" />
                             </div>
                             <div className="space-y-2">
                               <Label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Corporate Email Address</Label>
-                              <Input placeholder="EMAIL@COMPANY.COM" className="h-14 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-sm font-mono" />
+                              <Input placeholder="EMAIL@COMPANY.COM" className="h-12 lg:h-14 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-sm font-mono" />
                             </div>
                           </div>
                           <DialogFooter>
-                            <button className="w-full h-16 bg-primary text-white font-mono font-bold uppercase tracking-[0.2em] chamfered-button hover:bg-[#06b6d4] transition-colors">
+                            <button className="w-full h-14 lg:h-16 bg-primary text-white font-mono font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-[#06b6d4] transition-colors shadow-md">
                               Submit for Review
                             </button>
                           </DialogFooter>
