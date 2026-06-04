@@ -186,10 +186,25 @@ export function SafetyVolumes() {
               <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white">
                 <div className="space-y-10">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 flex justify-between overflow-hidden">
-                      <TabsTrigger value="outer" className="flex-1 px-0 py-5 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Outer</TabsTrigger>
-                      <TabsTrigger value="middle" className="flex-1 px-0 py-5 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Middle</TabsTrigger>
-                      <TabsTrigger value="inner" className="flex-1 px-0 py-5 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Inner</TabsTrigger>
+                    <TabsList className="w-full h-auto p-1 bg-slate-50 border border-slate-100 rounded-lg mb-8 flex justify-between gap-1">
+                      <TabsTrigger 
+                        value="outer" 
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-white data-[state=active]:shadow-sm hover:bg-slate-100/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                      >
+                        Outer
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="middle" 
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-white data-[state=active]:shadow-sm hover:bg-slate-100/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                      >
+                        Middle
+                      </TabsTrigger>
+                      <TabsTrigger 
+                        value="inner" 
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-white data-[state=active]:shadow-sm hover:bg-slate-100/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                      >
+                        Inner
+                      </TabsTrigger>
                     </TabsList>
 
                     <div className="min-h-[160px]">
