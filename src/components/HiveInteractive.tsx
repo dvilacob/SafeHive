@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Bot, User, Activity, ShieldCheck, Zap } from 'lucide-react';
+import { Bot, User, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
@@ -165,7 +165,7 @@ export function HiveInteractive() {
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Proximity (Vh)
+                      PROXIMITY
                     </Label>
                     <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{proximity}mm</span>
                   </div>
@@ -180,7 +180,7 @@ export function HiveInteractive() {
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Speed (Vr)
+                      SPEED
                     </Label>
                     <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{speed}mm/s</span>
                   </div>
@@ -195,9 +195,9 @@ export function HiveInteractive() {
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Certainty (C)
+                      ACTIVE DATA SOURCES
                     </Label>
-                    <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{redundancy} Src</span>
+                    <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{redundancy} Active Feeds</span>
                   </div>
                   <Slider
                     value={[redundancy]}
@@ -214,11 +214,11 @@ export function HiveInteractive() {
             <div className="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-between bg-white">
               <div className="space-y-8 lg:space-y-10">
                 <div className="space-y-3">
-                  <h3 className="text-sm font-bold text-slate-900">
-                    Real-Time Safety Dynamic Volumes Calculation
+                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-tight">
+                    Dynamic Bubble Calculation
                   </h3>
                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                    Calculated dynamically by combining individual body-part sensitivity volumes with real-time speed separation boundaries.
+                    Calculated in real time by mapping body-part safety thresholds against current machine speed and separation distances.
                   </p>
                 </div>
 
@@ -267,7 +267,7 @@ export function HiveInteractive() {
                             Collaborative State / Speed &lt;250 mm/s
                           </h4>
                           <p className="text-xs lg:text-sm text-slate-500 leading-relaxed font-medium">
-                            Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting collaborative speed restrictions based on localized body segment tolerances (a_zone).
+                            Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting collaborative speed restrictions based on localized body segment tolerances.
                           </p>
                         </div>
                       </div>
@@ -292,19 +292,10 @@ export function HiveInteractive() {
 
               {/* Engineering Micro-Badges (Bottom Status Bar) */}
               <div className="pt-8 lg:pt-10 flex flex-wrap items-center gap-4 lg:gap-8 border-t border-slate-50">
-                {[
-                  { icon: <Zap size={12} />, label: 'LATENCY: <12ms' },
-                  { icon: <Activity size={12} />, label: 'INTEGRITY: 99.999%' },
-                  { icon: <ShieldCheck size={12} />, label: 'DETERMINISM: SIL 3 / PLd' },
-                ].map((badge, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-2 text-[8px] lg:text-[10px] font-bold text-slate-400 tracking-widest uppercase"
-                  >
-                    <span className="text-primary">{badge.icon}</span>
-                    {badge.label}
-                  </div>
-                ))}
+                <div className="flex items-center gap-2 text-[8px] lg:text-[10px] font-bold text-slate-400 tracking-widest uppercase">
+                  <span className="text-primary"><ShieldCheck size={12} /></span>
+                  🛡️ Target ISO Rating: PLd / SIL 2 Capable
+                </div>
               </div>
             </div>
           </div>
