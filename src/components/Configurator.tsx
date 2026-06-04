@@ -54,7 +54,7 @@ export function Configurator() {
             <div className="lg:col-span-5 w-full">
               <div className="sticky top-32 glass-panel p-6 lg:p-12 space-y-8 lg:space-y-10 border-slate-200 shadow-2xl">
                 <div className="flex justify-between items-center border-b border-slate-100 pb-6 lg:pb-8">
-                  <h3 className="tech-label text-slate-900">Phase 1 BOM</h3>
+                  <h3 className="tech-label text-slate-900 uppercase">Bill of materials</h3>
                   <Monitor className="text-primary" size={18} />
                 </div>
 
