@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, Monitor } from "lucide-react";
-import Image from "next/image";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import {
   Dialog,
   DialogContent,
@@ -21,7 +19,6 @@ import {
 
 export function Configurator() {
   const [area, setArea] = useState(1000);
-  const hubImage = PlaceHolderImages.find((img) => img.id === 'hardware-hub');
 
   // Phase 1 Hardware Costs
   const HUB_COST = 12500;
@@ -57,24 +54,6 @@ export function Configurator() {
             <div className="lg:col-span-5 w-full">
               <div className="sticky top-32 glass-panel p-0 overflow-hidden space-y-0 border-slate-200 shadow-2xl rounded-sm">
                 
-                {hubImage && (
-                  <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-slate-100 group">
-                    <Image
-                      src={hubImage.imageUrl}
-                      alt={hubImage.description}
-                      width={600}
-                      height={375}
-                      className="object-cover w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-500"
-                      data-ai-hint={hubImage.imageHint}
-                    />
-                    <div className="absolute inset-0 bg-primary/5 group-hover:bg-transparent transition-colors" />
-                    <div className="absolute bottom-4 right-4 flex items-center gap-1.5 bg-white/90 backdrop-blur-md px-2 py-1 border border-slate-200 shadow-sm">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                      <span className="text-[8px] font-mono font-bold uppercase tracking-widest text-slate-900">Verified Hardware</span>
-                    </div>
-                  </div>
-                )}
-
                 <div className="p-8 lg:p-10 space-y-8">
                   <div className="flex justify-between items-center border-b border-slate-100 pb-6">
                     <h3 className="tech-label text-slate-900 uppercase">Bill of materials</h3>
