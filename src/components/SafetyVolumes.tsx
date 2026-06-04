@@ -258,10 +258,10 @@ export function SafetyVolumes() {
               <div className="lg:col-span-4 p-6 lg:p-10 flex flex-col justify-between bg-white">
                 <div className="space-y-10">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-6 flex justify-start">
-                      <TabsTrigger value="outer" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
-                      <TabsTrigger value="middle" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Middle Shell</TabsTrigger>
-                      <TabsTrigger value="inner" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-sm font-bold uppercase tracking-widest transition-all">Inner Shell</TabsTrigger>
+                    <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-4 flex justify-between overflow-visible">
+                      <TabsTrigger value="outer" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
+                      <TabsTrigger value="middle" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Middle Shell</TabsTrigger>
+                      <TabsTrigger value="inner" className="px-0 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-transparent rounded-none text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Inner Shell</TabsTrigger>
                     </TabsList>
 
                     <div className="min-h-[160px]">
@@ -298,7 +298,7 @@ export function SafetyVolumes() {
 
                 <div className="pt-8 border-t border-slate-50 flex flex-col gap-6">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">Target ISO Rating</span>
+                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Target ISO Rating</span>
                     <div className="flex items-center gap-3">
                       <ShieldCheck className="w-6 h-6 text-emerald-500" />
                       <span className="text-lg font-bold text-slate-900">
