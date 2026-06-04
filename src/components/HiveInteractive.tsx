@@ -167,7 +167,6 @@ export function HiveInteractive() {
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       PROXIMITY
                     </Label>
-                    <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{proximity}mm</span>
                   </div>
                   <Slider
                     value={[proximity]}
@@ -182,7 +181,6 @@ export function HiveInteractive() {
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       SPEED
                     </Label>
-                    <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{speed}mm/s</span>
                   </div>
                   <Slider
                     value={[speed]}
@@ -195,9 +193,9 @@ export function HiveInteractive() {
                 <div className="space-y-2 lg:space-y-3">
                   <div className="flex justify-between items-center">
                     <Label className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      ACTIVE DATA SOURCES
+                      SOURCES
                     </Label>
-                    <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{redundancy} Active Feeds</span>
+                    <span className="text-[10px] lg:text-xs font-mono font-bold text-slate-900">{redundancy} Sensors</span>
                   </div>
                   <Slider
                     value={[redundancy]}
@@ -214,7 +212,7 @@ export function HiveInteractive() {
             <div className="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-between bg-white">
               <div className="space-y-8 lg:space-y-10">
                 <div className="space-y-3">
-                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-tight">
+                  <h3 className="text-xl font-headline font-bold text-slate-900 uppercase">
                     Dynamic Bubble Calculation
                   </h3>
                   <p className="text-xs text-slate-500 font-medium leading-relaxed">
@@ -294,7 +292,7 @@ export function HiveInteractive() {
               <div className="pt-8 lg:pt-10 flex flex-wrap items-center gap-4 lg:gap-8 border-t border-slate-50">
                 <div className="flex items-center gap-2 text-[8px] lg:text-[10px] font-bold text-slate-400 tracking-widest uppercase">
                   <span className="text-primary"><ShieldCheck size={12} /></span>
-                  🛡️ Target ISO Rating: PLd / SIL 2 Capable
+                  DETERMINISM: SIL 3 / PLD
                 </div>
               </div>
             </div>
