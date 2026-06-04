@@ -45,14 +45,19 @@ const faqs = [
     answer: "The Command Topic is the safety-rated output stream sent from the SafeHive Hub back to your fleet. Based on the global spatial math and verified data processed by the Hub, SafeHive publishes speed vectors and dynamic zone commands over this channel. To keep the network lightweight and deterministic, these payloads are highly targeted. Instead of broadcasting blanket commands to the whole factory, the Hub explicitly sends instructions only to the specific registered devices currently inside or approaching an affected safety zone. This allows your machines to handle their local navigation independently while receiving an instant, global safety overlay."
   },
   {
-    tag: "ROS",
-    question: "Can the SafeHive control hub send active operational commands back to the humanoids?",
-    answer: "Yes. SafeHive features a dedicated section specifically designed to command humanoid behaviors. While local safety loops remain strictly autonomous at the edge, SafeHive exposes standard, asynchronous ROS Action Topics."
+    tag: "ISO",
+    question: "How does Adaptive Safety Shielding support my safety goals?",
+    answer: "SafeHive is architected to align with ISO/TS 15066 guidelines, which define the limits for safe interaction between robots and humans. By applying these force and pressure limits to your robot's movements, the system provides a technical foundation that helps you demonstrate that your workspace is designed to prioritize human safety."
   },
   {
     tag: "ISO",
-    question: "How does SafeHive help me certify a specific Safety Category or Performance Level (PL) according to ISO 13849-1?",
-    answer: "As a component supplier, SafeHive cannot uniquely certify your final end-to-end factory system category, as ultimate compliance depends entirely on your total plant integration and deployment environment. However, we provide all the specialized architectural tools required for your engineering team to successfully achieve a Category 3/4, PL d/e rating.\n\nOur compliance enablement architecture relies on two core pillars:\n\n1. ROS Communication over a Certified Black Channel (IEC 61784-3):\nSafeHive does not require you to trust your standard wireless network infrastructure for primary safety. Instead, we implement a Black Channel protocol layer on top of standard ROS/ROS2 communication. This protocol encapsulates safety-critical telemetry with deterministic watchdogs, cyclic redundancy checks (CRCs), and unique packet identifiers. The local hardware edge module enforces a strict timeout window (e.g., ≤ 40 ms). If a packet is dropped, corrupted, or delayed, the local hardware immediately detects the heartbeat loss, bypasses the software completely, and drops its dual-channel safety relays to trigger a safe state.\n\n2. The Shared Distributed Perception Topic:\nWithin this protected Black Channel, SafeHive exposes a dedicated safety-critical ROS topic specifically designed for distributed object detection data. This allows you to combine and cross-check redundant information from entirely disparate sensor systems to meet the \"Diagnostic Coverage\" and \"Common Cause Failure\" requirements of ISO 13849-1. Engineers can feed data into this single topic from multiple sources simultaneously:\n- Fleet Telemetry: Dynamic bounding boxes and spatial mapping shared from neighboring Humanoids.\n- Fixed Infrastructure: Spatial tracking data streamed from a facility-wide CCTV network running localized perception and vision algorithms.\n- Legacy Safety Hardware: Hard-wired inputs from traditional safety sensors, such as classical SICK laser scanners and plant PLC inputs.\n\nThe Integration Bottom Line: SafeHive delivers the secure, deterministic data pipeline (the Black Channel) and the open integration framework (the Distributed Perception Topic). This gives your team the exact mathematical and architectural foundation needed to satisfy safety auditors and achieve your target ISO compliance layout."
+    question: "How does this feature help me align with the new 2025 ISO requirements?",
+    answer: "The updated ISO 10218-1/2:2025 standard introduces more flexibility for safety designs that can prove high reliability. SafeHive provides the software-based safety logic and diagnostic coverage intended to help your systems meet the required performance levels (PLd), allowing you to move toward more flexible, high-reliability architectures while maintaining alignment with modern safety standards."
+  },
+  {
+    tag: "ISO",
+    question: "How does SafeHive help me certify a Performance Level (PL) according to ISO 13849-1?",
+    answer: "SafeHive delivers the secure, deterministic data pipeline (the Black Channel) and the open integration framework (the Distributed Perception Topic). This gives your team the exact mathematical and architectural foundation needed to satisfy safety auditors and achieve your target Category 3/4, PL d/e rating by proving high diagnostic coverage and common cause failure resistance."
   },
   {
     tag: "ISO",
@@ -62,12 +67,12 @@ const faqs = [
   {
     tag: "ISO",
     question: "What happens to the safety bubble and the asset if a wireless network packet drops?",
-    answer: "When a packet drops or visibility decreases, system certainty plummets. To maintain strict ISO compliance without abruptly shutting down production, SafeHive triggers an autonomous Dual-Action Fallback: 1. The Confidence Buffer (C) instantly increases, expanding the safety bubble into a wider, more cautious footprint to protect the human's uncertain position. 2. Simultaneously, the asset's velocity (Vr) throttles down to a regulated safe collaborative crawl (<250mm/s) until the connection re-establishes and the bubble can snap tight again."
+    answer: "When a packet drops or visibility decreases, system certainty plummets. To maintain strict ISO compliance without abruptly shutting down production, SafeHive triggers an autonomous Dual-Action Fallback: 1. The Confidence Buffer (C) instantly increases, expanding the safety bubble into a wider, more cautious footprint. 2. Simultaneously, the asset's velocity (Vr) throttles down to a regulated safe collaborative crawl (<250mm/s) until the connection re-establishes."
   },
   {
     tag: "ISO",
-    question: "How does the system guarantee a safe state if a total network drop or critical perception failure occurs?",
-    answer: "No, because safety happens right at the machine level. The system uses a built-in hardware fail-safe that treats the wireless network as an unreliable \"Black Channel.\"\n\nIf the wireless signal drops for even 100 milliseconds, the onboard module instantly drops its safety relays. This cuts power and locks the mechanical brakes directly on the machine—completely independent of your main network or plant infrastructure. If communication fails, the asset instantly stops itself in its safest state."
+    question: "How does the system guarantee a safe state if a total network drop occurs?",
+    answer: "Safety happens at the machine level. The system uses a built-in hardware fail-safe that treats the wireless network as an unreliable \"Black Channel.\"\n\nIf the wireless signal drops for even 100 milliseconds, the onboard module instantly drops its safety relays. This cuts power and locks the mechanical brakes directly on the machine—completely independent of your main network or plant infrastructure."
   }
 ];
 
