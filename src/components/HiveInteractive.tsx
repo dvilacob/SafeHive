@@ -245,11 +245,10 @@ export function HiveInteractive() {
                         <div className="w-1.5 h-16 lg:h-20 bg-blue-400 rounded-full shrink-0" />
                         <div className="space-y-2 lg:space-y-3">
                           <h4 className="text-[10px] lg:text-xs font-bold uppercase tracking-widest text-slate-900">
-                            Warning State / Nominal Speed
+                            Nominal Speed / Proximity Monitoring
                           </h4>
                           <p className="text-xs lg:text-sm text-slate-500 leading-relaxed font-medium">
-                            Scaling is a direct function of velocity. The bubble dynamically expands to
-                            guarantee a safe stop separation distance as objects approach.
+                            The machine maintains full production speed while dynamically scaling the outer perimeter to match required stopping distances.
                           </p>
                         </div>
                       </div>
@@ -272,11 +271,10 @@ export function HiveInteractive() {
                         <div className="w-1.5 h-16 lg:h-20 bg-red-500 rounded-full shrink-0" />
                         <div className="space-y-2 lg:space-y-3">
                           <h4 className="text-[10px] lg:text-xs font-bold uppercase tracking-widest text-slate-900">
-                            Protective State / Fail-Safe Brake
+                            Immediate Safety Stop
                           </h4>
                           <p className="text-xs lg:text-sm text-slate-500 leading-relaxed font-medium">
-                            Driven by Hive Redundancy. If spatial tracking confidence drops or the inner shell
-                            boundary is breached, a hardware brake command triggers within 10ms.
+                            If the inner boundary is breached or tracking confidence falls below safe thresholds, an emergency brake command is issued within 10ms.
                           </p>
                         </div>
                       </div>
