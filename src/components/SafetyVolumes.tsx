@@ -63,20 +63,52 @@ export function SafetyVolumes() {
     else if (val === 'outer') setProximity((boundaries.rawMiddle + boundaries.rawOuter) / 2);
   };
 
-  // Simplified geometric path (Clean circle) to avoid "weird" shape
-  const getCleanPath = (radius: number) => {
-    return `M -${radius}, 0 a ${radius},${radius} 0 1,0 ${radius * 2},0 a ${radius},${radius} 0 1,0 -${radius * 2},0`;
-  };
-
-  const VolumetricEnvelope = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
+  const VolumetricCylinder = ({ radius, color, isActive, height = 120 }: { radius: number, color: string, isActive: boolean, height?: number }) => {
+    const rx = radius;
+    const ry = radius * 0.6; // Perspective squish
+    
     return (
       <div className="absolute flex items-center justify-center transition-all duration-500" style={{ width: radius * 2, height: radius * 2 }}>
-        <svg viewBox="-150 -150 300 300" className={cn("w-full h-full transition-opacity duration-500", isActive ? "opacity-100" : "opacity-15")}>
+        <svg viewBox={`-${radius + 10} -${radius + height + 10} ${(radius + 10) * 2} ${(radius + height + 10) * 2}`} className={cn("w-full h-full transition-all duration-500", isActive ? "opacity-100 scale-100" : "opacity-10 scale-95")}>
+          <defs>
+            <linearGradient id={`grad-${color.replace('#', '')}`} x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+              <stop offset="100%" stopColor={color} stopOpacity="0.05" />
+            </linearGradient>
+          </defs>
+          
+          {/* Cylinder Side Walls */}
           <path
-            d={getCleanPath(140 * (radius / shells.outer))}
-            fill={`${color}20`}
+            d={`M -${rx},0 L -${rx},-${height} A ${rx},${ry} 0 0,1 ${rx},-${height} L ${rx},0 A ${rx},${ry} 0 0,1 -${rx},0`}
+            fill={`url(#grad-${color.replace('#', '')})`}
             stroke={color}
-            strokeWidth={isActive ? 3 : 1}
+            strokeWidth={isActive ? 1.5 : 0.5}
+            className="transition-all duration-700"
+          />
+          
+          {/* Cylinder Top Cap */}
+          <ellipse
+            cx="0"
+            cy={-height}
+            rx={rx}
+            ry={ry}
+            fill={color}
+            fillOpacity="0.2"
+            stroke={color}
+            strokeWidth={isActive ? 2 : 0.5}
+            className="transition-all duration-700"
+          />
+          
+          {/* Cylinder Bottom (Grounded Base) */}
+          <ellipse
+            cx="0"
+            cy="0"
+            rx={rx}
+            ry={ry}
+            fill="none"
+            stroke={color}
+            strokeWidth={isActive ? 1 : 0.5}
+            strokeDasharray="4 2"
             className="transition-all duration-700"
           />
         </svg>
@@ -120,14 +152,16 @@ export function SafetyVolumes() {
           <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm">
             <div className="grid lg:grid-cols-10 h-full">
               <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-8 relative min-h-[500px] lg:min-h-[800px] flex flex-col items-center justify-center overflow-hidden">
-                <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1500px] rotate-x-[60deg] rotate-z-[-45deg] scale-100 lg:scale-110">
+                <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1500px] rotate-x-[30deg] rotate-z-[-15deg] scale-100 lg:scale-110">
                   <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
+                  
                   <div className="relative flex items-center justify-center">
-                    <VolumetricEnvelope radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
-                    <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
-                    <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
+                    <VolumetricCylinder radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} height={160} />
+                    <VolumetricCylinder radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} height={130} />
+                    <VolumetricCylinder radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} height={100} />
 
-                    <div className="relative z-40 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-0">
+                    {/* Grounded Humanoid Asset */}
+                    <div className="relative z-40 transition-all duration-700 rotate-z-[15deg] rotate-x-[-30deg] translate-y-0">
                        <div className="relative h-28 lg:h-48 w-14 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_25px_rgba(0,102,255,0.4)]">
                           <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM10 18H30V48H26V95H14V48H10V18ZM16 22V44H24V22H16Z" fill="currentColor" className="text-primary animate-pulse-glow" />
@@ -136,8 +170,9 @@ export function SafetyVolumes() {
                       </div>
                     </div>
 
+                    {/* Grounded Worker Asset */}
                     <div className={cn("absolute transition-all duration-500 ease-out", activeShell === 'inner' ? "z-[100]" : "z-[35]")} style={{ transform: `translateX(${proximity * visualScale}px)` }}>
-                      <div className="flex flex-col items-center gap-2 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-0">
+                      <div className="flex flex-col items-center gap-2 transition-all duration-700 rotate-z-[15deg] rotate-x-[-30deg] translate-y-0">
                         <div className="relative h-24 lg:h-40 w-12 flex items-center justify-center">
                             <svg viewBox="0 0 40 100" className={cn("h-full w-full drop-shadow-2xl transition-colors duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
                               <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46H12V94H28V46H32V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
@@ -177,24 +212,24 @@ export function SafetyVolumes() {
               <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white">
                 <div className="space-y-10">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    <TabsList className="w-full h-auto p-1 bg-slate-100 border border-slate-200 rounded-lg mb-8 flex justify-between gap-1 shadow-inner">
+                    <TabsList className="w-full h-auto p-1.5 bg-slate-100 border border-slate-200 rounded-lg mb-8 flex justify-between gap-1.5 shadow-inner">
                       <TabsTrigger 
                         value="outer" 
-                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-white data-[state=active]:shadow-md hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-white data-[state=active]:shadow-lg hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer group"
                       >
-                        Outer
+                        <span className="group-data-[state=active]:text-blue-600">Outer</span>
                       </TabsTrigger>
                       <TabsTrigger 
                         value="middle" 
-                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-white data-[state=active]:shadow-md hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-amber-400 data-[state=active]:bg-white data-[state=active]:shadow-lg hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer group"
                       >
-                        Middle
+                        <span className="group-data-[state=active]:text-amber-600">Middle</span>
                       </TabsTrigger>
                       <TabsTrigger 
                         value="inner" 
-                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-white data-[state=active]:shadow-md hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer"
+                        className="flex-1 px-2 py-4 border-b-2 border-transparent data-[state=active]:border-red-500 data-[state=active]:bg-white data-[state=active]:shadow-lg hover:bg-slate-200/50 rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all cursor-pointer group"
                       >
-                        Inner
+                        <span className="group-data-[state=active]:text-red-600">Inner</span>
                       </TabsTrigger>
                     </TabsList>
 
