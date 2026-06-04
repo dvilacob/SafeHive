@@ -1,28 +1,9 @@
 
 "use client"
 
-import Image from 'next/image';
-import { PlaceHolderImages } from "@/lib/placeholder-images";
-
 export function Hero() {
-  const heroImg = PlaceHolderImages.find(img => img.id === 'spatial-viz');
-
   return (
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-      {/* Subtle Background Image Integration */}
-      {heroImg && (
-        <div className="absolute inset-0 -z-20 opacity-[0.07] grayscale">
-          <Image 
-            src={heroImg.imageUrl} 
-            alt="Spatial Grid Viz" 
-            fill 
-            className="object-cover" 
-            priority
-            data-ai-hint={heroImg.imageHint}
-          />
-        </div>
-      )}
-      
       {/* Blueprint Grids */}
       <div className="absolute top-0 left-0 w-full h-full bg-blueprint -z-10 opacity-40" />
       <div className="absolute top-0 left-0 w-full h-full bg-blueprint-fine -z-10" />

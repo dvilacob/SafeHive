@@ -2,13 +2,11 @@
 "use client"
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, ListCheck, Monitor, Cpu, ShieldCheck } from "lucide-react";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { ArrowRight, ListCheck, Monitor } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -29,8 +27,6 @@ export function Configurator() {
   // Calculation logic for perimeter coverage
   const apCount = Math.ceil(area / 500);
   const totalCost = HUB_COST + (apCount * AP_COST);
-
-  const hardwareImg = PlaceHolderImages.find(img => img.id === 'hardware-hub');
 
   return (
     <section id="configurator" className="py-20 lg:py-40 bg-white">
@@ -53,35 +49,27 @@ export function Configurator() {
                   </div>
                   <Slider value={[area]} onValueChange={(v) => setArea(v[0])} max={10000} min={100} step={100} className="py-4" />
                   
-                  {hardwareImg && (
-                    <div className="pt-8 group">
-                      <div className="relative border border-slate-200 rounded-sm overflow-hidden bg-slate-50 shadow-inner group-hover:shadow-lg transition-all duration-500">
-                        <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-white/90 backdrop-blur border border-slate-200 shadow-sm">
-                          <span className="text-[8px] font-mono font-bold tracking-[0.2em] text-primary">UNIT SPEC: SH-CONTROL-HUB-v2</span>
-                        </div>
-                        <div className="relative aspect-[16/9] w-full">
-                          <Image 
-                            src={hardwareImg.imageUrl} 
-                            alt={hardwareImg.description} 
-                            fill
-                            className="object-cover opacity-70 group-hover:opacity-100 transition-all duration-700 grayscale hover:grayscale-0"
-                            data-ai-hint={hardwareImg.imageHint}
-                          />
-                        </div>
-                        <div className="absolute bottom-4 right-4 z-20 flex gap-2">
-                           <span className="px-2 py-1 bg-slate-900 text-white text-[7px] font-bold uppercase tracking-widest flex items-center gap-1.5">
-                             <Cpu size={10} />
-                             NVIDIA JETSON AI EDGE
-                           </span>
-                           <span className="px-2 py-1 bg-primary text-white text-[7px] font-bold uppercase tracking-widest flex items-center gap-1.5">
-                             <ShieldCheck size={10} />
-                             SAFETY PLC - BLACK CHANNEL GUARD
-                           </span>
-                        </div>
-                      </div>
-                      <p className="tech-label mt-4 text-slate-400">Fig 1.2: Deterministic SafeHive Processing Enclosure (Standard NEMA Interface)</p>
-                    </div>
-                  )}
+                  <div className="pt-8 p-8 border border-slate-200 bg-slate-50/50 rounded-sm">
+                    <h5 className="tech-label text-slate-900 mb-4">Core Infrastructure Spec</h5>
+                    <ul className="space-y-3 font-mono text-[11px] text-slate-600">
+                      <li className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-primary rounded-full" />
+                        CENTRAL DETERMINISTIC HUB (SH-CONTROL-v2)
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-primary rounded-full" />
+                        NVIDIA JETSON AI EDGE COMPUTE ENGINE
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-primary rounded-full" />
+                        SAFETY PLC - BLACK CHANNEL INTEGRITY GUARD
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <div className="w-1 h-1 bg-primary rounded-full" />
+                        PROFINET / ROS2 DETERMINISTIC BRIDGE
+                      </li>
+                    </ul>
+                  </div>
 
                   <p className="text-xs lg:text-sm text-slate-400 font-medium leading-relaxed max-w-lg">
                     The spatial grid utilizes high-frequency anchors to establish the deterministic heartbeat. Phase 1 deployment focuses on establishing maximum coverage density for native spatial agents.
