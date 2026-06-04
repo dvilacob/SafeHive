@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -79,7 +78,9 @@ export function SafetyVolumes() {
   };
 
   const VolumetricEnvelope = ({ radius, color, isActive, noise }: { radius: number, color: string, isActive: boolean, noise: number }) => {
-    const layers = [0, 20, 40, 60, 80]; // Taller Z-offsets to match human height
+    const layers = [0, 30, 60, 90, 120]; // Taller Z-offsets to match human height
+    const maxZ = 120;
+    
     return (
       <div className="absolute flex items-center justify-center transition-all duration-500" style={{ width: radius * 2, height: radius * 2 }}>
         <svg viewBox="-150 -150 300 300" className={cn("w-full h-full transition-opacity duration-500", isActive ? "opacity-100" : "opacity-15")}>
@@ -90,14 +91,14 @@ export function SafetyVolumes() {
               fill={idx === 0 ? `${color}10` : 'transparent'}
               stroke={color}
               strokeWidth={isActive ? 2 : 1}
-              strokeOpacity={1 - (idx / layers.length)}
+              strokeOpacity={1 - (idx / layers.length * 0.5)}
               transform={`translate(0, ${-z})`}
               className="transition-all duration-700"
             />
           ))}
           {/* Vertical connectors for 3D silhouette feel */}
-          <line x1="-140" y1="0" x2="-140" y2="-80" stroke={color} strokeWidth="0.5" strokeOpacity="0.2" transform={`scale(${radius / shells.outer})`} />
-          <line x1="140" y1="0" x2="140" y2="-80" stroke={color} strokeWidth="0.5" strokeOpacity="0.2" transform={`scale(${radius / shells.outer})`} />
+          <line x1="-140" y1="0" x2="-140" y2={-maxZ} stroke={color} strokeWidth="0.5" strokeOpacity="0.2" transform={`scale(${radius / shells.outer})`} />
+          <line x1="140" y1="0" x2="140" y2={-maxZ} stroke={color} strokeWidth="0.5" strokeOpacity="0.2" transform={`scale(${radius / shells.outer})`} />
         </svg>
       </div>
     );
@@ -105,7 +106,7 @@ export function SafetyVolumes() {
 
   const telemetry = [
     { icon: <Ruler className="w-10 h-10" />, value: 'Proximity Tracking', subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
-    { icon: <Gauge className="w-10 h-10" />, value: 'Speed Scaled', subtext: 'Automatically shrinks or expands protective volumes based on the live velocity vectors of different equipment.' },
+    { icon: <Gauge className="w-10 h-10" />, value: 'Speed Calibration', subtext: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
     { icon: <ShieldAlert className="w-10 h-10" />, value: 'Component Sensitivity', subtext: 'Enforces ISO/TS 15066 force limits for human skin while dynamically shielding fragile, high-value machine sensors from impact.' },
     { icon: <RefreshCw className="w-10 h-10" />, value: 'Hive Redundancy', subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.' },
     { icon: <Ghost className="w-10 h-10" />, value: 'Un-networked Hardware', subtext: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
@@ -146,7 +147,7 @@ export function SafetyVolumes() {
 
           <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm mt-12">
             <div className="grid lg:grid-cols-10 h-full">
-              <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-8 relative min-h-[500px] lg:min-h-[700px] flex flex-col items-center justify-center overflow-hidden">
+              <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-8 relative min-h-[500px] lg:min-h-[750px] flex flex-col items-center justify-center overflow-hidden">
                 <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1500px] rotate-x-[60deg] rotate-z-[-45deg] scale-100 lg:scale-110">
                   <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
                   <div className="relative flex items-center justify-center">
@@ -154,8 +155,8 @@ export function SafetyVolumes() {
                     <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} noise={0.1} />
                     <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} noise={0.14} />
 
-                    <div className="relative z-40 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-80px]">
-                       <div className="relative h-28 lg:h-40 w-14 flex items-center justify-center">
+                    <div className="relative z-40 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-120px]">
+                       <div className="relative h-28 lg:h-48 w-14 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_25px_rgba(0,102,255,0.4)]">
                           <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM10 18H30V48H26V95H14V48H10V18ZM16 22V44H24V22H16Z" fill="currentColor" className="text-primary animate-pulse-glow" />
                         </svg>
@@ -164,8 +165,8 @@ export function SafetyVolumes() {
                     </div>
 
                     <div className={cn("absolute transition-all duration-500 ease-out", activeShell === 'inner' ? "z-[100]" : "z-[35]")} style={{ transform: `translateX(${proximity * visualScale}px)` }}>
-                      <div className="flex flex-col items-center gap-2 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-70px]">
-                        <div className="relative h-24 lg:h-32 w-12 flex items-center justify-center">
+                      <div className="flex flex-col items-center gap-2 transition-all duration-700 rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-110px]">
+                        <div className="relative h-24 lg:h-40 w-12 flex items-center justify-center">
                             <svg viewBox="0 0 40 100" className={cn("h-full w-full drop-shadow-2xl transition-colors duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
                               <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46H12V94H28V46H32V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
                             </svg>
