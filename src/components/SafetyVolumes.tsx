@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -77,37 +76,37 @@ export function SafetyVolumes() {
       icon: <Ruler className="w-4 h-4" />,
       label: 'PROXIMITY',
       value: 'Dynamic Tracking',
-      subtext: 'Calculates real-time separation distance between the humanoid, the worker, and machinery.',
+      subtext: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.',
     },
     {
       icon: <Gauge className="w-4 h-4" />,
       label: 'SPEED CALIBRATION',
       value: 'Velocity Scaled',
-      subtext: 'Automatically scales protective volumes based on live velocity vectors of equipment.',
+      subtext: 'Automatically shrinks or expands protective volumes based on the live velocity vectors of different equipment.',
     },
     {
       icon: <ShieldAlert className="w-4 h-4" />,
       label: 'MORPHOLOGY',
-      value: 'ISO/TS 15066 Active',
-      subtext: 'Tailors bubble zones to human body segments and localized impact thresholds.',
+      value: 'Asset Sensitivity',
+      subtext: 'Tailors protective bubble zones to human body segments and localized impact thresholds.',
     },
     {
       icon: <RefreshCw className="w-4 h-4" />,
       label: 'HIVE INTEGRITY',
       value: 'Fused Spatial Mapping',
-      subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles.',
+      subtext: 'Merges external sensor maps with humanoid vision to anchor safety bubbles over tracked and untracked machinery alike.',
     },
     {
       icon: <Ghost className="w-4 h-4" />,
       label: 'UN-NETWORKED HARDWARE',
-      value: 'Onboard Vision Scan',
-      subtext: 'Detects and projects safety hulls over untracked moving machinery via native CV.',
+      value: 'Ghost Assets',
+      subtext: "Uses the humanoid's native computer vision to detect and project safety hulls over untracked moving machinery.",
     },
     {
       icon: <Zap className="w-4 h-4" />,
       label: 'LOOP SPEED',
-      value: '10ms Deterministic',
-      subtext: 'Continuously re-evaluates spatial parameters across the active workspace.',
+      value: 'Real-Time Dynamics',
+      subtext: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.',
     },
   ];
 
@@ -130,42 +129,41 @@ export function SafetyVolumes() {
       <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
       <div className="container mx-auto px-6 relative">
         <div className="max-w-7xl mx-auto space-y-16">
-          <div className="flex flex-col lg:flex-row lg:items-end gap-12 justify-between">
-            <div className="max-w-xl space-y-4">
-              <span className="tech-label text-primary">Spatial Calibration Engine</span>
-              <h2 className="text-3xl lg:text-5xl font-headline font-bold tracking-tight text-slate-900 leading-tight">
-                Continuous <br />
-                <span className="text-primary italic">Volume Calibration.</span>
-              </h2>
-              <p className="text-slate-500 text-lg leading-relaxed font-medium">
-                SafeHive continuously resizes each protective shield by cross-referencing live operational data.
-              </p>
-            </div>
+          {/* Header Section */}
+          <div className="space-y-6">
+            <h2 className="text-4xl lg:text-6xl font-headline font-bold tracking-tight text-slate-900 leading-tight">
+              DYNAMIC BUBBLE <br />
+              <span className="text-primary italic">CALCULATION.</span>
+            </h2>
+            <p className="text-slate-500 text-lg lg:text-xl leading-relaxed font-medium max-w-4xl">
+              SafeHive continuously resizes each protective shield based on the proximity and velocity of every machine and person in the factory, tracked by different sensors and the humanoid's own vision systems in a deterministic way.
+            </p>
+          </div>
 
-            <div className="flex-1 grid grid-cols-2 lg:grid-cols-3 gap-4">
-              {telemetry.map((item, idx) => (
-                <div key={idx} className="p-4 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="text-primary/40 group-hover:text-primary transition-colors">
-                      {item.icon}
-                    </div>
-                    <span className="tech-label text-[7px] text-slate-400">{item.label}</span>
+          {/* Telemetry Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {telemetry.map((item, idx) => (
+              <div key={idx} className="p-6 border border-slate-100 rounded-sm bg-slate-50/50 hover:border-primary/20 hover:bg-white transition-all group">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="text-primary/40 group-hover:text-primary transition-colors">
+                    {item.icon}
                   </div>
-                  <div className="space-y-1">
-                    <div className="text-[10px] font-bold text-slate-900 uppercase tracking-tight">
-                      {item.value}
-                    </div>
-                    <p className="text-[9px] text-slate-400 font-medium leading-tight line-clamp-2">
-                      {item.subtext}
-                    </p>
-                  </div>
+                  <span className="tech-label text-[10px] text-slate-400 font-bold tracking-widest uppercase">{item.label}</span>
                 </div>
-              ))}
-            </div>
+                <div className="space-y-2">
+                  <div className="text-sm font-bold text-slate-900 uppercase tracking-tight">
+                    {item.value}
+                  </div>
+                  <p className="text-xs text-slate-500 font-medium leading-relaxed">
+                    {item.subtext}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Interactive Simulation Dashboard */}
-          <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm">
+          <div className="max-w-6xl mx-auto bg-white border border-slate-200 shadow-sm overflow-hidden rounded-sm mt-20">
             <div className="grid lg:grid-cols-10 h-full">
               
               <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-6 lg:p-12 relative min-h-[500px] lg:min-h-[700px] flex flex-col items-center justify-center overflow-hidden">
@@ -207,7 +205,6 @@ export function SafetyVolumes() {
                     <div className={cn("relative z-40 transition-all duration-700", is3D ? "rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-60px]" : "")}>
                        <div className="relative h-28 lg:h-36 w-14 flex items-center justify-center">
                         <svg viewBox="0 0 40 100" className="h-full w-full drop-shadow-[0_0_20px_rgba(0,102,255,0.4)]">
-                          {/* Robotic Humanoid Path */}
                           <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM10 18H30V48H26V95H14V48H10V18ZM16 22V44H24V22H16Z" fill="currentColor" className="text-primary animate-pulse-glow" />
                           <rect x="18" y="24" width="4" height="12" fill="white" opacity="0.4" />
                           <circle cx="15" cy="10" r="1" fill="white" />
@@ -225,7 +222,6 @@ export function SafetyVolumes() {
                       <div className={cn("flex flex-col items-center gap-2 transition-all duration-700", is3D ? "rotate-z-[45deg] rotate-x-[-90deg] translate-y-[-50px]" : "")}>
                         <div className="relative h-24 lg:h-30 w-12 flex items-center justify-center">
                             <svg viewBox="0 0 40 100" className={cn("h-full w-full drop-shadow-2xl transition-colors duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
-                              {/* Organic Human Path */}
                               <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46H12V94H28V46H32V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
                             </svg>
                          </div>
@@ -264,14 +260,7 @@ export function SafetyVolumes() {
               </div>
 
               <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white">
-                <div className="space-y-8 lg:space-y-10">
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-headline font-bold text-slate-900 uppercase tracking-tight">Dynamic Bubble Calculation</h3>
-                    <p className="text-xs text-slate-500 font-medium leading-relaxed">
-                      SafeHive calculates protective volumes for every asset every 10ms, ensuring deterministic safety without physical fences.
-                    </p>
-                  </div>
-
+                <div className="space-y-12">
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
                     <TabsList className="w-full h-auto p-0 bg-transparent border-b border-slate-100 rounded-none mb-8 gap-6 flex justify-start overflow-x-auto scrollbar-hide">
                       <TabsTrigger value="outer" className="px-0 py-3 border-b-2 border-transparent data-[state=active]:border-blue-400 data-[state=active]:bg-transparent rounded-none text-[10px] font-bold uppercase tracking-widest transition-all">Outer Shell</TabsTrigger>
