@@ -2,9 +2,25 @@
 "use client"
 
 import Link from 'next/link';
-import { ShieldCheck, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useState, useEffect } from 'react';
+
+const HiveIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M12 12L12 6L7 3L2 6L2 12L7 15Z" />
+    <path d="M12 12L12 6L17 3L22 6L22 12L17 15Z" />
+    <path d="M12 12L7 15L7 21L12 24L17 21L17 15Z" />
+  </svg>
+);
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -26,7 +42,7 @@ export function Navbar() {
       <div className="container mx-auto px-6 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 group shrink-0">
           <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20">
-            <ShieldCheck className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
+            <HiveIcon className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-headline font-bold tracking-tight text-slate-900 leading-none">SafeHive</span>

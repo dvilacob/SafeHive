@@ -1,4 +1,19 @@
-import { ShieldCheck } from "lucide-react";
+
+const HiveIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M12 12L12 6L7 3L2 6L2 12L7 15Z" />
+    <path d="M12 12L12 6L17 3L22 6L22 12L17 15Z" />
+    <path d="M12 12L7 15L7 21L12 24L17 21L17 15Z" />
+  </svg>
+);
 
 export function Footer() {
   return (
@@ -7,7 +22,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-8 max-w-7xl mx-auto">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-              <ShieldCheck className="w-5 h-5 text-primary" />
+              <HiveIcon className="w-5 h-5 text-primary" />
             </div>
             <span className="text-2xl font-headline font-bold tracking-tight text-slate-900">SafeHive</span>
           </div>
