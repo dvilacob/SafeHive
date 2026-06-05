@@ -136,7 +136,6 @@ export function SafetyVolumes() {
               </div>
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
-                {/* Adjusted viewBox to move everything up significantly (shifted camera window down) */}
                 <svg viewBox="-300 -250 600 650" className="w-full h-full drop-shadow-2xl">
                   {/* Grid System */}
                   <g opacity="0.05">
@@ -148,36 +147,34 @@ export function SafetyVolumes() {
                     ))}
                   </g>
 
-                  {/* Shells */}
+                  {/* Shells and Silhouettes */}
                   {is3D ? (
-                    <>
+                    <g transform="translate(0, 80)">
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                    </>
-                  ) : (
-                    <>
-                      <RadarShell2D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
-                      <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
-                      <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                    </>
-                  )}
-
-                  {/* Silhouettes - 3D View */}
-                  {is3D && (
-                    <>
+                      
+                      {/* Silhouettes - 3D View */}
                       <g transform="translate(-32, -152) scale(1.6)">
                         <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" className="drop-shadow-[0_0_8px_rgba(0,102,255,0.3)]" />
                       </g>
                       <g transform={`translate(${proximity * visualScale - 32}, -152) scale(1.6)`}>
                         <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} className="transition-colors duration-500" />
                       </g>
-                    </>
-                  )}
-
-                  {/* Top-Down Indicators - 2D View */}
-                  {!is3D && (
+                      
+                      {/* Marker lines - 3D specific */}
+                      <g transform={`translate(${proximity * visualScale}, 0)`}>
+                        <line x1="0" y1="20" x2="0" y2="-300" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" />
+                        <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
+                      </g>
+                    </g>
+                  ) : (
                     <>
+                      <RadarShell2D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
+                      <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
+                      <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
+                      
+                      {/* Top-Down Indicators - 2D View */}
                       <g>
                         <circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" />
                         <Bot size={12} className="text-white" style={{ transform: 'translate(-6px, -6px)' }} />
@@ -186,15 +183,10 @@ export function SafetyVolumes() {
                         <circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" className="transition-colors duration-500" />
                         <User size={10} className="text-white" style={{ transform: 'translate(-5px, -5px)' }} />
                         <line x1="0" y1="0" x2="-20" y2="0" stroke="white" strokeWidth="1" opacity="0.5" />
+                        <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
                       </g>
                     </>
                   )}
-
-                  {/* Marker lines for proximity tracking */}
-                  <g transform={`translate(${proximity * visualScale}, 0)`}>
-                    <line x1="0" y1={is3D ? "20" : "0"} x2="0" y2={is3D ? "-300" : "0"} stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" opacity={is3D ? 1 : 0} />
-                    <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
-                  </g>
                 </svg>
               </div>
 
