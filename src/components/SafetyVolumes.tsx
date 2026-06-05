@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
@@ -11,6 +10,8 @@ import {
   Dialog,
   DialogContent,
   DialogTrigger,
+  DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
@@ -129,6 +130,8 @@ export function SafetyVolumes() {
           </div>
         </DialogTrigger>
         <DialogContent className="max-w-[95vw] lg:max-w-6xl p-0 overflow-hidden bg-white border-0 shadow-2xl">
+          <DialogTitle className="sr-only">Spatial Visualization Detail</DialogTitle>
+          <DialogDescription className="sr-only">Detailed view of the factory spatial safety grid zones.</DialogDescription>
           <div className="relative aspect-[16/10] w-full">
             <Image
               src={spatialVizImage.imageUrl}
