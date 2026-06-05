@@ -4,10 +4,16 @@
 import Link from 'next/link';
 import { ShieldCheck, Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const links = [
     { href: "#volumes", label: "The Engine" },
     { href: "#configurator", label: "Configurator" },
@@ -39,30 +45,32 @@ export function Navbar() {
 
         {/* Mobile Nav Toggle */}
         <div className="lg:hidden">
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <button className="p-2 text-slate-900 focus:outline-none">
-                <Menu size={24} />
-              </button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] border-l-0 shadow-2xl">
-              <SheetHeader className="mb-8 border-b border-slate-100 pb-4">
-                <SheetTitle className="text-left text-xs uppercase tracking-widest text-slate-400 font-mono">System Navigation</SheetTitle>
-              </SheetHeader>
-              <div className="flex flex-col gap-8">
-                {links.map(link => (
-                  <Link 
-                    key={link.href} 
-                    href={link.href} 
-                    onClick={() => setOpen(false)}
-                    className="text-lg font-headline font-bold uppercase tracking-widest text-slate-900 hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
+          {mounted && (
+            <Sheet open={open} onOpenChange={setOpen}>
+              <SheetTrigger asChild>
+                <button className="p-2 text-slate-900 focus:outline-none">
+                  <Menu size={24} />
+                </button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[300px] border-l-0 shadow-2xl">
+                <SheetHeader className="mb-8 border-b border-slate-100 pb-4">
+                  <SheetTitle className="text-left text-xs uppercase tracking-widest text-slate-400 font-mono">System Navigation</SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col gap-8">
+                  {links.map(link => (
+                    <Link 
+                      key={link.href} 
+                      href={link.href} 
+                      onClick={() => setOpen(false)}
+                      className="text-lg font-headline font-bold uppercase tracking-widest text-slate-900 hover:text-primary transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
 
         <div className="hidden lg:block w-32" /> 
