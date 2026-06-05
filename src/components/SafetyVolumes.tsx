@@ -136,14 +136,15 @@ export function SafetyVolumes() {
               </div>
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
-                <svg viewBox="-300 -400 600 500" className="w-full h-full drop-shadow-2xl">
+                {/* Adjusted ViewBox to shift elements up */}
+                <svg viewBox="-300 -340 600 500" className="w-full h-full drop-shadow-2xl">
                   {/* Grid System */}
                   <g opacity="0.05">
                     {Array.from({length: 13}).map((_, i) => (
-                      <line key={`v-${i}`} x1={-300 + i*50} y1="-300" x2={-300 + i*50} y2="250" stroke="#000" strokeWidth="1" />
+                      <line key={`v-${i}`} x1={-300 + i*50} y1="-400" x2={-300 + i*50} y2="250" stroke="#000" strokeWidth="1" />
                     ))}
-                    {Array.from({length: 12}).map((_, i) => (
-                      <line key={`h-${i}`} x1="-300" y1={-300 + i*50} x2="300" y2={-300 + i*50} stroke="#000" strokeWidth="1" />
+                    {Array.from({length: 14}).map((_, i) => (
+                      <line key={`h-${i}`} x1="-300" y1={-400 + i*50} x2="300" y2={-400 + i*50} stroke="#000" strokeWidth="1" />
                     ))}
                   </g>
 
