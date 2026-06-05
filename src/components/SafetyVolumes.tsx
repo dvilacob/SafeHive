@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Ruler, Gauge, ShieldAlert, RefreshCw, Bot, ShieldCheck, Zap, Ghost, User } from 'lucide-react';
+import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -180,16 +180,21 @@ export function SafetyVolumes() {
                   <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                   <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
 
-                  {/* Robot Silhouette (2x) */}
-                  <g transform="translate(0, -30) scale(2)">
-                    <Bot size={24} className="text-slate-900" />
+                  {/* Robot Silhouette (Detailed Humanoid Path) */}
+                  <g transform="translate(-16, -110) scale(0.8)">
+                    <path 
+                      d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" 
+                      fill="#0f172a" 
+                      className="drop-shadow-[0_0_8px_rgba(0,102,255,0.3)]"
+                    />
                   </g>
 
-                  {/* Worker Silhouette (2x) */}
-                  <g transform={`translate(${proximity * visualScale}, -30) scale(2)`}>
-                    <User size={24} className={cn("transition-colors duration-500", 
-                      activeShell === 'inner' ? "text-red-500" : 
-                      activeShell === 'middle' ? "text-amber-500" : "text-blue-500")} 
+                  {/* Worker Silhouette (Detailed Human Path) */}
+                  <g transform={`translate(${proximity * visualScale - 16}, -110) scale(0.8)`}>
+                    <path 
+                      d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" 
+                      fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"}
+                      className="transition-colors duration-500"
                     />
                   </g>
 
