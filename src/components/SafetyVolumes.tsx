@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Ruler, Gauge, ShieldAlert, RefreshCw, Bot, User, Zap, Ghost, ShieldCheck } from 'lucide-react';
+import { Ruler, Gauge, ShieldAlert, RefreshCw, Bot, ShieldCheck, Zap, Ghost } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -29,12 +29,10 @@ export function SafetyVolumes() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Shared boundary logic (in mm)
   const boundaries = useMemo(() => {
     const baseScale = speed / 10;
     const confidenceBuffer = (6 - redundancy) * 20;
     
-    // The inner shell now correctly contracts with more sensors
     const rawInner = 60 + baseScale + (confidenceBuffer * 0.5); 
     const rawMiddle = rawInner + 80 + confidenceBuffer;
     const rawOuter = rawMiddle + 100 + confidenceBuffer;
@@ -42,7 +40,6 @@ export function SafetyVolumes() {
     return { rawInner, rawMiddle, rawOuter };
   }, [speed, redundancy]);
 
-  // Visual Radii in px
   const shells = useMemo(() => {
     return {
       inner: boundaries.rawInner * visualScale,
@@ -69,8 +66,8 @@ export function SafetyVolumes() {
   };
 
   const VolumetricEnvelope = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
-    const ry = radius * 0.45; // Isometric perspective ratio
-    const h = 220; // Uniform height as requested
+    const ry = radius * 0.45; 
+    const h = 220; 
 
     return (
       <g className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
@@ -96,7 +93,7 @@ export function SafetyVolumes() {
           strokeOpacity="0.3"
         />
 
-        {/* Top Ellipse */}
+        {/* Top Cap */}
         <ellipse
           cx="0"
           cy={-h}
@@ -108,9 +105,24 @@ export function SafetyVolumes() {
           strokeWidth="1.5"
         />
 
-        {/* Vertical Guide Lines */}
+        {/* Scanner Ring Detail */}
+        <ellipse
+          cx="0"
+          cy={-h}
+          rx={radius * 0.8}
+          ry={ry * 0.8}
+          fill="none"
+          stroke={color}
+          strokeWidth="0.5"
+          strokeDasharray="2 2"
+          strokeOpacity="0.4"
+        />
+
+        {/* Vertical Structural Ribs */}
         <line x1={-radius} y1="0" x2={-radius} y2={-h} stroke={color} strokeWidth="0.5" strokeOpacity="0.4" />
         <line x1={radius} y1="0" x2={radius} y2={-h} stroke={color} strokeWidth="0.5" strokeOpacity="0.4" />
+        <line x1="0" y1={-ry} x2="0" y2={-h - ry} stroke={color} strokeWidth="0.5" strokeOpacity="0.2" />
+        <line x1="0" y1={ry} x2="0" y2={-h + ry} stroke={color} strokeWidth="0.5" strokeOpacity="0.2" />
       </g>
     );
   };
@@ -163,25 +175,15 @@ export function SafetyVolumes() {
                     ))}
                   </g>
 
-                  {/* Cylinders */}
+                  {/* Geometric Volumes */}
                   <VolumetricEnvelope radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                   <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                   <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
 
-                  {/* Robot Silhouette (2x Scale) */}
-                  <g transform="translate(0, 0) scale(2)">
-                    <g transform="translate(-10, -45)">
-                      <Bot size={20} className="text-slate-900" />
-                    </g>
-                    <line x1="0" y1="0" x2="0" y2="-45" stroke="#000" strokeWidth="0.5" strokeOpacity="0.2" />
-                  </g>
-
-                  {/* Worker Silhouette (2x Scale) */}
-                  <g transform={`translate(${proximity * visualScale}, 0) scale(2)`}>
-                    <g transform="translate(-10, -45)">
-                      <User size={20} className={cn("transition-colors duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")} />
-                    </g>
-                    <line x1="0" y1="0" x2="0" y2="-45" stroke="#000" strokeWidth="0.5" strokeOpacity="0.2" />
+                  {/* Marker lines for proximity tracking */}
+                  <g transform={`translate(${proximity * visualScale}, 0)`}>
+                    <line x1="0" y1="20" x2="0" y2="-250" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" />
+                    <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
                   </g>
                 </svg>
               </div>
