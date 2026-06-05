@@ -64,11 +64,9 @@ export function SafetyVolumes() {
   };
 
   const VolumetricEnvelope = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
-    const segments = [
-      { start: 0, end: -40, mult: 1.0 },    
-      { start: -40, end: -150, mult: 1.3 }, 
-      { start: -150, end: -220, mult: 0.9 }  
-    ];
+    const ry = radius * 0.6; // Perspective ratio
+    const h = 250; // Total height of cylinder
+    const ribs = [0, 45, 90, 135, 180, 225, 270, 315];
 
     return (
       <g className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
@@ -79,74 +77,68 @@ export function SafetyVolumes() {
           </linearGradient>
         </defs>
 
-        {segments.map((seg, idx) => {
-          const r = radius * seg.mult;
-          const ry = r * 0.6; 
-          const h = Math.abs(seg.end - seg.start);
-          const ribs = [0, 45, 90, 135, 180, 225, 270, 315];
-
+        {/* Cylinder Body */}
+        <path
+          d={`M -${radius},0 L -${radius},-${h} A ${radius},${ry} 0 0,1 ${radius},-${h} L ${radius},0 A ${radius},${ry} 0 0,1 -${radius},0`}
+          fill={`url(#grad-${color.replace('#', '')})`}
+          stroke={color}
+          strokeWidth={isActive ? 0.8 : 0.4}
+          strokeOpacity={isActive ? 0.3 : 0.1}
+        />
+        
+        {/* Structural Ribs */}
+        {ribs.map((angle) => {
+          const rad = (angle * Math.PI) / 180;
+          const x = Math.cos(rad) * radius;
+          const y = Math.sin(rad) * ry;
+          const isFront = angle >= 180; 
           return (
-            <g key={idx} transform={`translate(0, ${seg.start})`}>
-              <path
-                d={`M -${r},0 L -${r},-${h} A ${r},${ry} 0 0,1 ${r},-${h} L ${r},0 A ${r},${ry} 0 0,1 -${r},0`}
-                fill={`url(#grad-${color.replace('#', '')})`}
-                stroke={color}
-                strokeWidth={isActive ? 0.8 : 0.4}
-                strokeOpacity={isActive ? 0.3 : 0.1}
-              />
-              
-              {ribs.map((angle) => {
-                const rad = (angle * Math.PI) / 180;
-                const x = Math.cos(rad) * r;
-                const y = Math.sin(rad) * ry;
-                const isFront = angle >= 180; 
-                return (
-                  <line
-                    key={angle}
-                    x1={x}
-                    y1={y}
-                    x2={x}
-                    y2={y - h}
-                    stroke={color}
-                    strokeWidth={isActive ? 0.6 : 0.3}
-                    strokeOpacity={isActive ? (isFront ? 0.5 : 0.15) : 0.05}
-                  />
-                );
-              })}
-
-              <ellipse
-                cx="0"
-                cy={-h}
-                rx={r}
-                ry={ry}
-                fill={color}
-                fillOpacity={isActive ? "0.1" : "0.02"}
-                stroke={color}
-                strokeWidth={isActive ? 1.5 : 0.4}
-              />
-
-              {isActive && idx === segments.length - 1 && (
-                <ellipse
-                  cx="0"
-                  cy={-h}
-                  rx={r * 0.9}
-                  ry={ry * 0.9}
-                  fill="none"
-                  stroke={color}
-                  strokeWidth="0.5"
-                  strokeDasharray="4 4"
-                  className="animate-pulse"
-                />
-              )}
-            </g>
+            <line
+              key={angle}
+              x1={x}
+              y1={y}
+              x2={x}
+              y2={y - h}
+              stroke={color}
+              strokeWidth={isActive ? 0.6 : 0.3}
+              strokeOpacity={isActive ? (isFront ? 0.5 : 0.15) : 0.05}
+            />
           );
         })}
 
+        {/* Top Cap */}
+        <ellipse
+          cx="0"
+          cy={-h}
+          rx={radius}
+          ry={ry}
+          fill={color}
+          fillOpacity={isActive ? "0.1" : "0.02"}
+          stroke={color}
+          strokeWidth={isActive ? 1.5 : 0.4}
+        />
+
+        {/* Scanner Ring Effect */}
+        {isActive && (
+          <ellipse
+            cx="0"
+            cy={-h}
+            rx={radius * 0.9}
+            ry={ry * 0.9}
+            fill="none"
+            stroke={color}
+            strokeWidth="0.5"
+            strokeDasharray="4 4"
+            className="animate-pulse"
+          />
+        )}
+
+        {/* Base Ring */}
         <ellipse
           cx="0"
           cy="0"
           rx={radius}
-          ry={radius * 0.6}
+          ry={ry}
           fill="none"
           stroke={color}
           strokeWidth={isActive ? 2 : 0.5}
@@ -203,12 +195,14 @@ export function SafetyVolumes() {
                       <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
 
-                      <g transform="translate(0, 0) scale(2) rotate(0)" className="text-primary transition-all duration-700">
+                      {/* Humanoid Silhouette (2x Scale) */}
+                      <g transform="translate(0, 0) scale(2)" className="text-primary transition-all duration-700">
                         <g transform="translate(-20, -100)">
                            <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM10 18H30V48H26V95H14V48H10V18ZM16 22V44H24V22H16Z" fill="currentColor" className="animate-pulse-glow" />
                         </g>
                       </g>
 
+                      {/* Worker Silhouette (2x Scale) */}
                       <g transform={`translate(${proximity * visualScale}, 0) scale(2)`} className={cn("transition-all duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
                         <g transform="translate(-20, -100)">
                            <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46H12V94H28V46H32V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
