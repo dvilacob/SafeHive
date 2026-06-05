@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Ruler, Gauge, ShieldAlert, RefreshCw, Bot, ShieldCheck, Zap, Ghost } from 'lucide-react';
+import { Ruler, Gauge, ShieldAlert, RefreshCw, Bot, ShieldCheck, Zap, Ghost, User } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -179,6 +179,19 @@ export function SafetyVolumes() {
                   <VolumetricEnvelope radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                   <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                   <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
+
+                  {/* Robot Silhouette (2x) */}
+                  <g transform="translate(0, -30) scale(2)">
+                    <Bot size={24} className="text-slate-900" />
+                  </g>
+
+                  {/* Worker Silhouette (2x) */}
+                  <g transform={`translate(${proximity * visualScale}, -30) scale(2)`}>
+                    <User size={24} className={cn("transition-colors duration-500", 
+                      activeShell === 'inner' ? "text-red-500" : 
+                      activeShell === 'middle' ? "text-amber-500" : "text-blue-500")} 
+                    />
+                  </g>
 
                   {/* Marker lines for proximity tracking */}
                   <g transform={`translate(${proximity * visualScale}, 0)`}>
