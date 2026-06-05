@@ -1,10 +1,12 @@
+
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost } from 'lucide-react';
+import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost, Bot, User } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
 
 export function SafetyVolumes() {
@@ -12,6 +14,7 @@ export function SafetyVolumes() {
   const [speed, setSpeed] = useState(500); 
   const [redundancy, setRedundancy] = useState(3); 
   const [activeShell, setActiveShell] = useState('outer');
+  const [is3D, setIs3D] = useState(true);
   const [visualScale, setVisualScale] = useState(0.55);
 
   useEffect(() => {
@@ -65,82 +68,42 @@ export function SafetyVolumes() {
     else if (val === 'outer') setProximity((boundaries.rawMiddle + boundaries.rawOuter) / 2);
   };
 
-  const VolumetricEnvelope = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
+  const VolumetricEnvelope3D = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
     const ry = radius * 0.45; 
     const h = 220; 
 
     return (
       <g className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
-        {/* Base Ellipse */}
-        <ellipse
-          cx="0"
-          cy="0"
-          rx={radius}
-          ry={ry}
-          fill="none"
-          stroke={color}
-          strokeWidth="1.5"
-          strokeDasharray="4 2"
-        />
-        
-        {/* Cylinder Walls */}
-        <path
-          d={`M -${radius},0 L -${radius},-${h} A ${radius},${ry} 0 0,1 ${radius},-${h} L ${radius},0 A ${radius},${ry} 0 0,1 -${radius},0`}
-          fill={color}
-          fillOpacity={isActive ? "0.15" : "0.05"}
-          stroke={color}
-          strokeWidth="0.5"
-          strokeOpacity="0.3"
-        />
-
-        {/* Top Cap */}
-        <ellipse
-          cx="0"
-          cy={-h}
-          rx={radius}
-          ry={ry}
-          fill={color}
-          fillOpacity={isActive ? "0.1" : "0.02"}
-          stroke={color}
-          strokeWidth="1.5"
-        />
-
-        {/* Scanner Ring Detail */}
-        <ellipse
-          cx="0"
-          cy={-h}
-          rx={radius * 0.8}
-          ry={ry * 0.8}
-          fill="none"
-          stroke={color}
-          strokeWidth="0.5"
-          strokeDasharray="2 2"
-          strokeOpacity="0.4"
-        />
-
-        {/* Vertical Structural Ribs */}
+        <ellipse cx="0" cy="0" rx={radius} ry={ry} fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 2" />
+        <path d={`M -${radius},0 L -${radius},-${h} A ${radius},${ry} 0 0,1 ${radius},-${h} L ${radius},0 A ${radius},${ry} 0 0,1 -${radius},0`} fill={color} fillOpacity={isActive ? "0.15" : "0.05"} stroke={color} strokeWidth="0.5" strokeOpacity="0.3" />
+        <ellipse cx="0" cy={-h} rx={radius} ry={ry} fill={color} fillOpacity={isActive ? "0.1" : "0.02"} stroke={color} strokeWidth="1.5" />
+        <ellipse cx="0" cy={-h} rx={radius * 0.8} ry={ry * 0.8} fill="none" stroke={color} strokeWidth="0.5" strokeDasharray="2 2" strokeOpacity="0.4" />
         <line x1={-radius} y1="0" x2={-radius} y2={-h} stroke={color} strokeWidth="0.5" strokeOpacity="0.4" />
         <line x1={radius} y1="0" x2={radius} y2={-h} stroke={color} strokeWidth="0.5" strokeOpacity="0.4" />
-        <line x1="0" y1={-ry} x2="0" y2={-h - ry} stroke={color} strokeWidth="0.5" strokeOpacity="0.2" />
-        <line x1="0" y1={ry} x2="0" y2={-h + ry} stroke={color} strokeWidth="0.5" strokeOpacity="0.2" />
       </g>
     );
   };
 
+  const RadarShell2D = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => (
+    <g className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
+      <circle cx="0" cy="0" r={radius} fill={color} fillOpacity={isActive ? "0.1" : "0.02"} stroke={color} strokeWidth={isActive ? "2" : "1"} />
+      {isActive && <circle cx="0" cy="0" r={radius} fill="none" stroke={color} strokeWidth="1" strokeDasharray="4 4" className="animate-pulse" />}
+    </g>
+  );
+
   const telemetryGrid = [
     { icon: <Ruler className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Proximity', description: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
     { icon: <Gauge className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Speed Calibration', description: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
-    { icon: <ShieldAlert className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'ADAPTIVE SAFETY SHIELDING', description: 'Helps you align with ISO standards by enforcing safe interaction limits, protecting sensitive equipment, and achieving the required PFH_D thresholds.' },
-    { icon: <RefreshCw className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Hive Redundancy', description: "SafeHive blends factory sensor data with the robot's own eyes to lock a protective safety bubble around every asset." },
-    { icon: <Ghost className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Un-networked Hardware', description: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
-    { icon: <Zap className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Loop Speed', description: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace environment.' },
+    { icon: <ShieldAlert className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'ADAPTIVE SAFETY SHIELDING', description: 'Helps you align with ISO standards by enforcing safe interaction limits, protecting sensitive equipment.' },
+    { icon: <RefreshCw className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Hive Redundancy', description: "SafeHive blends factory sensor data with the robot's own eyes to lock a protective safety bubble." },
+    { icon: <Ghost className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Legacy Hardware', description: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
+    { icon: <Zap className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Loop Speed', description: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace.' },
   ];
 
   return (
     <section id="volumes" className="py-24 bg-slate-50 relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl">
         
-        {/* Technical Grid (Top) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
           {telemetryGrid.map((item, idx) => (
             <div key={idx} className="p-10 border border-slate-100 rounded-sm bg-white hover:border-primary/20 transition-all group flex flex-col shadow-sm">
@@ -155,58 +118,87 @@ export function SafetyVolumes() {
           ))}
         </div>
 
-        {/* Interactive Visualization Board */}
         <div className="bg-white border border-slate-200 shadow-xl overflow-hidden rounded-sm">
           <div className="grid lg:grid-cols-10 h-full">
             
-            {/* Visual Panel (Left) */}
             <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-8 relative min-h-[500px] lg:min-h-[800px] flex flex-col items-center justify-center">
               <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
               
-              <div className="relative w-full h-full flex items-center justify-center perspective-[1500px]">
+              {/* View Mode Toggle */}
+              <div className="absolute top-8 right-8 z-[60] flex items-center gap-3 bg-white/80 backdrop-blur-md p-2 rounded-full border border-slate-200 shadow-sm">
+                <span className={cn("text-[10px] font-bold uppercase tracking-widest", !is3D ? "text-primary" : "text-slate-400")}>2D Radar</span>
+                <Switch 
+                  checked={is3D} 
+                  onCheckedChange={setIs3D}
+                  className="data-[state=checked]:bg-primary"
+                />
+                <span className={cn("text-[10px] font-bold uppercase tracking-widest", is3D ? "text-primary" : "text-slate-400")}>3D Volume</span>
+              </div>
+
+              <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
                 <svg viewBox="-300 -450 600 550" className="w-full h-full drop-shadow-2xl">
-                  {/* Isometric Ground Grid */}
-                  <g opacity="0.1">
-                    {Array.from({length: 11}).map((_, i) => (
-                      <line key={`v-${i}`} x1={-250 + i*50} y1="-120" x2={-250 + i*50} y2="120" stroke="#000" strokeWidth="0.5" />
+                  {/* Grid System */}
+                  <g opacity="0.05">
+                    {Array.from({length: 13}).map((_, i) => (
+                      <line key={`v-${i}`} x1={-300 + i*50} y1="-300" x2={-300 + i*50} y2="250" stroke="#000" strokeWidth="1" />
                     ))}
-                    {Array.from({length: 6}).map((_, i) => (
-                      <line key={`h-${i}`} x1="-250" y1={-120 + i*48} x2="250" y2={-120 + i*48} stroke="#000" strokeWidth="0.5" />
+                    {Array.from({length: 12}).map((_, i) => (
+                      <line key={`h-${i}`} x1="-300" y1={-300 + i*50} x2="300" y2={-300 + i*50} stroke="#000" strokeWidth="1" />
                     ))}
                   </g>
 
-                  {/* Geometric Volumes */}
-                  <VolumetricEnvelope radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
-                  <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
-                  <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
+                  {/* Shells */}
+                  {is3D ? (
+                    <>
+                      <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
+                      <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
+                      <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
+                    </>
+                  ) : (
+                    <>
+                      <RadarShell2D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
+                      <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
+                      <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
+                    </>
+                  )}
 
-                  {/* Robot Silhouette (Scaled x2 from previous state) */}
-                  <g transform="translate(-32, -152) scale(1.6)">
-                    <path 
-                      d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" 
-                      fill="#0f172a" 
-                      className="drop-shadow-[0_0_8px_rgba(0,102,255,0.3)]"
-                    />
-                  </g>
+                  {/* Silhouettes - 3D View */}
+                  {is3D && (
+                    <>
+                      <g transform="translate(-32, -152) scale(1.6)">
+                        <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" className="drop-shadow-[0_0_8px_rgba(0,102,255,0.3)]" />
+                      </g>
+                      <g transform={`translate(${proximity * visualScale - 32}, -152) scale(1.6)`}>
+                        <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} className="transition-colors duration-500" />
+                      </g>
+                    </>
+                  )}
 
-                  {/* Worker Silhouette (Scaled x2 from previous state) */}
-                  <g transform={`translate(${proximity * visualScale - 32}, -152) scale(1.6)`}>
-                    <path 
-                      d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" 
-                      fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"}
-                      className="transition-colors duration-500"
-                    />
-                  </g>
+                  {/* Top-Down Indicators - 2D View */}
+                  {!is3D && (
+                    <>
+                      {/* Robot Center Point */}
+                      <g>
+                        <circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" />
+                        <Bot size={12} className="text-white" style={{ transform: 'translate(-6px, -6px)' }} />
+                      </g>
+                      {/* Worker Top-Down Point */}
+                      <g transform={`translate(${proximity * visualScale}, 0)`}>
+                        <circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" className="transition-colors duration-500" />
+                        <User size={10} className="text-white" style={{ transform: 'translate(-5px, -5px)' }} />
+                        <line x1="0" y1="0" x2="-20" y2="0" stroke="white" strokeWidth="1" opacity="0.5" />
+                      </g>
+                    </>
+                  )}
 
                   {/* Marker lines for proximity tracking */}
                   <g transform={`translate(${proximity * visualScale}, 0)`}>
-                    <line x1="0" y1="20" x2="0" y2="-250" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" />
+                    <line x1="0" y1={is3D ? "20" : "0"} x2="0" y2={is3D ? "-250" : "0"} stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" opacity={is3D ? 1 : 0} />
                     <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
                   </g>
                 </svg>
               </div>
 
-              {/* Slider Controls Card (Bottom Left Overlay) */}
               <div className="w-full max-w-2xl bg-white border border-slate-100 shadow-2xl p-6 lg:p-8 rounded-sm mt-4 relative z-50">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="space-y-3">
@@ -234,7 +226,6 @@ export function SafetyVolumes() {
               </div>
             </div>
 
-            {/* Content Panel (Right) */}
             <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white">
               <div className="space-y-10">
                 <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
@@ -276,7 +267,6 @@ export function SafetyVolumes() {
                 </Tabs>
               </div>
 
-              {/* Status Footer (Bottom Right) */}
               <div className="pt-10 border-t border-slate-50 space-y-6">
                 <div className="flex justify-between items-center">
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">ISO Rating</span>
@@ -300,3 +290,4 @@ export function SafetyVolumes() {
     </section>
   );
 }
+
