@@ -63,13 +63,11 @@ export function SafetyVolumes() {
     else if (val === 'outer') setProximity((boundaries.rawMiddle + boundaries.rawOuter) / 2);
   };
 
-  // Renders a technical multi-segment volumetric envelope
   const VolumetricEnvelope = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
-    // Defined segments for a more "body-aware" shape: [yStart, yEnd, radiusMultiplier]
     const segments = [
-      { start: 0, end: -40, mult: 1.0 },    // Foot base
-      { start: -40, end: -150, mult: 1.3 }, // Torso/Arms safety bulge
-      { start: -150, end: -220, mult: 0.9 }  // Head zone
+      { start: 0, end: -40, mult: 1.0 },    
+      { start: -40, end: -150, mult: 1.3 }, 
+      { start: -150, end: -220, mult: 0.9 }  
     ];
 
     return (
@@ -83,13 +81,12 @@ export function SafetyVolumes() {
 
         {segments.map((seg, idx) => {
           const r = radius * seg.mult;
-          const ry = r * 0.6; // Perspective squish for ellipses
+          const ry = r * 0.6; 
           const h = Math.abs(seg.end - seg.start);
           const ribs = [0, 45, 90, 135, 180, 225, 270, 315];
 
           return (
             <g key={idx} transform={`translate(0, ${seg.start})`}>
-              {/* Segment Body (Approximated 3D Cylinder Segment) */}
               <path
                 d={`M -${r},0 L -${r},-${h} A ${r},${ry} 0 0,1 ${r},-${h} L ${r},0 A ${r},${ry} 0 0,1 -${r},0`}
                 fill={`url(#grad-${color.replace('#', '')})`}
@@ -98,12 +95,11 @@ export function SafetyVolumes() {
                 strokeOpacity={isActive ? 0.3 : 0.1}
               />
               
-              {/* Vertical Structural Ribs */}
               {ribs.map((angle) => {
                 const rad = (angle * Math.PI) / 180;
                 const x = Math.cos(rad) * r;
                 const y = Math.sin(rad) * ry;
-                const isFront = angle >= 180; // Simple z-sorting based on angle
+                const isFront = angle >= 180; 
                 return (
                   <line
                     key={angle}
@@ -118,7 +114,6 @@ export function SafetyVolumes() {
                 );
               })}
 
-              {/* Top Cap of Segment */}
               <ellipse
                 cx="0"
                 cy={-h}
@@ -130,7 +125,6 @@ export function SafetyVolumes() {
                 strokeWidth={isActive ? 1.5 : 0.4}
               />
 
-              {/* Dynamic Scanner Ring (Only for top segment of active shell) */}
               {isActive && idx === segments.length - 1 && (
                 <ellipse
                   cx="0"
@@ -148,7 +142,6 @@ export function SafetyVolumes() {
           );
         })}
 
-        {/* Base Floor Marker (Concentric rings at the ground level) */}
         <ellipse
           cx="0"
           cy="0"
@@ -201,26 +194,22 @@ export function SafetyVolumes() {
             <div className="grid lg:grid-cols-10 h-full">
               <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-4 lg:p-8 relative min-h-[450px] lg:min-h-[850px] flex flex-col items-center justify-center overflow-hidden">
                 
-                {/* 3D Visualization Canvas */}
                 <div className="relative w-full flex-1 flex items-center justify-center transition-all duration-700 ease-in-out perspective-[1500px] rotate-x-[30deg] rotate-z-[-15deg] scale-100 lg:scale-110">
                   <div className="absolute inset-[-200%] bg-blueprint-fine opacity-20 pointer-events-none z-0" />
                   
                   <div className="relative w-full aspect-square max-w-[500px] flex items-center justify-center">
                     <svg viewBox="-300 -500 600 600" className="w-full h-full drop-shadow-2xl">
-                      {/* Render Concentric Anthropomorphic Safety Shells */}
                       <VolumetricEnvelope radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
 
-                      {/* Humanoid Asset Silhouette (Scaled 3x) */}
-                      <g transform="translate(0, 0) scale(3) rotate(0)" className="text-primary transition-all duration-700">
+                      <g transform="translate(0, 0) scale(2) rotate(0)" className="text-primary transition-all duration-700">
                         <g transform="translate(-20, -100)">
                            <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM10 18H30V48H26V95H14V48H10V18ZM16 22V44H24V22H16Z" fill="currentColor" className="animate-pulse-glow" />
                         </g>
                       </g>
 
-                      {/* Worker Asset Silhouette (Scaled 3x) */}
-                      <g transform={`translate(${proximity * visualScale}, 0) scale(3)`} className={cn("transition-all duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
+                      <g transform={`translate(${proximity * visualScale}, 0) scale(2)`} className={cn("transition-all duration-500", currentZone === 'inner' ? "text-red-600" : currentZone === 'middle' ? "text-amber-500" : "text-blue-500")}>
                         <g transform="translate(-20, -100)">
                            <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46H12V94H28V46H32V24C32 21.8 30.2 20 28 20Z" fill="currentColor" />
                         </g>
@@ -229,7 +218,6 @@ export function SafetyVolumes() {
                   </div>
                 </div>
 
-                {/* Control Overlay */}
                 <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 bg-white/95 backdrop-blur-md p-4 lg:p-8 border border-slate-200 shadow-xl rounded-sm z-[150] mt-4">
                   <div className="space-y-2 lg:space-y-3">
                     <div className="flex justify-between items-center">
@@ -255,7 +243,6 @@ export function SafetyVolumes() {
                 </div>
               </div>
 
-              {/* Sidebar Content */}
               <div className="lg:col-span-4 p-6 lg:p-12 flex flex-col justify-between bg-white">
                 <div className="space-y-8 lg:space-y-10">
                   <div className="space-y-2">
@@ -266,7 +253,6 @@ export function SafetyVolumes() {
                   </div>
 
                   <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                    {/* Highly interactive tab triggers with clear hover and active states */}
                     <TabsList className="w-full h-auto p-1.5 bg-slate-100 border border-slate-200 rounded-lg mb-6 lg:mb-8 flex justify-between gap-1 shadow-inner relative">
                       <TabsTrigger 
                         value="outer" 
@@ -320,7 +306,6 @@ export function SafetyVolumes() {
                   </Tabs>
                 </div>
 
-                {/* Footer Metrics */}
                 <div className="pt-6 lg:pt-10 border-t border-slate-50 flex flex-col gap-4 lg:gap-6">
                   <div className="flex justify-between items-center">
                     <span className="text-[9px] lg:text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">ISO RATING</span>
