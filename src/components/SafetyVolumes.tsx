@@ -136,15 +136,15 @@ export function SafetyVolumes() {
               </div>
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
-                {/* Adjusted ViewBox to shift elements up */}
-                <svg viewBox="-300 -340 600 500" className="w-full h-full drop-shadow-2xl">
+                {/* Shifted ViewBox further down (more negative top) to move elements "up" in frame */}
+                <svg viewBox="-300 -400 600 550" className="w-full h-full drop-shadow-2xl">
                   {/* Grid System */}
                   <g opacity="0.05">
                     {Array.from({length: 13}).map((_, i) => (
-                      <line key={`v-${i}`} x1={-300 + i*50} y1="-400" x2={-300 + i*50} y2="250" stroke="#000" strokeWidth="1" />
+                      <line key={`v-${i}`} x1={-300 + i*50} y1="-450" x2={-300 + i*50} y2="200" stroke="#000" strokeWidth="1" />
                     ))}
                     {Array.from({length: 14}).map((_, i) => (
-                      <line key={`h-${i}`} x1="-300" y1={-400 + i*50} x2="300" y2={-400 + i*50} stroke="#000" strokeWidth="1" />
+                      <line key={`h-${i}`} x1="-300" y1={-450 + i*50} x2="300" y2={-450 + i*50} stroke="#000" strokeWidth="1" />
                     ))}
                   </g>
 
@@ -192,7 +192,7 @@ export function SafetyVolumes() {
 
                   {/* Marker lines for proximity tracking */}
                   <g transform={`translate(${proximity * visualScale}, 0)`}>
-                    <line x1="0" y1={is3D ? "20" : "0"} x2="0" y2={is3D ? "-250" : "0"} stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" opacity={is3D ? 1 : 0} />
+                    <line x1="0" y1={is3D ? "20" : "0"} x2="0" y2={is3D ? "-300" : "0"} stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" opacity={is3D ? 1 : 0} />
                     <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
                   </g>
                 </svg>
