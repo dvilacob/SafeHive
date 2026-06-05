@@ -121,7 +121,7 @@ export function SafetyVolumes() {
         <div className="bg-white border border-slate-200 shadow-xl overflow-hidden rounded-sm">
           <div className="grid lg:grid-cols-10 h-full">
             
-            <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-8 relative min-h-[500px] lg:min-h-[800px] flex flex-col items-center justify-center">
+            <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-8 relative min-h-[500px] lg:min-h-[750px] flex flex-col items-center justify-center">
               <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
               
               {/* View Mode Toggle */}
@@ -136,7 +136,7 @@ export function SafetyVolumes() {
               </div>
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
-                <svg viewBox="-300 -450 600 550" className="w-full h-full drop-shadow-2xl">
+                <svg viewBox="-300 -400 600 500" className="w-full h-full drop-shadow-2xl">
                   {/* Grid System */}
                   <g opacity="0.05">
                     {Array.from({length: 13}).map((_, i) => (
@@ -177,12 +177,10 @@ export function SafetyVolumes() {
                   {/* Top-Down Indicators - 2D View */}
                   {!is3D && (
                     <>
-                      {/* Robot Center Point */}
                       <g>
                         <circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" />
                         <Bot size={12} className="text-white" style={{ transform: 'translate(-6px, -6px)' }} />
                       </g>
-                      {/* Worker Top-Down Point */}
                       <g transform={`translate(${proximity * visualScale}, 0)`}>
                         <circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" className="transition-colors duration-500" />
                         <User size={10} className="text-white" style={{ transform: 'translate(-5px, -5px)' }} />
@@ -199,7 +197,7 @@ export function SafetyVolumes() {
                 </svg>
               </div>
 
-              <div className="w-full max-w-2xl bg-white border border-slate-100 shadow-2xl p-6 lg:p-8 rounded-sm mt-4 relative z-50">
+              <div className="w-full max-w-2xl bg-white border border-slate-100 shadow-2xl p-6 lg:p-8 rounded-sm -mt-16 relative z-50">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
@@ -290,4 +288,3 @@ export function SafetyVolumes() {
     </section>
   );
 }
-
