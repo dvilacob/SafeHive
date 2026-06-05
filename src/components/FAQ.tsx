@@ -71,7 +71,7 @@ export function FAQ() {
     <section id="faq" className="py-20 lg:py-32 bg-white border-t border-slate-100">
       <div className="container mx-auto px-6 max-w-4xl">
         <div className="space-y-4 mb-12 lg:mb-16 text-center lg:text-left">
-          <h2 className="text-3xl lg:text-4xl font-headline font-bold text-slate-900 tracking-tight">Technical Documentation</h2>
+          <h2 className="text-3xl lg:text-4xl font-headline font-bold text-slate-900 tracking-tight">FAQ</h2>
           <p className="text-slate-500 text-sm lg:text-base">Deep dive into the SafeHive spatial safety architecture.</p>
         </div>
 
