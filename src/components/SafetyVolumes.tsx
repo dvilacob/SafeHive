@@ -2,11 +2,16 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost, Bot, User } from 'lucide-react';
+import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost, Bot, User, Maximize2 } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -103,6 +108,39 @@ export function SafetyVolumes() {
     { icon: <Ghost className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Legacy Hardware', description: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
     { icon: <Zap className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Loop Speed', description: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace.' },
   ];
+
+  const VisualizationImage = () => (
+    spatialVizImage ? (
+      <Dialog>
+        <DialogTrigger asChild>
+          <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg cursor-zoom-in group">
+            <Image
+              src={spatialVizImage.imageUrl}
+              alt={spatialVizImage.description}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              data-ai-hint={spatialVizImage.imageHint}
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 p-2 rounded-full text-slate-900 shadow-sm">
+                <Maximize2 size={16} />
+              </div>
+            </div>
+          </div>
+        </DialogTrigger>
+        <DialogContent className="max-w-[95vw] lg:max-w-6xl p-0 overflow-hidden bg-white border-0 shadow-2xl">
+          <div className="relative aspect-[16/10] w-full">
+            <Image
+              src={spatialVizImage.imageUrl}
+              alt={spatialVizImage.description}
+              fill
+              className="object-contain"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+    ) : null
+  );
 
   return (
     <section id="volumes" className="py-24 bg-slate-50 relative overflow-hidden">
@@ -239,17 +277,7 @@ export function SafetyVolumes() {
                           <p className="text-sm lg:text-base text-slate-500 leading-relaxed">The machine maintains full production speed while scaling the outer perimeter to match required stopping distances.</p>
                         </div>
                       </div>
-                      {spatialVizImage && (
-                        <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg">
-                          <Image
-                            src={spatialVizImage.imageUrl}
-                            alt={spatialVizImage.description}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={spatialVizImage.imageHint}
-                          />
-                        </div>
-                      )}
+                      <VisualizationImage />
                     </TabsContent>
                     <TabsContent value="middle" className="mt-0 space-y-8">
                       <div className="flex gap-6">
@@ -259,17 +287,7 @@ export function SafetyVolumes() {
                           <p className="text-sm lg:text-base text-slate-500 leading-relaxed">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting speed based on body segment tolerances.</p>
                         </div>
                       </div>
-                      {spatialVizImage && (
-                        <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg">
-                          <Image
-                            src={spatialVizImage.imageUrl}
-                            alt={spatialVizImage.description}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={spatialVizImage.imageHint}
-                          />
-                        </div>
-                      )}
+                      <VisualizationImage />
                     </TabsContent>
                     <TabsContent value="inner" className="mt-0 space-y-8">
                       <div className="flex gap-6">
@@ -279,17 +297,7 @@ export function SafetyVolumes() {
                           <p className="text-sm lg:text-base text-slate-500 leading-relaxed">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
                         </div>
                       </div>
-                      {spatialVizImage && (
-                        <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg">
-                          <Image
-                            src={spatialVizImage.imageUrl}
-                            alt={spatialVizImage.description}
-                            fill
-                            className="object-cover"
-                            data-ai-hint={spatialVizImage.imageHint}
-                          />
-                        </div>
-                      )}
+                      <VisualizationImage />
                     </TabsContent>
                   </div>
                 </Tabs>
