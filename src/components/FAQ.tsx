@@ -16,6 +16,21 @@ const faqs = [
   },
   {
     tag: "Integration",
+    question: "How do we integrate existing safety sensors into the SafeHive system?",
+    answer: "You can connect your existing safety sensors to the SafeHive Control Hub using an I/O module compatible with your industrial network. Once connected, the SafeHive Configurator maps these simple \"on/off\" inputs into specific spatial safety zones within your facility."
+  },
+  {
+    tag: "Integration",
+    question: "Does SafeHive replace the function of safety sensors?",
+    answer: "No, SafeHive enhances them. While standard safety sensors simply trigger an immediate \"stop\" signal, SafeHive takes those inputs and applies intelligent, adaptive safety logic. This transforms basic hardware into part of a larger, certified system that can prioritize, slow down, or stop equipment based on real-time spatial calculations."
+  },
+  {
+    tag: "Integration",
+    question: "Why use safety sensors with SafeHive instead of just using them alone?",
+    answer: "Using safety sensors alone often leads to productivity bottlenecks because they only perform simple, binary stops. By integrating them into the SafeHive network, you gain the ability to manage safety zones dynamically, ensuring that the plant keeps running smoothly while maintaining full compliance with safety standards like ISO 10218-2."
+  },
+  {
+    tag: "Integration",
     question: "Does SafeHive need the plant PLC to be modified?",
     answer: "No. SafeHive operates as a 100% independent, decentralized safety mesh. The safety loop closes entirely at the edge module level mounted directly on each mobile asset. You can deploy SafeHive as a modular overlay without touching, rewiring, or reprogramming a single line of the factory's legacy central safety PLC code."
   },
