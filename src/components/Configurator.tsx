@@ -1,7 +1,7 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { Label } from "@/components/ui/label";
 import { ArrowRight, Monitor, Target, Info } from "lucide-react";
@@ -21,6 +21,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 export function Configurator() {
   const [area, setArea] = useState(1000);
@@ -40,6 +41,8 @@ export function Configurator() {
   
   const dueNowTotal = (hubCount * HUB_UNIT_COST) + (apCount * AP_UNIT_COST) + ONBOARDING_COST;
   const recurringTotal = SUBSCRIPTION_ANNUAL;
+
+  const hubImage = PlaceHolderImages.find(img => img.id === 'hardware-hub');
 
   const formatPrice = (price: number) => {
     if (!mounted) return price.toString();
@@ -63,6 +66,27 @@ export function Configurator() {
                   Define your facility constraints to provide you with the infrastructure and the hub in order to orchestrate your humanoid fleet and machines safely.
                 </p>
               </div>
+
+              {hubImage && (
+                <div className="relative aspect-[16/9] w-full bg-slate-100 rounded-sm overflow-hidden border border-slate-200 shadow-2xl group">
+                  <Image 
+                    src={hubImage.imageUrl} 
+                    alt={hubImage.description}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    data-ai-hint={hubImage.imageHint}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent pointer-events-none" />
+                  <div className="absolute bottom-6 left-6 flex items-center gap-3">
+                    <div className="bg-primary/90 backdrop-blur-md px-3 py-1.5 rounded-sm border border-white/20">
+                      <span className="text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Unit SH-HUB-V2</span>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-sm border border-white/10">
+                      <span className="text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Safety-Rated</span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="space-y-12">
                 <div className="space-y-8">
