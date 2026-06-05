@@ -8,6 +8,8 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Switch } from '@/components/ui/switch';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import { PlaceHolderImages } from '@/lib/placeholder-images';
 
 export function SafetyVolumes() {
   const [proximity, setProximity] = useState(400); 
@@ -16,6 +18,8 @@ export function SafetyVolumes() {
   const [activeShell, setActiveShell] = useState('outer');
   const [is3D, setIs3D] = useState(true);
   const [visualScale, setVisualScale] = useState(0.55);
+
+  const spatialVizImage = PlaceHolderImages.find(img => img.id === 'spatial-viz');
 
   useEffect(() => {
     const handleResize = () => {
@@ -217,7 +221,7 @@ export function SafetyVolumes() {
               </div>
             </div>
 
-            <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white">
+            <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white overflow-y-auto">
               <div className="space-y-10">
                 <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
                   <TabsList className="w-full h-auto p-1.5 bg-slate-100/50 rounded-lg mb-8 flex gap-1 shadow-inner">
@@ -227,7 +231,7 @@ export function SafetyVolumes() {
                   </TabsList>
 
                   <div className="min-h-[220px]">
-                    <TabsContent value="outer" className="mt-0 space-y-6">
+                    <TabsContent value="outer" className="mt-0 space-y-8">
                       <div className="flex gap-6">
                         <div className="w-1.5 h-20 bg-blue-400 rounded-full shrink-0" />
                         <div className="space-y-3">
@@ -235,8 +239,19 @@ export function SafetyVolumes() {
                           <p className="text-sm lg:text-base text-slate-500 leading-relaxed">The machine maintains full production speed while scaling the outer perimeter to match required stopping distances.</p>
                         </div>
                       </div>
+                      {spatialVizImage && (
+                        <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg">
+                          <Image
+                            src={spatialVizImage.imageUrl}
+                            alt={spatialVizImage.description}
+                            fill
+                            className="object-cover"
+                            data-ai-hint={spatialVizImage.imageHint}
+                          />
+                        </div>
+                      )}
                     </TabsContent>
-                    <TabsContent value="middle" className="mt-0 space-y-6">
+                    <TabsContent value="middle" className="mt-0 space-y-8">
                       <div className="flex gap-6">
                         <div className="w-1.5 h-20 bg-amber-400 rounded-full shrink-0" />
                         <div className="space-y-3">
@@ -244,8 +259,19 @@ export function SafetyVolumes() {
                           <p className="text-sm lg:text-base text-slate-500 leading-relaxed">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting speed based on body segment tolerances.</p>
                         </div>
                       </div>
+                      {spatialVizImage && (
+                        <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg">
+                          <Image
+                            src={spatialVizImage.imageUrl}
+                            alt={spatialVizImage.description}
+                            fill
+                            className="object-cover"
+                            data-ai-hint={spatialVizImage.imageHint}
+                          />
+                        </div>
+                      )}
                     </TabsContent>
-                    <TabsContent value="inner" className="mt-0 space-y-6">
+                    <TabsContent value="inner" className="mt-0 space-y-8">
                       <div className="flex gap-6">
                         <div className="w-1.5 h-20 bg-red-500 rounded-full shrink-0" />
                         <div className="space-y-3">
@@ -253,6 +279,17 @@ export function SafetyVolumes() {
                           <p className="text-sm lg:text-base text-slate-500 leading-relaxed">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
                         </div>
                       </div>
+                      {spatialVizImage && (
+                        <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg">
+                          <Image
+                            src={spatialVizImage.imageUrl}
+                            alt={spatialVizImage.description}
+                            fill
+                            className="object-cover"
+                            data-ai-hint={spatialVizImage.imageHint}
+                          />
+                        </div>
+                      )}
                     </TabsContent>
                   </div>
                 </Tabs>

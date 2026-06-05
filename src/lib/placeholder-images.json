@@ -8,9 +8,9 @@
     },
     {
       "id": "spatial-viz",
-      "description": "3D spatial grid visualization showing dynamic safety volumes and tracking confidence meshes",
-      "imageUrl": "https://picsum.photos/seed/safehive-spatial-grid-v2/1600/900",
-      "imageHint": "robotics safety"
+      "description": "Top-down spatial safety grid visualization of a factory floor showing real-time human and robot tracking zones",
+      "imageUrl": "https://picsum.photos/seed/safehive-spatial-grid-v2/1000/1000",
+      "imageHint": "factory safety"
     }
   ]
 }
