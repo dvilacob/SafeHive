@@ -1,8 +1,14 @@
 {
   "placeholderImages": [
     {
+      "id": "hero-main",
+      "description": "Industrial factory floor with humanoid robots and humans protected by dynamic spatial safety bubbles",
+      "imageUrl": "/images/hero-main.png",
+      "imageHint": "factory robots safety"
+    },
+    {
       "id": "hardware-hub",
-      "description": "",
+      "description": "SafeHive SH-HUB-V2 Industrial Safety Control Hub unit",
       "imageUrl": "/images/hardware-hub.png",
       "imageHint": "industrial safety control hub"
     },
