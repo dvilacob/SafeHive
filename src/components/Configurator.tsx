@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -50,25 +51,25 @@ export function Configurator() {
   };
 
   return (
-    <section id="configurator" className="py-24 lg:py-48 bg-[#F8FAFC] relative overflow-hidden">
+    <section id="configurator" className="py-20 lg:py-48 bg-[#F8FAFC] relative overflow-hidden">
       <div className="absolute inset-0 bg-dot-grid opacity-60 pointer-events-none" />
       
       <div className="container mx-auto px-6 relative">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+        <div className="max-w-7xl auto">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-24 items-start">
             
-            <div className="lg:col-span-7 space-y-12 lg:space-y-16">
-              <div className="space-y-6">
+            <div className="lg:col-span-7 space-y-10 lg:space-y-16">
+              <div className="space-y-4 lg:space-y-6">
                 <h2 className="text-4xl lg:text-7xl font-headline font-bold tracking-tighter text-slate-900 leading-tight">
                   Hive Configurator<span className="text-primary">.</span>
                 </h2>
-                <p className="text-slate-500 text-base lg:text-xl max-w-2xl font-medium leading-relaxed">
-                  Define your facility constraints to provide you with the infrastructure and the hub in order to orchestrate your humanoid fleet and machines safely.
+                <p className="text-slate-500 text-sm lg:text-xl max-w-2xl font-medium leading-relaxed">
+                  Specify your facility parameters to determine the infrastructure required to orchestrate your humanoid fleet and machines safely.
                 </p>
               </div>
 
               {hubImage && (
-                <div className="relative aspect-[16/9] w-full bg-slate-100 rounded-sm overflow-hidden border border-slate-200 shadow-2xl group">
+                <div className="relative aspect-video lg:aspect-[16/9] w-full bg-slate-100 rounded-sm overflow-hidden border border-slate-200 shadow-xl group">
                   <Image 
                     src={hubImage.imageUrl} 
                     alt={hubImage.description}
@@ -77,28 +78,28 @@ export function Configurator() {
                     data-ai-hint={hubImage.imageHint}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent pointer-events-none" />
-                  <div className="absolute bottom-6 left-6 flex items-center gap-3">
-                    <div className="bg-primary/90 backdrop-blur-md px-3 py-1.5 rounded-sm border border-white/20">
-                      <span className="text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Unit SH-HUB-V2</span>
+                  <div className="absolute bottom-4 left-4 lg:bottom-6 lg:left-6 flex items-center gap-2 lg:gap-3">
+                    <div className="bg-primary/90 backdrop-blur-md px-2 py-1 lg:px-3 lg:py-1.5 rounded-sm border border-white/20">
+                      <span className="text-[8px] lg:text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">SH-HUB-V2</span>
                     </div>
-                    <div className="bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-sm border border-white/10">
-                      <span className="text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Safety-Rated</span>
+                    <div className="bg-white/10 backdrop-blur-md px-2 py-1 lg:px-3 lg:py-1.5 rounded-sm border border-white/10">
+                      <span className="text-[8px] lg:text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Safety-Rated</span>
                     </div>
                   </div>
                 </div>
               )}
 
-              <div className="space-y-12">
-                <div className="space-y-8">
-                  <div className="flex justify-between items-baseline gap-4">
-                    <Label className="text-slate-400 text-[10px] lg:text-xs font-mono font-bold uppercase tracking-[0.3em]">TOTAL WORK AREA (m²)</Label>
-                    <div className="text-3xl lg:text-6xl font-mono font-bold text-primary tabular-nums shrink-0">
+              <div className="space-y-8 lg:space-y-12">
+                <div className="space-y-6 lg:space-y-8">
+                  <div className="flex flex-col sm:flex-row justify-between items-baseline gap-2">
+                    <Label className="text-slate-400 text-[9px] lg:text-xs font-mono font-bold uppercase tracking-[0.3em]">TOTAL WORK AREA (m²)</Label>
+                    <div className="text-4xl lg:text-6xl font-mono font-bold text-primary tabular-nums shrink-0">
                       {area}
                       <span className="text-xs lg:text-sm ml-2 text-slate-300 font-mono tracking-normal">M²</span>
                     </div>
                   </div>
                   
-                  <div className="relative py-10">
+                  <div className="relative py-8 lg:py-10">
                     <SliderPrimitive.Root
                       value={[area]}
                       onValueChange={(v) => setArea(v[0])}
@@ -118,13 +119,13 @@ export function Configurator() {
                     </SliderPrimitive.Root>
                   </div>
 
-                  <div className="p-6 lg:p-8 bg-white border border-slate-100 rounded-sm space-y-3 shadow-sm">
-                    <div className="flex items-center gap-2 text-[10px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">
+                  <div className="p-4 lg:p-8 bg-white border border-slate-100 rounded-sm space-y-2 lg:space-y-3 shadow-sm">
+                    <div className="flex items-center gap-2 text-[9px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">
                       <Monitor size={14} className="text-primary" />
                       Asset Configuration
                     </div>
                     <p className="text-xs lg:text-sm text-slate-500 font-medium leading-relaxed">
-                      Default: <span className="text-slate-900 font-bold">ROS-Integrated Fleet</span> (Native spatial awareness via HIVE deterministic protocol)
+                      Standard: <span className="text-slate-900 font-bold">ROS-Integrated Fleet</span> (Deterministic spatial logic)
                     </p>
                   </div>
                 </div>
@@ -135,29 +136,29 @@ export function Configurator() {
               <div className="bg-white border border-slate-200 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] relative rounded-sm">
                 <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary/20 -translate-x-4 translate-y-4 hidden lg:block" />
                 
-                <div className="p-8 lg:p-14 space-y-10 lg:space-y-12">
+                <div className="p-6 lg:p-14 space-y-8 lg:space-y-12">
                   <TooltipProvider>
-                    <div className="space-y-10 lg:space-y-12">
-                      <div className="space-y-6">
-                        <div className="flex justify-between items-center border-b border-slate-100 pb-5">
-                          <h3 className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-primary">Initial Investment (CAPEX)</h3>
+                    <div className="space-y-8 lg:space-y-12">
+                      <div className="space-y-4 lg:space-y-6">
+                        <div className="flex justify-between items-center border-b border-slate-100 pb-3 lg:pb-5">
+                          <h3 className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-primary">Initial Investment (CAPEX)</h3>
                         </div>
 
-                        <div className="space-y-6">
+                        <div className="space-y-4 lg:space-y-6">
                           <div className="flex justify-between items-start text-xs lg:text-base">
                             <div className="flex flex-col gap-1.5">
-                              <div className="flex items-center gap-2.5">
-                                <span className="font-bold text-slate-900 tracking-tight">SafeHive Control Hub</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-slate-900 tracking-tight">SafeHive Hub</span>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <Info size={14} className="text-slate-300 hover:text-primary cursor-help" />
                                   </TooltipTrigger>
-                                  <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0">
+                                  <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0 shadow-2xl">
                                     Includes Spatial Compute Core, Hardware Safety PLC, I/O Boards, Secure Remote Gateway, Managed Switch, and Power/UPS.
                                   </TooltipContent>
                                 </Tooltip>
                               </div>
-                              <span className="text-[10px] text-slate-400 font-mono uppercase">QTY: {hubCount} × ${formatPrice(HUB_UNIT_COST)}</span>
+                              <span className="text-[9px] lg:text-[10px] text-slate-400 font-mono uppercase">QTY: {hubCount} × ${formatPrice(HUB_UNIT_COST)}</span>
                             </div>
                             <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(hubCount * HUB_UNIT_COST)}</span>
                           </div>
@@ -165,50 +166,50 @@ export function Configurator() {
                           <div className="flex justify-between items-start text-xs lg:text-base">
                             <div className="flex flex-col gap-1.5">
                               <span className="font-bold text-slate-900 tracking-tight">Perimeter Access Points</span>
-                              <span className="text-[10px] text-slate-400 font-mono uppercase">QTY: {apCount} × ${formatPrice(AP_UNIT_COST)}</span>
+                              <span className="text-[9px] lg:text-[10px] text-slate-400 font-mono uppercase">QTY: {apCount} × ${formatPrice(AP_UNIT_COST)}</span>
                             </div>
                             <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(apCount * AP_UNIT_COST)}</span>
                           </div>
 
                           <div className="flex justify-between items-start text-xs lg:text-base">
                             <div className="flex flex-col gap-1.5">
-                              <div className="flex items-center gap-2.5">
-                                <span className="font-bold text-slate-900 tracking-tight">Onboarding & API Support</span>
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-slate-900 tracking-tight">Onboarding & Support</span>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
                                     <Info size={14} className="text-slate-300 hover:text-primary cursor-help" />
                                   </TooltipTrigger>
-                                  <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0">
+                                  <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0 shadow-2xl">
                                     Engineering safety-loop validation and protocol handshake verification.
                                   </TooltipContent>
                                 </Tooltip>
                               </div>
-                              <span className="text-[10px] text-slate-400 font-mono uppercase">QTY: 1 × ${formatPrice(ONBOARDING_COST)}</span>
+                              <span className="text-[9px] lg:text-[10px] text-slate-400 font-mono uppercase">QTY: 1 × ${formatPrice(ONBOARDING_COST)}</span>
                             </div>
                             <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(ONBOARDING_COST)}</span>
                           </div>
                         </div>
                       </div>
 
-                      <div className="space-y-6">
-                        <div className="flex justify-between items-center border-b border-slate-100 pb-5">
-                          <h3 className="text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-amber-500">Annual Subscription (OPEX)</h3>
+                      <div className="space-y-4 lg:space-y-6">
+                        <div className="flex justify-between items-center border-b border-slate-100 pb-3 lg:pb-5">
+                          <h3 className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-amber-500">Subscription (OPEX)</h3>
                         </div>
 
                         <div className="flex justify-between items-start text-xs lg:text-base">
                           <div className="flex flex-col gap-1.5">
-                            <div className="flex items-center gap-2.5">
-                              <span className="font-bold text-slate-900 tracking-tight">SafeHive Platform License</span>
+                            <div className="flex items-center gap-2">
+                              <span className="font-bold text-slate-900 tracking-tight">Platform License</span>
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <Info size={14} className="text-slate-300 hover:text-primary cursor-help" />
                                 </TooltipTrigger>
-                                <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0">
+                                <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0 shadow-2xl">
                                   Includes Spatial Engine updates, Black Channel brokerage, and security patches.
                                 </TooltipContent>
                               </Tooltip>
                             </div>
-                            <span className="text-[10px] text-slate-400 font-mono uppercase">Annual Recurring</span>
+                            <span className="text-[9px] lg:text-[10px] text-slate-400 font-mono uppercase">Annual Recurring</span>
                           </div>
                           <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(recurringTotal)}/yr</span>
                         </div>
@@ -216,17 +217,17 @@ export function Configurator() {
                     </div>
                   </TooltipProvider>
 
-                  <div className="pt-10 lg:pt-12 border-t border-slate-100 space-y-8">
-                    <div className="space-y-6">
+                  <div className="pt-8 lg:pt-12 border-t border-slate-100 space-y-6 lg:space-y-8">
+                    <div className="space-y-4 lg:space-y-6">
                       <div className="flex justify-between items-end">
-                        <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Due Now</span>
-                        <div className="text-3xl lg:text-5xl font-mono font-bold text-slate-900 tracking-tighter tabular-nums">
+                        <span className="text-[9px] lg:text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Due Now</span>
+                        <div className="text-2xl lg:text-5xl font-mono font-bold text-slate-900 tracking-tighter tabular-nums">
                           ${formatPrice(dueNowTotal)}
                         </div>
                       </div>
-                      <div className="flex justify-between items-end border-t border-slate-50 pt-5">
-                        <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Yearly Subscription</span>
-                        <div className="text-xl lg:text-2xl font-mono font-bold text-amber-600 tabular-nums">
+                      <div className="flex justify-between items-end border-t border-slate-50 pt-3 lg:pt-5">
+                        <span className="text-[9px] lg:text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Subscription</span>
+                        <div className="text-lg lg:text-2xl font-mono font-bold text-amber-600 tabular-nums">
                           ${formatPrice(recurringTotal)}/yr
                         </div>
                       </div>
@@ -234,31 +235,31 @@ export function Configurator() {
                     
                     <Dialog>
                       <DialogTrigger asChild>
-                        <button className="group relative w-full h-18 lg:h-24 bg-primary hover:bg-[#06b6d4] transition-all duration-300 rounded-sm overflow-hidden shadow-xl shadow-primary/20">
-                          <div className="relative z-10 flex items-center justify-center gap-4 text-white text-[11px] lg:text-xs font-mono font-bold uppercase tracking-[0.4em]">
+                        <button className="group relative w-full h-16 lg:h-24 bg-primary hover:bg-[#06b6d4] transition-all duration-300 rounded-sm overflow-hidden shadow-xl shadow-primary/20">
+                          <div className="relative z-10 flex items-center justify-center gap-3 lg:gap-4 text-white text-[10px] lg:text-xs font-mono font-bold uppercase tracking-[0.4em]">
                             Generate Quote
-                            <ArrowRight size={20} className="transition-transform duration-300 group-hover:translate-x-2" />
+                            <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-2" />
                           </div>
                         </button>
                       </DialogTrigger>
-                      <DialogContent className="rounded-none border-2 border-slate-900 w-[95vw] max-w-lg p-0 overflow-hidden">
-                        <div className="p-8 lg:p-12 space-y-8">
+                      <DialogContent className="rounded-none border-2 border-slate-900 w-[92vw] max-w-lg p-0 overflow-hidden shadow-2xl">
+                        <div className="p-6 lg:p-12 space-y-6 lg:space-y-8">
                           <DialogHeader>
-                            <DialogTitle className="text-2xl lg:text-3xl font-headline font-bold uppercase tracking-tight">Order Site Spec</DialogTitle>
-                            <DialogDescription className="font-medium text-slate-500 text-sm lg:text-base">Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
+                            <DialogTitle className="text-xl lg:text-3xl font-headline font-bold uppercase tracking-tight">Order Site Spec</DialogTitle>
+                            <DialogDescription className="font-medium text-slate-500 text-xs lg:text-base">Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
                           </DialogHeader>
-                          <div className="space-y-6 py-4">
-                            <div className="space-y-2.5">
-                              <Label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Lead Integration Engineer</Label>
-                              <Input placeholder="FULL NAME" className="h-14 lg:h-16 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-sm font-mono" />
+                          <div className="space-y-4 lg:space-y-6 py-2">
+                            <div className="space-y-2">
+                              <Label className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Integration Lead</Label>
+                              <Input placeholder="FULL NAME" className="h-12 lg:h-16 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-xs lg:text-sm font-mono" />
                             </div>
-                            <div className="space-y-2.5">
-                              <Label className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Corporate Email Address</Label>
-                              <Input placeholder="EMAIL@COMPANY.COM" className="h-14 lg:h-16 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-sm font-mono" />
+                            <div className="space-y-2">
+                              <Label className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Corporate Email</Label>
+                              <Input placeholder="EMAIL@COMPANY.COM" className="h-12 lg:h-16 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-xs lg:text-sm font-mono" />
                             </div>
                           </div>
                           <DialogFooter>
-                            <button className="w-full h-16 lg:h-20 bg-primary text-white font-mono font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-[#06b6d4] transition-all shadow-lg">
+                            <button className="w-full h-14 lg:h-20 bg-primary text-white font-mono font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-[#06b6d4] transition-all shadow-lg text-[10px] lg:text-xs">
                               Submit for Review
                             </button>
                           </DialogFooter>
