@@ -79,7 +79,6 @@ export function SafetyVolumes() {
   const VolumetricEnvelope3D = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
     const ry = radius * 0.45; 
     const h = 220; 
-    // Shifted 3D volume lower (translateY 160)
     return (
       <g transform="translate(0, 160)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
         <ellipse cx="0" cy="0" rx={radius} ry={ry} fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 2" />
@@ -93,7 +92,6 @@ export function SafetyVolumes() {
   };
 
   const RadarShell2D = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => (
-    // Centered/Perfect 2D radar shifted upper (translateY -100)
     <g transform="translate(0, -100)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
       <circle cx="0" cy="0" r={radius} fill={color} fillOpacity={isActive ? "0.1" : "0.02"} stroke={color} strokeWidth={isActive ? "2" : "1"} />
       {isActive && <circle cx="0" cy="0" r={radius} fill="none" stroke={color} strokeWidth="1" strokeDasharray="4 4" className="animate-pulse" />}
