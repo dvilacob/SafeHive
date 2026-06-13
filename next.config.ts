@@ -1,18 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
-  basePath: '/SafeHive',     // Esto ayuda a las rutas de navegación
-  assetPrefix: '/SafeHive/', // ¡ESTO CORRIGE LOS ESTILOS Y EL CSS EN GITHUB PAGES!
+  output: 'export', // Obligatorio para generar archivos que GitHub entienda
+  basePath: '/SafeHive', // Obligatorio para que sume la subcarpeta a los estilos
   images: {
-    unoptimized: true,
+    unoptimized: true, // GitHub no procesa imágenes dinámicas de Next
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  typescript: { ignoreBuildErrors: true },
+  eslint: { ignoreDuringBuilds: true },
 };
 
 export default nextConfig;
