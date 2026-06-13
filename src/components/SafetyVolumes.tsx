@@ -144,7 +144,7 @@ export function SafetyVolumes() {
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      {/* Center Assets */}
+                      {/* Center Assets - Perfectly Aligned within Volumes */}
                       <g transform="translate(-32, -150) scale(1.6)"><path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" /></g>
                       <g transform={`translate(${proximity * visualScale - 32}, -150) scale(1.6)`}><path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} /></g>
                     </g>
