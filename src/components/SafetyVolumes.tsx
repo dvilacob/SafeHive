@@ -119,7 +119,7 @@ export function SafetyVolumes() {
         </DialogTrigger>
         <DialogContent className="max-w-[95vw] lg:max-w-6xl p-0 overflow-hidden bg-white border-0 shadow-2xl">
           <DialogTitle className="sr-only">Spatial Visualization Detail</DialogTitle>
-          <DialogDescription className="sr-only">Detailed top-down view of factory spatial safety grid zones.</DialogDescription>
+          <DialogDescription className="sr-only">Detailed top-down view of factory spatial safety grid zones showing humanitarian and machine separation.</DialogDescription>
           <div className="relative aspect-[16/10] w-full">
             <Image
               src={spatialVizImage.imageUrl}
