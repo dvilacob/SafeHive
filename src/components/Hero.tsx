@@ -26,8 +26,8 @@ export function Hero() {
           </div>
 
           {heroImage && (
-            <div className="w-full relative">
-              <div className="relative aspect-[4/3] sm:aspect-video lg:aspect-[16/9] w-full max-w-6xl mx-auto rounded-sm overflow-hidden border border-slate-200 shadow-2xl group bg-slate-100">
+            <div className="w-full relative px-0 md:px-6">
+              <div className="relative aspect-square sm:aspect-video lg:aspect-[16/9] w-full max-w-6xl mx-auto rounded-sm overflow-hidden border border-slate-200 shadow-2xl group bg-slate-100">
                 <Image 
                   src={heroImage.imageUrl} 
                   alt={heroImage.description}
@@ -40,25 +40,20 @@ export function Hero() {
                 
                 <div className="absolute top-3 left-3 lg:top-6 lg:left-6 flex flex-col gap-2">
                   <div className="bg-primary/80 backdrop-blur-md px-2 py-1 lg:px-3 lg:py-1.5 rounded-sm border border-white/20 inline-flex">
-                    <span className="text-[8px] lg:text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Node 04: Real-time Feed</span>
+                    <span className="text-[7px] lg:text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Node 04: Real-time Feed</span>
                   </div>
                 </div>
 
                 <div className="absolute bottom-3 left-3 right-3 lg:bottom-6 lg:left-6 lg:right-6 flex justify-between items-end">
-                  <div className="space-y-2">
-                    <div className="bg-white/10 backdrop-blur-md px-2 py-1 lg:px-3 lg:py-1.5 rounded-sm border border-white/10">
-                      <span className="text-[8px] lg:text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Spatial Mesh Active</span>
-                    </div>
+                  <div className="bg-white/10 backdrop-blur-md px-2 py-1 lg:px-3 lg:py-1.5 rounded-sm border border-white/10">
+                    <span className="text-[7px] lg:text-[10px] font-mono font-bold text-white uppercase tracking-[0.2em]">Spatial Mesh Active</span>
                   </div>
                   <div className="flex flex-col items-end gap-0.5 lg:gap-1">
-                    <span className="text-[7px] lg:text-[10px] font-mono font-bold text-white/60 uppercase tracking-widest">8.4ms</span>
-                    <span className="text-[7px] lg:text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest">Operational</span>
+                    <span className="text-[6px] lg:text-[10px] font-mono font-bold text-white/60 uppercase tracking-widest">8.4ms</span>
+                    <span className="text-[6px] lg:text-[10px] font-mono font-bold text-emerald-400 uppercase tracking-widest">Operational</span>
                   </div>
                 </div>
               </div>
-              
-              <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-32 border-l border-y border-primary/20 hidden xl:block" />
-              <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-32 border-r border-y border-primary/20 hidden xl:block" />
             </div>
           )}
         </div>

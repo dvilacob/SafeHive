@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost, Bot, User, Maximize2 } from 'lucide-react';
+import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost, Maximize2 } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -45,11 +45,9 @@ export function SafetyVolumes() {
   const boundaries = useMemo(() => {
     const baseScale = speed / 10;
     const confidenceBuffer = (6 - redundancy) * 20;
-    
     const rawInner = 60 + baseScale + (confidenceBuffer * 0.5); 
     const rawMiddle = rawInner + 80 + confidenceBuffer;
     const rawOuter = rawMiddle + 100 + confidenceBuffer;
-    
     return { rawInner, rawMiddle, rawOuter };
   }, [speed, redundancy]);
 
@@ -81,7 +79,6 @@ export function SafetyVolumes() {
   const VolumetricEnvelope3D = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
     const ry = radius * 0.45; 
     const h = 220; 
-
     return (
       <g transform="translate(0, 100)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
         <ellipse cx="0" cy="0" rx={radius} ry={ry} fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 2" />
@@ -105,7 +102,7 @@ export function SafetyVolumes() {
     spatialVizImage ? (
       <Dialog>
         <DialogTrigger asChild>
-          <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg cursor-zoom-in group">
+          <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg cursor-zoom-in group mt-6">
             <Image
               src={spatialVizImage.imageUrl}
               alt={spatialVizImage.description}
@@ -141,12 +138,12 @@ export function SafetyVolumes() {
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
           {[
-            { icon: <Ruler className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Proximity', description: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
-            { icon: <Gauge className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Speed Calibration', description: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
-            { icon: <ShieldAlert className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'ADAPTIVE SAFETY SHIELDING', description: 'Helps you align with ISO standards by enforcing safe interaction limits, protecting sensitive equipment.' },
-            { icon: <RefreshCw className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Hive Redundancy', description: "SafeHive blends factory sensor data with the robot's own eyes to lock a protective safety bubble." },
-            { icon: <Ghost className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Legacy Hardware', description: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
-            { icon: <Zap className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Loop Speed', description: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace.' },
+            { icon: <Ruler className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Proximity', description: 'Calculates real-time separation distance between the humanoid and workers.' },
+            { icon: <Gauge className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Speed Calibration', description: 'Automatically scales protective volumes based on velocity vectors.' },
+            { icon: <ShieldAlert className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'ADAPTIVE SHIELDING', description: 'Enforces safe interaction limits aligned with ISO 10218-2.' },
+            { icon: <RefreshCw className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Hive Redundancy', description: "Blends factory sensors with robot vision for tracking confidence." },
+            { icon: <Ghost className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Legacy Hardware', description: "Projects safety hulls over legacy industrial equipment automatically." },
+            { icon: <Zap className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Loop Speed', description: 'Continuously re-evaluates spatial parameters with <12ms latency.' },
           ].map((item, idx) => (
             <div key={idx} className="p-10 border border-slate-100 rounded-sm bg-white hover:border-primary/20 transition-all group flex flex-col shadow-sm">
               <div className="mb-6 text-primary group-hover:scale-110 transition-transform duration-500">
@@ -164,7 +161,6 @@ export function SafetyVolumes() {
           <div className="grid lg:grid-cols-10 h-full">
             <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-8 relative min-h-[500px] lg:min-h-[750px] flex flex-col items-center justify-center">
               <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
-              
               <div className="absolute top-8 right-8 z-[60] flex items-center gap-3 bg-white/80 backdrop-blur-md p-2 rounded-full border border-slate-200 shadow-sm">
                 <span className={cn("text-[10px] font-bold uppercase tracking-widest", !is3D ? "text-primary" : "text-slate-400")}>2D Radar</span>
                 <Switch checked={is3D} onCheckedChange={setIs3D} className="data-[state=checked]:bg-primary" />
@@ -173,42 +169,26 @@ export function SafetyVolumes() {
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
                 <svg viewBox="-300 -400 600 600" className="w-full h-full drop-shadow-2xl">
-                  {/* Grid System shifted up */}
-                  <g transform="translate(0, -50)" opacity="0.05">
-                    {Array.from({length: 13}).map((_, i) => (
-                      <line key={`v-${i}`} x1={-300 + i*50} y1="-500" x2={-300 + i*50} y2="400" stroke="#000" strokeWidth="1" />
-                    ))}
-                    {Array.from({length: 18}).map((_, i) => (
-                      <line key={`h-${i}`} x1="-300" y1={-500 + i*50} x2="300" y2={-500 + i*50} stroke="#000" strokeWidth="1" />
-                    ))}
+                  <g opacity="0.05" transform="translate(0, -50)">
+                    {Array.from({length: 13}).map((_, i) => (<line key={`v-${i}`} x1={-300 + i*50} y1="-500" x2={-300 + i*50} y2="400" stroke="#000" strokeWidth="1" />))}
+                    {Array.from({length: 18}).map((_, i) => (<line key={`h-${i}`} x1="-300" y1={-500 + i*50} x2="300" y2={-500 + i*50} stroke="#000" strokeWidth="1" />))}
                   </g>
 
                   {is3D ? (
-                    <g transform="translate(0, -50)">
+                    <g transform="translate(0, 30)">
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      
-                      <g transform="translate(-32, -52) scale(1.6)">
-                        <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" />
-                      </g>
-                      <g transform={`translate(${proximity * visualScale - 32}, -52) scale(1.6)`}>
-                        <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} className="transition-colors duration-500" />
-                      </g>
+                      <g transform="translate(-32, -52) scale(1.6)"><path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" /></g>
+                      <g transform={`translate(${proximity * visualScale - 32}, -52) scale(1.6)`}><path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} /></g>
                     </g>
                   ) : (
-                    <g transform="translate(0, -50)">
+                    <g transform="translate(0, -100)">
                       <RadarShell2D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      
-                      <g>
-                        <circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" />
-                      </g>
-                      <g transform={`translate(${proximity * visualScale}, 0)`}>
-                        <circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" className="transition-colors duration-500" />
-                        <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
-                      </g>
+                      <g><circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" /></g>
+                      <g transform={`translate(${proximity * visualScale}, 0)`}><circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" /><circle cx="0" cy="0" r="4" fill="#cbd5e1" /></g>
                     </g>
                   )}
                 </svg>
@@ -217,24 +197,15 @@ export function SafetyVolumes() {
               <div className="w-full max-w-2xl bg-white border border-slate-100 shadow-2xl p-6 lg:p-8 rounded-sm -mt-16 relative z-50">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Proximity</Label>
-                      <span className="text-xs font-mono font-bold">{proximity}mm</span>
-                    </div>
+                    <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 flex justify-between">Proximity <span>{proximity}mm</span></Label>
                     <Slider value={[proximity]} onValueChange={(v) => setProximity(v[0])} min={50} max={600} step={5} className="py-2" />
                   </div>
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Speed</Label>
-                      <span className="text-xs font-mono font-bold">{speed}mm/s</span>
-                    </div>
+                    <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 flex justify-between">Speed <span>{speed}mm/s</span></Label>
                     <Slider value={[speed]} onValueChange={(v) => setSpeed(v[0])} min={100} max={1500} step={50} className="py-2" />
                   </div>
                   <div className="space-y-3">
-                    <div className="flex justify-between items-center">
-                      <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400">Hive Sensors</Label>
-                      <span className="text-xs font-mono font-bold">{redundancy}</span>
-                    </div>
+                    <Label className="text-[9px] font-bold uppercase tracking-widest text-slate-400 flex justify-between">Sensors <span>{redundancy}</span></Label>
                     <Slider value={[redundancy]} onValueChange={(v) => setRedundancy(v[0])} min={1} max={5} step={1} className="py-2" />
                   </div>
                 </div>
@@ -245,60 +216,29 @@ export function SafetyVolumes() {
               <div className="space-y-10">
                 <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
                   <TabsList className="w-full h-auto p-1.5 bg-slate-100/50 rounded-lg mb-8 flex gap-1 shadow-inner">
-                    <TabsTrigger value="outer" className="flex-1 py-3 lg:py-4 data-[state=active]:bg-white data-[state=active]:shadow-md rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Outer</TabsTrigger>
-                    <TabsTrigger value="middle" className="flex-1 py-3 lg:py-4 data-[state=active]:bg-white data-[state=active]:shadow-md rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Middle</TabsTrigger>
-                    <TabsTrigger value="inner" className="flex-1 py-3 lg:py-4 data-[state=active]:bg-white data-[state=active]:shadow-md rounded-md text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all">Inner</TabsTrigger>
+                    <TabsTrigger value="outer" className="flex-1 py-3 lg:py-4 text-[10px] font-bold uppercase tracking-widest transition-all">Outer</TabsTrigger>
+                    <TabsTrigger value="middle" className="flex-1 py-3 lg:py-4 text-[10px] font-bold uppercase tracking-widest transition-all">Middle</TabsTrigger>
+                    <TabsTrigger value="inner" className="flex-1 py-3 lg:py-4 text-[10px] font-bold uppercase tracking-widest transition-all">Inner</TabsTrigger>
                   </TabsList>
-
                   <div className="min-h-[220px]">
-                    <TabsContent value="outer" className="mt-0 space-y-8">
-                      <div className="flex gap-6">
-                        <div className="w-1.5 h-20 bg-blue-400 rounded-full shrink-0" />
-                        <div className="space-y-3">
-                          <h4 className="text-2xl font-headline font-bold uppercase tracking-tight text-slate-900">Nominal Speed</h4>
-                          <p className="text-sm lg:text-base text-slate-500 leading-relaxed">The machine maintains full production speed while scaling the outer perimeter to match required stopping distances.</p>
-                        </div>
-                      </div>
+                    <TabsContent value="outer" className="mt-0 space-y-4">
+                      <div className="flex gap-4"><div className="w-1.5 h-12 bg-blue-400 rounded-full shrink-0" /><div className="space-y-1"><h4 className="text-xl font-headline font-bold uppercase text-slate-900">Nominal Speed</h4><p className="text-xs text-slate-500 leading-relaxed">Full production speed with scaled outer perimeters.</p></div></div>
                       <VisualizationImage />
                     </TabsContent>
-                    <TabsContent value="middle" className="mt-0 space-y-8">
-                      <div className="flex gap-6">
-                        <div className="w-1.5 h-20 bg-amber-400 rounded-full shrink-0" />
-                        <div className="space-y-3">
-                          <h4 className="text-2xl font-headline font-bold uppercase tracking-tight text-slate-900">Collaborative</h4>
-                          <p className="text-sm lg:text-base text-slate-500 leading-relaxed">Enforces ISO/TS 15066 Power & Force Limiting profiles, adjusting speed based on body segment tolerances.</p>
-                        </div>
-                      </div>
+                    <TabsContent value="middle" className="mt-0 space-y-4">
+                      <div className="flex gap-4"><div className="w-1.5 h-12 bg-amber-400 rounded-full shrink-0" /><div className="space-y-1"><h4 className="text-xl font-headline font-bold uppercase text-slate-900">Collaborative</h4><p className="text-xs text-slate-500 leading-relaxed">Enforces ISO/TS 15066 Power & Force Limiting profiles.</p></div></div>
                       <VisualizationImage />
                     </TabsContent>
-                    <TabsContent value="inner" className="mt-0 space-y-8">
-                      <div className="flex gap-6">
-                        <div className="w-1.5 h-20 bg-red-500 rounded-full shrink-0" />
-                        <div className="space-y-3">
-                          <h4 className="text-2xl font-headline font-bold uppercase tracking-tight text-slate-900">E-Stop</h4>
-                          <p className="text-sm lg:text-base text-slate-500 leading-relaxed">If the inner boundary is breached or tracking confidence falls, an emergency brake command is issued within 10ms.</p>
-                        </div>
-                      </div>
+                    <TabsContent value="inner" className="mt-0 space-y-4">
+                      <div className="flex gap-4"><div className="w-1.5 h-12 bg-red-500 rounded-full shrink-0" /><div className="space-y-1"><h4 className="text-xl font-headline font-bold uppercase text-slate-900">E-Stop</h4><p className="text-xs text-slate-500 leading-relaxed">Emergency brake command issued within 10ms of breach.</p></div></div>
                       <VisualizationImage />
                     </TabsContent>
                   </div>
                 </Tabs>
               </div>
-
-              <div className="pt-10 border-t border-slate-50 space-y-6">
-                <div className="flex justify-between items-center">
-                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">ISO Rating</span>
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-6 h-6 text-emerald-500" />
-                    <span className="text-xl font-bold text-slate-900">
-                      {redundancy >= 4 ? 'PLe / SIL 3' : redundancy >= 2 ? 'PLd / SIL 2' : 'PLc'}
-                    </span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">Deterministic Loop Active</span>
-                </div>
+              <div className="pt-10 border-t border-slate-50 flex justify-between items-center">
+                <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">ISO {redundancy >= 4 ? 'PLe' : redundancy >= 2 ? 'PLd' : 'PLc'}</span>
+                <ShieldCheck className="w-6 h-6 text-emerald-500" />
               </div>
             </div>
           </div>
