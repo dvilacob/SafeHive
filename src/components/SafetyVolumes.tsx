@@ -83,7 +83,7 @@ export function SafetyVolumes() {
     const h = 220; 
 
     return (
-      <g className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
+      <g transform="translate(0, 100)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
         <ellipse cx="0" cy="0" rx={radius} ry={ry} fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 2" />
         <path d={`M -${radius},0 L -${radius},-${h} A ${radius},${ry} 0 0,1 ${radius},-${h} L ${radius},0 A ${radius},${ry} 0 0,1 -${radius},0`} fill={color} fillOpacity={isActive ? "0.15" : "0.05"} stroke={color} strokeWidth="0.5" strokeOpacity="0.3" />
         <ellipse cx="0" cy={-h} rx={radius} ry={ry} fill={color} fillOpacity={isActive ? "0.1" : "0.02"} stroke={color} strokeWidth="1.5" />
@@ -172,8 +172,9 @@ export function SafetyVolumes() {
               </div>
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
-                <svg viewBox="-300 -450 600 650" className="w-full h-full drop-shadow-2xl">
-                  <g opacity="0.05">
+                <svg viewBox="-300 -400 600 600" className="w-full h-full drop-shadow-2xl">
+                  {/* Grid System shifted up */}
+                  <g transform="translate(0, -50)" opacity="0.05">
                     {Array.from({length: 13}).map((_, i) => (
                       <line key={`v-${i}`} x1={-300 + i*50} y1="-500" x2={-300 + i*50} y2="400" stroke="#000" strokeWidth="1" />
                     ))}
@@ -183,20 +184,20 @@ export function SafetyVolumes() {
                   </g>
 
                   {is3D ? (
-                    <g transform="translate(0, 80)">
+                    <g transform="translate(0, -50)">
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
                       
-                      <g transform="translate(-32, -152) scale(1.6)">
+                      <g transform="translate(-32, -52) scale(1.6)">
                         <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" />
                       </g>
-                      <g transform={`translate(${proximity * visualScale - 32}, -152) scale(1.6)`}>
+                      <g transform={`translate(${proximity * visualScale - 32}, -52) scale(1.6)`}>
                         <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} className="transition-colors duration-500" />
                       </g>
                     </g>
                   ) : (
-                    <g transform="translate(0, 0)">
+                    <g transform="translate(0, -50)">
                       <RadarShell2D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
