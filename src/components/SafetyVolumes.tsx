@@ -144,9 +144,8 @@ export function SafetyVolumes() {
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      {/* Robot silhouette */}
+                      {/* Center Assets */}
                       <g transform="translate(-32, -150) scale(1.6)"><path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" /></g>
-                      {/* Worker silhouette */}
                       <g transform={`translate(${proximity * visualScale - 32}, -150) scale(1.6)`}><path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} /></g>
                     </g>
                   ) : (
@@ -182,31 +181,31 @@ export function SafetyVolumes() {
             <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white overflow-y-auto">
               <div className="space-y-10">
                 <div className="space-y-2">
-                   <h3 className="text-sm font-mono font-bold uppercase tracking-[0.2em] text-slate-400">Shell Selection</h3>
-                   <p className="text-[10px] text-slate-400 italic">Click a shell to simulate spatial penetration</p>
+                   <h3 className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-slate-400">Interactive Shell Selection</h3>
+                   <p className="text-[10px] text-slate-400 italic">Select a safety level to simulate real-time penetration.</p>
                 </div>
 
                 <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
                   <TabsList className="w-full h-auto p-1 bg-slate-100 border border-slate-200 rounded-xl mb-8 flex gap-2 shadow-inner">
                     <TabsTrigger 
                       value="outer" 
-                      className="flex-1 py-4 flex flex-col items-center gap-2 rounded-lg transition-all border border-transparent data-[state=active]:border-blue-200 data-[state=active]:bg-white data-[state=active]:shadow-lg group"
+                      className="flex-1 py-5 flex flex-col items-center gap-2 rounded-lg transition-all border border-transparent data-[state=active]:border-blue-200 data-[state=active]:bg-white data-[state=active]:shadow-lg group"
                     >
-                      <Shield className={cn("w-5 h-5 transition-transform group-hover:scale-110", activeShell === 'outer' ? "text-blue-500" : "text-slate-400")} />
+                      <Shield className={cn("w-6 h-6 transition-transform group-hover:scale-110", activeShell === 'outer' ? "text-blue-500" : "text-slate-400")} />
                       <span className="text-[10px] font-bold uppercase tracking-widest">Outer</span>
                     </TabsTrigger>
                     <TabsTrigger 
                       value="middle" 
-                      className="flex-1 py-4 flex flex-col items-center gap-2 rounded-lg transition-all border border-transparent data-[state=active]:border-amber-200 data-[state=active]:bg-white data-[state=active]:shadow-lg group"
+                      className="flex-1 py-5 flex flex-col items-center gap-2 rounded-lg transition-all border border-transparent data-[state=active]:border-amber-200 data-[state=active]:bg-white data-[state=active]:shadow-lg group"
                     >
-                      <AlertCircle className={cn("w-5 h-5 transition-transform group-hover:scale-110", activeShell === 'middle' ? "text-amber-500" : "text-slate-400")} />
+                      <AlertCircle className={cn("w-6 h-6 transition-transform group-hover:scale-110", activeShell === 'middle' ? "text-amber-500" : "text-slate-400")} />
                       <span className="text-[10px] font-bold uppercase tracking-widest">Middle</span>
                     </TabsTrigger>
                     <TabsTrigger 
                       value="inner" 
-                      className="flex-1 py-4 flex flex-col items-center gap-2 rounded-lg transition-all border border-transparent data-[state=active]:border-red-200 data-[state=active]:bg-white data-[state=active]:shadow-lg group"
+                      className="flex-1 py-5 flex flex-col items-center gap-2 rounded-lg transition-all border border-transparent data-[state=active]:border-red-200 data-[state=active]:bg-white data-[state=active]:shadow-lg group"
                     >
-                      <ShieldAlert className={cn("w-5 h-5 transition-transform group-hover:scale-110", activeShell === 'inner' ? "text-red-500" : "text-slate-400")} />
+                      <ShieldAlert className={cn("w-6 h-6 transition-transform group-hover:scale-110", activeShell === 'inner' ? "text-red-500" : "text-slate-400")} />
                       <span className="text-[10px] font-bold uppercase tracking-widest">Inner</span>
                     </TabsTrigger>
                   </TabsList>
