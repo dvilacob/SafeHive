@@ -80,7 +80,7 @@ export function SafetyVolumes() {
     const ry = radius * 0.45; 
     const h = 220; 
     return (
-      <g transform="translate(0, 140)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
+      <g transform="translate(0, 180)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
         <ellipse cx="0" cy="0" rx={radius} ry={ry} fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 2" />
         <path d={`M -${radius},0 L -${radius},-${h} A ${radius},${ry} 0 0,1 ${radius},-${h} L ${radius},0 A ${radius},${ry} 0 0,1 -${radius},0`} fill={color} fillOpacity={isActive ? "0.15" : "0.05"} stroke={color} strokeWidth="0.5" strokeOpacity="0.3" />
         <ellipse cx="0" cy={-h} rx={radius} ry={ry} fill={color} fillOpacity={isActive ? "0.1" : "0.02"} stroke={color} strokeWidth="1.5" />
@@ -92,45 +92,10 @@ export function SafetyVolumes() {
   };
 
   const RadarShell2D = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => (
-    <g transform="translate(0, -140)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
+    <g transform="translate(0, -180)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
       <circle cx="0" cy="0" r={radius} fill={color} fillOpacity={isActive ? "0.1" : "0.02"} stroke={color} strokeWidth={isActive ? "2" : "1"} />
       {isActive && <circle cx="0" cy="0" r={radius} fill="none" stroke={color} strokeWidth="1" strokeDasharray="4 4" className="animate-pulse" />}
     </g>
-  );
-
-  const VisualizationImage = () => (
-    spatialVizImage ? (
-      <Dialog>
-        <DialogTrigger asChild>
-          <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg cursor-zoom-in group mt-6">
-            <Image
-              src={spatialVizImage.imageUrl}
-              alt={spatialVizImage.description}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              data-ai-hint={spatialVizImage.imageHint}
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-              <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 p-2 rounded-full text-slate-900 shadow-sm">
-                <Maximize2 size={16} />
-              </div>
-            </div>
-          </div>
-        </DialogTrigger>
-        <DialogContent className="max-w-[95vw] lg:max-w-6xl p-0 overflow-hidden bg-white border-0 shadow-2xl">
-          <DialogTitle className="sr-only">Spatial Visualization Detail</DialogTitle>
-          <DialogDescription className="sr-only">Detailed spatial tracking view of the SafeHive factory floor.</DialogDescription>
-          <div className="relative aspect-[16/10] w-full">
-            <Image
-              src={spatialVizImage.imageUrl}
-              alt={spatialVizImage.description}
-              fill
-              className="object-contain"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
-    ) : null
   );
 
   return (
@@ -179,16 +144,17 @@ export function SafetyVolumes() {
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      <g transform="translate(-32, 28) scale(1.6)"><path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" /></g>
-                      <g transform={`translate(${proximity * visualScale - 32}, 28) scale(1.6)`}><path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} /></g>
+                      {/* Asset graphics slightly shifted for balance in 3D */}
+                      <g transform="translate(-32, 60) scale(1.6)"><path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" /></g>
+                      <g transform={`translate(${proximity * visualScale - 32}, 60) scale(1.6)`}><path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} /></g>
                     </g>
                   ) : (
                     <g transform="translate(0, 40)">
                       <RadarShell2D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      <g transform="translate(0, -140)"><circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" /></g>
-                      <g transform={`translate(${proximity * visualScale}, -140)`}><circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" /><circle cx="0" cy="0" r="4" fill="#cbd5e1" /></g>
+                      <g transform="translate(0, -180)"><circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" /></g>
+                      <g transform={`translate(${proximity * visualScale}, -180)`}><circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" /><circle cx="0" cy="0" r="4" fill="#cbd5e1" /></g>
                     </g>
                   )}
                 </svg>
@@ -223,15 +189,31 @@ export function SafetyVolumes() {
                   <div className="min-h-[220px]">
                     <TabsContent value="outer" className="mt-0 space-y-4">
                       <div className="flex gap-4"><div className="w-1.5 h-12 bg-blue-400 rounded-full shrink-0" /><div className="space-y-1"><h4 className="text-xl font-headline font-bold uppercase text-slate-900">Nominal Speed</h4><p className="text-xs text-slate-500 leading-relaxed">Full production speed with scaled outer perimeters.</p></div></div>
-                      <VisualizationImage />
+                      {spatialVizImage && (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <div className="relative aspect-video rounded-sm overflow-hidden border border-slate-100 shadow-lg cursor-zoom-in group mt-6">
+                              <Image src={spatialVizImage.imageUrl} alt={spatialVizImage.description} fill className="object-cover transition-transform duration-500 group-hover:scale-105" data-ai-hint={spatialVizImage.imageHint} />
+                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                                <Maximize2 className="opacity-0 group-hover:opacity-100 transition-opacity text-white" />
+                              </div>
+                            </div>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-4xl p-0 overflow-hidden bg-white">
+                            <DialogTitle className="sr-only">Spatial Tracking Visualization</DialogTitle>
+                            <DialogDescription className="sr-only">Expanded view of real-time factory safety grid tracking.</DialogDescription>
+                            <div className="relative aspect-[16/10] w-full">
+                              <Image src={spatialVizImage.imageUrl} alt={spatialVizImage.description} fill className="object-contain" />
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      )}
                     </TabsContent>
                     <TabsContent value="middle" className="mt-0 space-y-4">
                       <div className="flex gap-4"><div className="w-1.5 h-12 bg-amber-400 rounded-full shrink-0" /><div className="space-y-1"><h4 className="text-xl font-headline font-bold uppercase text-slate-900">Collaborative</h4><p className="text-xs text-slate-500 leading-relaxed">Enforces ISO/TS 15066 Power & Force Limiting profiles.</p></div></div>
-                      <VisualizationImage />
                     </TabsContent>
                     <TabsContent value="inner" className="mt-0 space-y-4">
                       <div className="flex gap-4"><div className="w-1.5 h-12 bg-red-500 rounded-full shrink-0" /><div className="space-y-1"><h4 className="text-xl font-headline font-bold uppercase text-slate-900">E-Stop</h4><p className="text-xs text-slate-500 leading-relaxed">Emergency brake command issued within 10ms of breach.</p></div></div>
-                      <VisualizationImage />
                     </TabsContent>
                   </div>
                 </Tabs>

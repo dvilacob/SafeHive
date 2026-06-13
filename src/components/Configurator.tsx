@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -48,7 +48,7 @@ export function Configurator() {
     <section id="configurator" className="py-20 lg:py-48 bg-[#F8FAFC] relative overflow-hidden">
       <div className="absolute inset-0 bg-dot-grid opacity-60 pointer-events-none" />
       <div className="container mx-auto px-6 relative">
-        <div className="max-w-7xl auto">
+        <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-24 items-start">
             <div className="lg:col-span-7 space-y-10 lg:space-y-16">
               <div className="space-y-4 lg:space-y-6">

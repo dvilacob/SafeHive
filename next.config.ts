@@ -1,10 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', // Obligatorio para generar archivos que GitHub entienda
-  basePath: '/SafeHive', // Obligatorio para que sume la subcarpeta a los estilos
+  // Removed output: 'export' and basePath to ensure the app runs correctly in the dev preview.
+  // These can be re-added specifically for GitHub Pages deployment later.
   images: {
-    unoptimized: true, // GitHub no procesa imágenes dinámicas de Next
+    unoptimized: true,
   },
   typescript: { ignoreBuildErrors: true },
   eslint: { ignoreDuringBuilds: true },
