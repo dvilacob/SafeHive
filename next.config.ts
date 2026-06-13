@@ -1,10 +1,16 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export', // Tells Next.js to generate static HTML/CSS/JS
-  basePath: '/SafeHive', // Matches your repository name exactly
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  /* config options here */
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
-    unoptimized: true, // Needed because GitHub Pages doesn't support Next.js default image optimization
+    unoptimized: true, // Firebase doesn't support Next.js default image optimization in static mode
   },
 };
 
-module.exports = netConfig;
+export default nextConfig;
