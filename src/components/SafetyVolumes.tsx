@@ -122,7 +122,7 @@ export function SafetyVolumes() {
         </DialogTrigger>
         <DialogContent className="max-w-[95vw] lg:max-w-6xl p-0 overflow-hidden bg-white border-0 shadow-2xl">
           <DialogTitle className="sr-only">Spatial Visualization Detail</DialogTitle>
-          <DialogDescription className="sr-only">Detailed view of the factory spatial safety grid zones.</DialogDescription>
+          <DialogDescription className="sr-only">Detailed top-down view of factory spatial safety grid zones.</DialogDescription>
           <div className="relative aspect-[16/10] w-full">
             <Image
               src={spatialVizImage.imageUrl}
@@ -172,7 +172,7 @@ export function SafetyVolumes() {
               </div>
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
-                <svg viewBox="-300 -250 600 650" className="w-full h-full drop-shadow-2xl">
+                <svg viewBox="-300 -450 600 650" className="w-full h-full drop-shadow-2xl">
                   <g opacity="0.05">
                     {Array.from({length: 13}).map((_, i) => (
                       <line key={`v-${i}`} x1={-300 + i*50} y1="-500" x2={-300 + i*50} y2="400" stroke="#000" strokeWidth="1" />
@@ -194,14 +194,9 @@ export function SafetyVolumes() {
                       <g transform={`translate(${proximity * visualScale - 32}, -152) scale(1.6)`}>
                         <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} className="transition-colors duration-500" />
                       </g>
-                      
-                      <g transform={`translate(${proximity * visualScale}, 0)`}>
-                        <line x1="0" y1="20" x2="0" y2="-300" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" />
-                        <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
-                      </g>
                     </g>
                   ) : (
-                    <>
+                    <g transform="translate(0, 0)">
                       <RadarShell2D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
@@ -213,7 +208,7 @@ export function SafetyVolumes() {
                         <circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" className="transition-colors duration-500" />
                         <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
                       </g>
-                    </>
+                    </g>
                   )}
                 </svg>
               </div>
