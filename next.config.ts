@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export', // Genera archivos HTML/CSS/JS estáticos en lugar de requerir un servidor Node
-  basePath: '/SafeHive', // IMPORTANTE: Ajusta las rutas al nombre exacto de tu repositorio en GitHub
+  output: 'export',
+  basePath: '/SafeHive',     // Esto ayuda a las rutas de navegación
+  assetPrefix: '/SafeHive/', // ¡ESTO CORRIGE LOS ESTILOS Y EL CSS EN GITHUB PAGES!
   images: {
-    unoptimized: true, // Evita que Next intente optimizar imágenes (GitHub Pages no lo soporta)
+    unoptimized: true,
   },
-  /* Si ya tenías las reglas de typescript o eslint, puedes mantenerlas aquí abajo: */
   typescript: {
     ignoreBuildErrors: true,
   },
