@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost, Maximize2 } from 'lucide-react';
+import { Ruler, Gauge, ShieldAlert, RefreshCw, ShieldCheck, Zap, Ghost, Maximize2, AlertCircle, Shield } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
@@ -144,9 +144,7 @@ export function SafetyVolumes() {
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      {/* Robot Silhouette positioned at the base center */}
                       <g transform="translate(-32, -150) scale(1.6)"><path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" /></g>
-                      {/* Humanoid Silhouette standing at proximity offset */}
                       <g transform={`translate(${proximity * visualScale - 32}, -150) scale(1.6)`}><path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} /></g>
                     </g>
                   ) : (
@@ -182,11 +180,30 @@ export function SafetyVolumes() {
             <div className="lg:col-span-4 p-8 lg:p-12 flex flex-col justify-between bg-white overflow-y-auto">
               <div className="space-y-10">
                 <Tabs value={activeShell} onValueChange={handleTabChange} className="w-full">
-                  <TabsList className="w-full h-auto p-1.5 bg-slate-100/50 rounded-lg mb-8 flex gap-1 shadow-inner">
-                    <TabsTrigger value="outer" className="flex-1 py-3 lg:py-4 text-[10px] font-bold uppercase tracking-widest transition-all">Outer</TabsTrigger>
-                    <TabsTrigger value="middle" className="flex-1 py-3 lg:py-4 text-[10px] font-bold uppercase tracking-widest transition-all">Middle</TabsTrigger>
-                    <TabsTrigger value="inner" className="flex-1 py-3 lg:py-4 text-[10px] font-bold uppercase tracking-widest transition-all">Inner</TabsTrigger>
+                  <TabsList className="w-full h-auto p-1 bg-slate-100 border rounded-xl mb-8 flex gap-1 shadow-inner overflow-hidden">
+                    <TabsTrigger 
+                      value="outer" 
+                      className="flex-1 py-3 lg:py-4 flex flex-col items-center gap-2 rounded-lg transition-all data-[state=active]:bg-white data-[state=active]:shadow-md group"
+                    >
+                      <Shield className="w-4 h-4 text-blue-500 group-data-[state=active]:scale-110 transition-transform" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Outer</span>
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="middle" 
+                      className="flex-1 py-3 lg:py-4 flex flex-col items-center gap-2 rounded-lg transition-all data-[state=active]:bg-white data-[state=active]:shadow-md group"
+                    >
+                      <AlertCircle className="w-4 h-4 text-amber-500 group-data-[state=active]:scale-110 transition-transform" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Middle</span>
+                    </TabsTrigger>
+                    <TabsTrigger 
+                      value="inner" 
+                      className="flex-1 py-3 lg:py-4 flex flex-col items-center gap-2 rounded-lg transition-all data-[state=active]:bg-white data-[state=active]:shadow-md group"
+                    >
+                      <ShieldAlert className="w-4 h-4 text-red-500 group-data-[state=active]:scale-110 transition-transform" />
+                      <span className="text-[10px] font-bold uppercase tracking-widest">Inner</span>
+                    </TabsTrigger>
                   </TabsList>
+                  
                   <div className="min-h-[220px]">
                     <TabsContent value="outer" className="mt-0 space-y-4">
                       <div className="flex gap-4"><div className="w-1.5 h-12 bg-blue-400 rounded-full shrink-0" /><div className="space-y-1"><h4 className="text-xl font-headline font-bold uppercase text-slate-900">Nominal Speed</h4><p className="text-xs text-slate-500 leading-relaxed">Full production speed with scaled outer perimeters.</p></div></div>
