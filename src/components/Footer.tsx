@@ -1,4 +1,3 @@
-
 const HiveIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
     viewBox="0 0 24 24"
@@ -28,7 +27,7 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col md:flex-row items-center gap-6 md:gap-10 text-[8px] lg:text-[10px] text-slate-400 font-bold uppercase tracking-[0.2em] text-center md:text-left">
-            <p>© 2026 SafeHive Technologies All safety systems are subject to local regulatory audit.</p>
+            <p>© 2026 SafeHive Technologies | All safety systems are subject to local regulatory audit.</p>
             <div className="flex gap-8 lg:gap-10">
               <a href="#" className="hover:text-slate-900 transition-colors">LinkedIn</a>
               <a href="#" className="hover:text-slate-900 transition-colors">X / Twitter</a>

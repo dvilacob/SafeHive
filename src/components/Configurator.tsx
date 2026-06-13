@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from 'react';
@@ -69,7 +68,7 @@ export function Configurator() {
               </div>
 
               {hubImage && (
-                <div className="relative aspect-video lg:aspect-[16/9] w-full bg-slate-100 rounded-sm overflow-hidden border border-slate-200 shadow-xl group">
+                <div className="relative aspect-[4/3] sm:aspect-video lg:aspect-[16/9] w-full bg-slate-100 rounded-sm overflow-hidden border border-slate-200 shadow-xl group">
                   <Image 
                     src={hubImage.imageUrl} 
                     alt={hubImage.description}
@@ -118,32 +117,17 @@ export function Configurator() {
                       </SliderPrimitive.Thumb>
                     </SliderPrimitive.Root>
                   </div>
-
-                  <div className="p-4 lg:p-8 bg-white border border-slate-100 rounded-sm space-y-2 lg:space-y-3 shadow-sm">
-                    <div className="flex items-center gap-2 text-[9px] lg:text-xs font-bold text-slate-400 uppercase tracking-widest">
-                      <Monitor size={14} className="text-primary" />
-                      Asset Configuration
-                    </div>
-                    <p className="text-xs lg:text-sm text-slate-500 font-medium leading-relaxed">
-                      Standard: <span className="text-slate-900 font-bold">ROS-Integrated Fleet</span> (Deterministic spatial logic)
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-5 w-full">
               <div className="bg-white border border-slate-200 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] relative rounded-sm">
-                <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary/20 -translate-x-4 translate-y-4 hidden lg:block" />
-                
                 <div className="p-6 lg:p-14 space-y-8 lg:space-y-12">
                   <TooltipProvider>
                     <div className="space-y-8 lg:space-y-12">
                       <div className="space-y-4 lg:space-y-6">
-                        <div className="flex justify-between items-center border-b border-slate-100 pb-3 lg:pb-5">
-                          <h3 className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-primary">Initial Investment (CAPEX)</h3>
-                        </div>
-
+                        <h3 className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-primary border-b border-slate-100 pb-3 lg:pb-5">Initial Investment (CAPEX)</h3>
                         <div className="space-y-4 lg:space-y-6">
                           <div className="flex justify-between items-start text-xs lg:text-base">
                             <div className="flex flex-col gap-1.5">
@@ -154,7 +138,7 @@ export function Configurator() {
                                     <Info size={14} className="text-slate-300 hover:text-primary cursor-help" />
                                   </TooltipTrigger>
                                   <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0 shadow-2xl">
-                                    Includes Spatial Compute Core, Hardware Safety PLC, I/O Boards, Secure Remote Gateway, Managed Switch, and Power/UPS.
+                                    Includes Spatial Compute Core, Hardware Safety PLC, I/O Boards, and Secure Remote Gateway.
                                   </TooltipContent>
                                 </Tooltip>
                               </div>
@@ -170,48 +154,6 @@ export function Configurator() {
                             </div>
                             <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(apCount * AP_UNIT_COST)}</span>
                           </div>
-
-                          <div className="flex justify-between items-start text-xs lg:text-base">
-                            <div className="flex flex-col gap-1.5">
-                              <div className="flex items-center gap-2">
-                                <span className="font-bold text-slate-900 tracking-tight">Onboarding & Support</span>
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Info size={14} className="text-slate-300 hover:text-primary cursor-help" />
-                                  </TooltipTrigger>
-                                  <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0 shadow-2xl">
-                                    Engineering safety-loop validation and protocol handshake verification.
-                                  </TooltipContent>
-                                </Tooltip>
-                              </div>
-                              <span className="text-[9px] lg:text-[10px] text-slate-400 font-mono uppercase">QTY: 1 × ${formatPrice(ONBOARDING_COST)}</span>
-                            </div>
-                            <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(ONBOARDING_COST)}</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="space-y-4 lg:space-y-6">
-                        <div className="flex justify-between items-center border-b border-slate-100 pb-3 lg:pb-5">
-                          <h3 className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-[0.4em] text-amber-500">Subscription (OPEX)</h3>
-                        </div>
-
-                        <div className="flex justify-between items-start text-xs lg:text-base">
-                          <div className="flex flex-col gap-1.5">
-                            <div className="flex items-center gap-2">
-                              <span className="font-bold text-slate-900 tracking-tight">Platform License</span>
-                              <Tooltip>
-                                <TooltipTrigger asChild>
-                                  <Info size={14} className="text-slate-300 hover:text-primary cursor-help" />
-                                </TooltipTrigger>
-                                <TooltipContent className="max-w-[280px] p-4 text-[11px] leading-relaxed font-medium bg-slate-900 text-white border-0 shadow-2xl">
-                                  Includes Spatial Engine updates, Black Channel brokerage, and security patches.
-                                </TooltipContent>
-                              </Tooltip>
-                            </div>
-                            <span className="text-[9px] lg:text-[10px] text-slate-400 font-mono uppercase">Annual Recurring</span>
-                          </div>
-                          <span className="font-mono font-bold text-slate-900 tabular-nums">${formatPrice(recurringTotal)}/yr</span>
                         </div>
                       </div>
                     </div>
@@ -223,12 +165,6 @@ export function Configurator() {
                         <span className="text-[9px] lg:text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Due Now</span>
                         <div className="text-2xl lg:text-5xl font-mono font-bold text-slate-900 tracking-tighter tabular-nums">
                           ${formatPrice(dueNowTotal)}
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-end border-t border-slate-50 pt-3 lg:pt-5">
-                        <span className="text-[9px] lg:text-[10px] font-mono font-bold text-slate-400 uppercase tracking-[0.2em]">Subscription</span>
-                        <div className="text-lg lg:text-2xl font-mono font-bold text-amber-600 tabular-nums">
-                          ${formatPrice(recurringTotal)}/yr
                         </div>
                       </div>
                     </div>
@@ -243,27 +179,21 @@ export function Configurator() {
                         </button>
                       </DialogTrigger>
                       <DialogContent className="rounded-none border-2 border-slate-900 w-[92vw] max-w-lg p-0 overflow-hidden shadow-2xl">
-                        <div className="p-6 lg:p-12 space-y-6 lg:space-y-8">
-                          <DialogHeader>
-                            <DialogTitle className="text-xl lg:text-3xl font-headline font-bold uppercase tracking-tight">Order Site Spec</DialogTitle>
-                            <DialogDescription className="font-medium text-slate-500 text-xs lg:text-base">Our engineers will generate a verified Phase 1 site plan based on your facility area.</DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4 lg:space-y-6 py-2">
-                            <div className="space-y-2">
-                              <Label className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Integration Lead</Label>
-                              <Input placeholder="FULL NAME" className="h-12 lg:h-16 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-xs lg:text-sm font-mono" />
-                            </div>
-                            <div className="space-y-2">
-                              <Label className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Corporate Email</Label>
-                              <Input placeholder="EMAIL@COMPANY.COM" className="h-12 lg:h-16 rounded-none border-slate-200 focus:border-primary focus:ring-0 text-xs lg:text-sm font-mono" />
-                            </div>
+                        <DialogHeader className="p-6 lg:p-12 pb-0">
+                          <DialogTitle className="text-xl lg:text-3xl font-headline font-bold uppercase tracking-tight">Order Site Spec</DialogTitle>
+                          <DialogDescription className="font-medium text-slate-500 text-xs lg:text-base">Our engineers will generate a verified Phase 1 site plan.</DialogDescription>
+                        </DialogHeader>
+                        <div className="p-6 lg:p-12 space-y-4 lg:space-y-6 pt-2">
+                          <div className="space-y-2">
+                            <Label className="text-[9px] lg:text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">Integration Lead</Label>
+                            <Input placeholder="FULL NAME" className="h-12 lg:h-16 rounded-none" />
                           </div>
-                          <DialogFooter>
-                            <button className="w-full h-14 lg:h-20 bg-primary text-white font-mono font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-[#06b6d4] transition-all shadow-lg text-[10px] lg:text-xs">
-                              Submit for Review
-                            </button>
-                          </DialogFooter>
                         </div>
+                        <DialogFooter className="p-6 lg:p-12 pt-0">
+                          <button className="w-full h-14 lg:h-20 bg-primary text-white font-mono font-bold uppercase tracking-[0.3em] rounded-sm">
+                            Submit for Review
+                          </button>
+                        </DialogFooter>
                       </DialogContent>
                     </Dialog>
                   </div>

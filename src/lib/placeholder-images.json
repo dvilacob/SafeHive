@@ -3,20 +3,20 @@
     {
       "id": "hero-main",
       "description": "Industrial factory floor with humanoid robots and humans protected by dynamic spatial safety bubbles",
-      "imageUrl": "/images/hero-main.png",
+      "imageUrl": "/images/HeroOverall.png",
       "imageHint": "factory robots safety"
     },
     {
       "id": "hardware-hub",
-      "description": "SafeHive SH-HUB-V2 Industrial Safety Control Hub unit",
-      "imageUrl": "/images/hardware-hub.png",
+      "description": "SafeHive SH-HUB-V2 Industrial Safety Control Hub unit showing internal hardware and safety PLC components",
+      "imageUrl": "/images/hardware-hub-1.png",
       "imageHint": "industrial safety control hub"
     },
     {
       "id": "spatial-viz",
       "description": "Top-down spatial safety grid visualization of a factory floor showing real-time human and robot tracking zones",
       "imageUrl": "/images/UserCase1.png",
-      "imageHint": "factory safety"
+      "imageHint": "factory safety grid"
     }
   ]
 }

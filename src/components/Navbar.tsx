@@ -1,4 +1,3 @@
-
 "use client"
 
 import Link from 'next/link';
@@ -50,7 +49,6 @@ export function Navbar() {
           </div>
         </Link>
         
-        {/* Desktop Nav */}
         <div className="hidden lg:flex items-center gap-12">
           {links.map(link => (
             <Link key={link.href} href={link.href} className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-primary transition-colors">
@@ -59,7 +57,6 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Mobile Nav Toggle */}
         <div className="lg:hidden">
           {mounted && (
             <Sheet open={open} onOpenChange={setOpen}>

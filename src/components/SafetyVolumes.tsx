@@ -101,15 +101,6 @@ export function SafetyVolumes() {
     </g>
   );
 
-  const telemetryGrid = [
-    { icon: <Ruler className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Proximity', description: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
-    { icon: <Gauge className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Speed Calibration', description: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
-    { icon: <ShieldAlert className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'ADAPTIVE SAFETY SHIELDING', description: 'Helps you align with ISO standards by enforcing safe interaction limits, protecting sensitive equipment.' },
-    { icon: <RefreshCw className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Hive Redundancy', description: "SafeHive blends factory sensor data with the robot's own eyes to lock a protective safety bubble." },
-    { icon: <Ghost className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Legacy Hardware', description: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
-    { icon: <Zap className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Loop Speed', description: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace.' },
-  ];
-
   const VisualizationImage = () => (
     spatialVizImage ? (
       <Dialog>
@@ -148,9 +139,15 @@ export function SafetyVolumes() {
   return (
     <section id="volumes" className="py-24 bg-slate-50 relative overflow-hidden">
       <div className="container mx-auto px-6 max-w-7xl">
-        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
-          {telemetryGrid.map((item, idx) => (
+          {[
+            { icon: <Ruler className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Proximity', description: 'Calculates real-time separation distance between the humanoid, the worker, and surrounding machinery.' },
+            { icon: <Gauge className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Speed Calibration', description: 'Automatically scales protective volumes based on the live velocity vectors of different equipment.' },
+            { icon: <ShieldAlert className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'ADAPTIVE SAFETY SHIELDING', description: 'Helps you align with ISO standards by enforcing safe interaction limits, protecting sensitive equipment.' },
+            { icon: <RefreshCw className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Hive Redundancy', description: "SafeHive blends factory sensor data with the robot's own eyes to lock a protective safety bubble." },
+            { icon: <Ghost className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Legacy Hardware', description: "Identifies and projects safety hulls over legacy or untracked industrial equipment within the workspace." },
+            { icon: <Zap className="w-10 h-10 lg:w-14 lg:h-14" />, title: 'Loop Speed', description: 'Continuously re-evaluates and refreshes spatial parameters across the entire active workspace.' },
+          ].map((item, idx) => (
             <div key={idx} className="p-10 border border-slate-100 rounded-sm bg-white hover:border-primary/20 transition-all group flex flex-col shadow-sm">
               <div className="mb-6 text-primary group-hover:scale-110 transition-transform duration-500">
                 {item.icon}
@@ -165,24 +162,17 @@ export function SafetyVolumes() {
 
         <div className="bg-white border border-slate-200 shadow-xl overflow-hidden rounded-sm">
           <div className="grid lg:grid-cols-10 h-full">
-            
             <div className="lg:col-span-6 bg-white border-b lg:border-b-0 lg:border-r border-slate-100 p-8 relative min-h-[500px] lg:min-h-[750px] flex flex-col items-center justify-center">
               <div className="absolute inset-0 bg-blueprint-fine opacity-[0.03] pointer-events-none" />
               
-              {/* View Mode Toggle */}
               <div className="absolute top-8 right-8 z-[60] flex items-center gap-3 bg-white/80 backdrop-blur-md p-2 rounded-full border border-slate-200 shadow-sm">
                 <span className={cn("text-[10px] font-bold uppercase tracking-widest", !is3D ? "text-primary" : "text-slate-400")}>2D Radar</span>
-                <Switch 
-                  checked={is3D} 
-                  onCheckedChange={setIs3D}
-                  className="data-[state=checked]:bg-primary"
-                />
+                <Switch checked={is3D} onCheckedChange={setIs3D} className="data-[state=checked]:bg-primary" />
                 <span className={cn("text-[10px] font-bold uppercase tracking-widest", is3D ? "text-primary" : "text-slate-400")}>3D Volume</span>
               </div>
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
                 <svg viewBox="-300 -250 600 650" className="w-full h-full drop-shadow-2xl">
-                  {/* Grid System */}
                   <g opacity="0.05">
                     {Array.from({length: 13}).map((_, i) => (
                       <line key={`v-${i}`} x1={-300 + i*50} y1="-500" x2={-300 + i*50} y2="400" stroke="#000" strokeWidth="1" />
@@ -192,22 +182,19 @@ export function SafetyVolumes() {
                     ))}
                   </g>
 
-                  {/* Shells and Silhouettes */}
                   {is3D ? (
                     <g transform="translate(0, 80)">
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
                       
-                      {/* Silhouettes - 3D View */}
                       <g transform="translate(-32, -152) scale(1.6)">
-                        <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" className="drop-shadow-[0_0_8px_rgba(0,102,255,0.3)]" />
+                        <path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" />
                       </g>
                       <g transform={`translate(${proximity * visualScale - 32}, -152) scale(1.6)`}>
                         <path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} className="transition-colors duration-500" />
                       </g>
                       
-                      {/* Marker lines - 3D specific */}
                       <g transform={`translate(${proximity * visualScale}, 0)`}>
                         <line x1="0" y1="20" x2="0" y2="-300" stroke="#cbd5e1" strokeWidth="1" strokeDasharray="4 4" />
                         <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
@@ -219,15 +206,11 @@ export function SafetyVolumes() {
                       <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
                       
-                      {/* Top-Down Indicators - 2D View */}
                       <g>
                         <circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" />
-                        <Bot size={12} className="text-white" style={{ transform: 'translate(-6px, -6px)' }} />
                       </g>
                       <g transform={`translate(${proximity * visualScale}, 0)`}>
                         <circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" className="transition-colors duration-500" />
-                        <User size={10} className="text-white" style={{ transform: 'translate(-5px, -5px)' }} />
-                        <line x1="0" y1="0" x2="-20" y2="0" stroke="white" strokeWidth="1" opacity="0.5" />
                         <circle cx="0" cy="0" r="4" fill="#cbd5e1" />
                       </g>
                     </>
@@ -322,7 +305,6 @@ export function SafetyVolumes() {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
