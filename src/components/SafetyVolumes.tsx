@@ -79,8 +79,9 @@ export function SafetyVolumes() {
   const VolumetricEnvelope3D = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => {
     const ry = radius * 0.45; 
     const h = 220; 
+    // Shifted 3D volume lower (translateY 160)
     return (
-      <g transform="translate(0, 100)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
+      <g transform="translate(0, 160)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
         <ellipse cx="0" cy="0" rx={radius} ry={ry} fill="none" stroke={color} strokeWidth="1.5" strokeDasharray="4 2" />
         <path d={`M -${radius},0 L -${radius},-${h} A ${radius},${ry} 0 0,1 ${radius},-${h} L ${radius},0 A ${radius},${ry} 0 0,1 -${radius},0`} fill={color} fillOpacity={isActive ? "0.15" : "0.05"} stroke={color} strokeWidth="0.5" strokeOpacity="0.3" />
         <ellipse cx="0" cy={-h} rx={radius} ry={ry} fill={color} fillOpacity={isActive ? "0.1" : "0.02"} stroke={color} strokeWidth="1.5" />
@@ -92,7 +93,8 @@ export function SafetyVolumes() {
   };
 
   const RadarShell2D = ({ radius, color, isActive }: { radius: number, color: string, isActive: boolean }) => (
-    <g className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
+    // Centered/Perfect 2D radar shifted upper (translateY -100)
+    <g transform="translate(0, -100)" className={cn("transition-all duration-700", isActive ? "opacity-100" : "opacity-10")}>
       <circle cx="0" cy="0" r={radius} fill={color} fillOpacity={isActive ? "0.1" : "0.02"} stroke={color} strokeWidth={isActive ? "2" : "1"} />
       {isActive && <circle cx="0" cy="0" r={radius} fill="none" stroke={color} strokeWidth="1" strokeDasharray="4 4" className="animate-pulse" />}
     </g>
@@ -119,7 +121,7 @@ export function SafetyVolumes() {
         </DialogTrigger>
         <DialogContent className="max-w-[95vw] lg:max-w-6xl p-0 overflow-hidden bg-white border-0 shadow-2xl">
           <DialogTitle className="sr-only">Spatial Visualization Detail</DialogTitle>
-          <DialogDescription className="sr-only">Detailed top-down view of factory spatial safety grid zones showing humanitarian and machine separation.</DialogDescription>
+          <DialogDescription className="sr-only">High-resolution top-down view of the SafeHive factory spatial safety grid.</DialogDescription>
           <div className="relative aspect-[16/10] w-full">
             <Image
               src={spatialVizImage.imageUrl}
@@ -168,7 +170,7 @@ export function SafetyVolumes() {
               </div>
 
               <div className={cn("relative w-full h-full flex items-center justify-center transition-all duration-700", is3D ? "perspective-[1500px]" : "perspective-none")}>
-                <svg viewBox="-300 -400 600 600" className="w-full h-full drop-shadow-2xl">
+                <svg viewBox="-300 -500 600 700" className="w-full h-full drop-shadow-2xl">
                   <g opacity="0.05" transform="translate(0, -50)">
                     {Array.from({length: 13}).map((_, i) => (<line key={`v-${i}`} x1={-300 + i*50} y1="-500" x2={-300 + i*50} y2="400" stroke="#000" strokeWidth="1" />))}
                     {Array.from({length: 18}).map((_, i) => (<line key={`h-${i}`} x1="-300" y1={-500 + i*50} x2="300" y2={-500 + i*50} stroke="#000" strokeWidth="1" />))}
@@ -179,16 +181,16 @@ export function SafetyVolumes() {
                       <VolumetricEnvelope3D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <VolumetricEnvelope3D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <VolumetricEnvelope3D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      <g transform="translate(-32, -52) scale(1.6)"><path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" /></g>
-                      <g transform={`translate(${proximity * visualScale - 32}, -52) scale(1.6)`}><path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} /></g>
+                      <g transform="translate(-32, 8) scale(1.6)"><path d="M20 5C23 5 25 7 25 10C25 13 23 15 20 15C17 15 15 13 15 10C15 7 17 5 20 5ZM12 18H28C31 18 32 20 32 22V45C32 48 30 50 27 50H13C10 50 8 48 8 45V22C8 20 9 18 12 18ZM15 55H18V95H13V55H15ZM22 55H25V95H27V55H22Z" fill="#0f172a" /></g>
+                      <g transform={`translate(${proximity * visualScale - 32}, 8) scale(1.6)`}><path d="M20 18C23.3 18 26 15.3 26 12C26 8.7 23.3 6 20 6C16.7 6 14 8.7 14 12C14 15.3 16.7 18 20 18ZM28 20H12C9.8 20 8 21.8 8 24V46C8 48.2 9.8 50 12 50H15V94H25V50H28C30.2 50 32 48.2 32 46V24C32 21.8 30.2 20 28 20Z" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} /></g>
                     </g>
                   ) : (
-                    <g transform="translate(0, -100)">
+                    <g transform="translate(0, 0)">
                       <RadarShell2D radius={shells.outer} color="#3b82f6" isActive={activeShell === 'outer'} />
                       <RadarShell2D radius={shells.middle} color="#f59e0b" isActive={activeShell === 'middle'} />
                       <RadarShell2D radius={shells.inner} color="#ef4444" isActive={activeShell === 'inner'} />
-                      <g><circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" /></g>
-                      <g transform={`translate(${proximity * visualScale}, 0)`}><circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" /><circle cx="0" cy="0" r="4" fill="#cbd5e1" /></g>
+                      <g transform="translate(0, -100)"><circle cx="0" cy="0" r="12" fill="#0f172a" stroke="white" strokeWidth="2" /></g>
+                      <g transform={`translate(${proximity * visualScale}, -100)`}><circle cx="0" cy="0" r="10" fill={activeShell === 'inner' ? "#ef4444" : activeShell === 'middle' ? "#f59e0b" : "#3b82f6"} stroke="white" strokeWidth="2" /><circle cx="0" cy="0" r="4" fill="#cbd5e1" /></g>
                     </g>
                   )}
                 </svg>
