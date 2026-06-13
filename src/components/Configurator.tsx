@@ -40,7 +40,6 @@ export function Configurator() {
   const apCount = Math.ceil(area / 500);
   
   const dueNowTotal = (hubCount * HUB_UNIT_COST) + (apCount * AP_UNIT_COST) + ONBOARDING_COST;
-  const recurringTotal = SUBSCRIPTION_ANNUAL;
 
   const hubImage = PlaceHolderImages.find(img => img.id === 'hardware-hub');
 
